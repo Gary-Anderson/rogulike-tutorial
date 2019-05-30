@@ -1,0 +1,107 @@
+Failed to gen mob
+Failed to gen mob
+Morrma the snailhas the scent: scent: python
+Morrma the snailhas the scent: scent: python
+Morrma the snailhas the scent: scent: python
+Morrma the snail is following the scent!
+Morrma the snailhas the scent: scent: python
+Morrma the snailhas the scent: scent: python
+Morrma the snail is following the scent!
+Morrma the snailhas the scent: scent: python
+Morrma the snailhas the scent: scent: python
+Morrma the snail is following the scent!
+greg attacks Alldtha for 4 damage!
+Alldtha's health is 0/4
+Alldtha is dead!
+Failed to gen mob
+Delbone attacks greg for 6 damage!
+greg's health is 4/10
+greg attacks Delbone for 4 damage!
+Delbone's health is 0/4
+Delbone is dead!
+greg attacks Danain for 4 damage!
+Danain's health is 1/5
+Danain attacks greg for 2 damage!
+greg's health is 2/10
+greg attacks Danain for 4 damage!
+Danain's health is -3/5
+Danain is dead!
+Picking up...
+Picking up...
++1 Shield is equipped
+Brigai the snail's attack does no damage!
+greg's health is 2/10
+Picking up...
+Brigai the snail's attack does no damage!
+greg's health is 2/10
++2 Sword is equipped
+Brigai the snail's attack does no damage!
+greg's health is 2/10
+Brigai the snail's attack does no damage!
+greg's health is 2/10
+greg attacks Brigai for 4 damage!
+Brigai's health is 1/5
+Brigai the snail's attack does no damage!
+greg's health is 2/10
+greg attacks Brigai for 4 damage!
+Brigai's health is -3/5
+Brigai is dead!
+greg attacks Agnoma for 3 damage!
+Agnoma's health is 5/8
+Agnoma the snail's attack does no damage!
+greg's health is 2/10
+greg attacks Agnoma for 3 damage!
+Agnoma's health is 2/8
+Agnoma the snail's attack does no damage!
+greg's health is 2/10
+greg attacks Agnoma for 3 damage!
+Agnoma's health is -1/8
+Agnoma is dead!
+Picking up...
++1 Shield is unequipped
++3 Shield is equipped
+greg attacks Brigai for 6 damage!
+Brigai's health is 0/6
+Brigai is dead!
+Aenarne the snakelet anaconda is hit by the lightning!
+Aenarne's health is 5/10
+greg attacks Aenarne for 6 damage!
+Aenarne's health is -1/10
+Aenarne is dead!
+greg attacks Beoigiu for 6 damage!
+Beoigiu's health is 2/8
+Beoigiu attacks greg for 2 damage!
+greg's health is 0/10
+greg attacks Brigai for 4 damage!
+Brigai's health is 3/7
+Brigai attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Brigai for 4 damage!
+Brigai's health is -1/7
+Brigai is dead!
+Alltha attacks greg for 1 damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Alltha's health is 7/7
+Alltha attacks greg for 1 damage!
+greg's health is 5/10
+greg the python's attack does no damage!
+Alltha's health is 7/7
+Alltha attacks greg for 1 damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Alltha's health is 7/7
+Alltha attacks greg for 1 damage!
+greg's health is 3/10
+greg the python's attack does no damage!
+Alltha's health is 7/7
+Alltha attacks greg for 1 damage!
+greg's health is 2/10
+greg the python's attack does no damage!
+Alltha's health is 7/7
+Alltha attacks greg for 1 damage!
+greg's health is 1/10
+greg the python's attack does no damage!
+Alltha's health is 7/7
+Alltha attacks greg for 1 damage!
+greg's health is 0/10

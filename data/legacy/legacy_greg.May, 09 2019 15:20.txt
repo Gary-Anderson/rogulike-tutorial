@@ -1,0 +1,18 @@
+Taarai attacks greg for 2 damage!
+greg's health is 8/10
+Taarai attacks greg for 2 damage!
+greg's health is 6/10
+Taarai attacks greg for 2 damage!
+greg's health is 4/10
+Morrtha attacks greg for 1 damage!
+greg's health is 3/10
+Morrtha attacks greg for 1 damage!
+greg's health is 2/10
+Cretha the snailhas the scent: scent: python
+Cretha the snail is following the scent!
+Morrtha attacks Taarai for 1 damage!
+Taarai's health is 3/4
+Cretha the snailhas the scent: scent: python
+Cretha the snail is following the scent!
+greg the python is hit by the fireball!
+greg's health is -3/10

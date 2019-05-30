@@ -1,0 +1,154 @@
+Failed to gen mob
+Failed to gen mob
+Picking up...
++3 Shield is equipped
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Picking up...
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+That slot is full
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+greg the python's attack does no damage!
+Elatha's health is 8/8
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg the python's attack does no damage!
+Elatha's health is 8/8
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg the python's attack does no damage!
+Elatha's health is 8/8
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg the python's attack does no damage!
+Elatha's health is 8/8
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg the python's attack does no damage!
+Elatha's health is 8/8
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg the python's attack does no damage!
+Elatha's health is 8/8
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg attacks Brigna for 1 damage!
+Brigna's health is 5/6
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg attacks Brigna for 1 damage!
+Brigna's health is 4/6
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg attacks Brigna for 1 damage!
+Brigna's health is 3/6
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg attacks Brigna for 1 damage!
+Brigna's health is 2/6
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg attacks Brigna for 1 damage!
+Brigna's health is 1/6
+Brigna the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+greg attacks Brigna for 1 damage!
+Brigna's health is 0/6
+Brigna is dead!
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+Elatha the snail's attack does no damage!
+greg's health is 10/10
+Delarne the snail's attack does no damage!
+greg's health is 10/10
+Delarne the snail's attack does no damage!
+greg's health is 10/10
+Agnoai the snail is hit by the fireball!
+Agnoai's health is 2/7
+greg the python is hit by the fireball!
+greg's health is 5/10
+Delarne the snail is hit by the fireball!
+Delarne's health is 3/8
+Morrai the tarantula is hit by the fireball!
+Morrai's health is 0/5
+Morrai is dead!
+Delarne the snail's attack does no damage!
+greg's health is 5/10
+greg attacks Delarne for 2 damage!
+Delarne's health is 1/8
+Delarne the snail's attack does no damage!
+greg's health is 5/10
+greg attacks Delarne for 2 damage!
+Delarne's health is -1/8
+Delarne is dead!
+greg attacks Agnoai for 1 damage!
+Agnoai's health is 1/7
+Agnoai the snail's attack does no damage!
+greg's health is 5/10
+greg attacks Agnoai for 1 damage!
+Agnoai's health is 0/7
+Agnoai is dead!
+greg attacks Morrne for 4 damage!
+Morrne's health is 17/21
+Morrne attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Morrne for 4 damage!
+Morrne's health is 13/21
+Morrne attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Morrne for 4 damage!
+Morrne's health is 9/21
+Morrne attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Morrne for 4 damage!
+Morrne's health is 5/21
+Morrne attacks greg for 1 damage!
+greg's health is 1/10
+greg attacks Morrne for 4 damage!
+Morrne's health is 1/21
+Morrne attacks greg for 1 damage!
+greg's health is 0/10

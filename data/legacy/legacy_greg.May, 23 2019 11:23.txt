@@ -1,0 +1,28 @@
+Failed to gen mob
+Picking up...
+greg attacks Eoigai for 4 damage!
+Eoigai's health is 7/11
+Eoigai attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Eoigai for 4 damage!
+Eoigai's health is 3/11
+Eoigai attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Eoigai for 4 damage!
+Eoigai's health is -1/11
+Eoigai is dead!
+greg attacks Agnoma for 2 damage!
+Agnoma's health is 6/8
+Agnoma attacks greg for 1 damage!
+greg's health is 3/10
+Agnoma the snail is hit by the lightning!
+Agnoma's health is 1/8
+Agnoma attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Agnoma for 2 damage!
+Agnoma's health is -1/8
+Agnoma is dead!
+greg attacks Ciboma for 4 damage!
+Ciboma's health is 8/12
+Ciboma attacks greg for 2 damage!
+greg's health is 0/10

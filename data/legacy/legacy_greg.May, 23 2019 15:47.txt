@@ -1,0 +1,85 @@
+Failed to gen mob
+Failed to gen mob
+greg attacks Nemarid for 4 damage!
+Nemarid's health is 7/11
+Nemarid attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Nemarid for 4 damage!
+Nemarid's health is 3/11
+Nemarid attacks greg for 2 damage!
+greg's health is 6/10
+greg attacks Nemarid for 4 damage!
+Nemarid's health is -1/11
+Nemarid is dead!
+Picking up...
++1 Shield is equipped
+Picking up...
++3 Sword is equipped
+Picking up...
+greg attacks Badtha for 4 damage!
+Badtha's health is 3/7
+Badtha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Badtha for 4 damage!
+Badtha's health is -1/7
+Badtha is dead!
+Enbotha the snail's attack does no damage!
+greg's health is 6/10
+Enbotha the snail's attack does no damage!
+greg's health is 6/10
+Enbotha the snail's attack does no damage!
+greg's health is 6/10
+Enbotha the snail's attack does no damage!
+greg's health is 6/10
+Enbotha the snail's attack does no damage!
+greg's health is 6/10
+Enbotha the snail's attack does no damage!
+greg's health is 6/10
+Picking up...
+Enbotha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Enbotha for 4 damage!
+Enbotha's health is 1/5
+Enbotha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Enbotha for 4 damage!
+Enbotha's health is -3/5
+Enbotha is dead!
+greg attacks Brigme for 4 damage!
+Brigme's health is 1/5
+Brigme the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Brigme for 4 damage!
+Brigme's health is -3/5
+Brigme is dead!
+Morrma the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Morrma for 4 damage!
+Morrma's health is 2/6
+Morrma the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Morrma for 4 damage!
+Morrma's health is -2/6
+Morrma is dead!
+Picking up...
+greg attacks Nemman for 7 damage!
+Nemman's health is -2/5
+Nemman is dead!
+Picking up...
+Picking up...
+Item dropped
+greg attacks Danbama for 7 damage!
+Danbama's health is 1/8
+Danbama attacks greg for 2 damage!
+greg's health is 4/10
+greg attacks Danbama for 7 damage!
+Danbama's health is -6/8
+Danbama is dead!
+Inarlam attacks greg for 2 damage!
+greg's health is 2/10
+greg attacks Inarlam for 7 damage!
+Inarlam's health is -2/5
+Inarlam is dead!
+Picking up...
+Ciigthach attacks greg for 2 damage!
+greg's health is 0/10

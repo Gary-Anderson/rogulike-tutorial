@@ -1,0 +1,21 @@
+Failed to gen mob
+Morran attacks greg for 1 damage!
+greg's health is 9/10
+Morran attacks greg for 1 damage!
+greg's health is 8/10
+Morran attacks greg for 1 damage!
+greg's health is 7/10
+Morran attacks greg for 1 damage!
+greg's health is 6/10
+Morran attacks greg for 1 damage!
+greg's health is 5/10
+Morran attacks greg for 1 damage!
+greg's health is 4/10
+Morran attacks greg for 1 damage!
+greg's health is 3/10
+Morran attacks greg for 1 damage!
+greg's health is 2/10
+Morran attacks greg for 1 damage!
+greg's health is 1/10
+Morran attacks greg for 1 damage!
+greg's health is 0/10

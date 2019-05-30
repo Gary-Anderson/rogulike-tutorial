@@ -1,0 +1,44 @@
+Failed to gen mob
+Morrid the snailhas the scent: scent: python
+Morrid the snail is following the scent!
+Morrid the snailhas the scent: scent: python
+Morrid the snailhas the scent: scent: python
+Morrid the snail is following the scent!
+greg attacks Morrid for 1 damage!
+Morrid's health is 5/6
+Morrid attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Morrid for 1 damage!
+Morrid's health is 4/6
+Morrid attacks greg for 1 damage!
+greg's health is 8/10
+greg attacks Morrid for 1 damage!
+Morrid's health is 3/6
+Morrid attacks greg for 1 damage!
+greg's health is 7/10
+greg attacks Morrid for 1 damage!
+Morrid's health is 2/6
+Morrid attacks greg for 1 damage!
+greg's health is 6/10
+greg attacks Morrid for 1 damage!
+Morrid's health is 1/6
+Morrid attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Morrid for 1 damage!
+Morrid's health is 0/6
+Morrid is dead!
+Enarid attacks greg for 1 damage!
+greg's health is 4/10
+Enarid attacks greg for 1 damage!
+greg's health is 3/10
+Enarid the snailhas the scent: scent: python
+Enarid the snailhas the scent: scent: python
+Enarid the snail is following the scent!
+Enarid the snailhas the scent: scent: python
+Enarid the snail is following the scent!
+Cibame attacks greg for 1 damage!
+greg's health is 2/10
+Enarid attacks greg for 1 damage!
+greg's health is 1/10
+Cibame attacks greg for 1 damage!
+greg's health is 0/10

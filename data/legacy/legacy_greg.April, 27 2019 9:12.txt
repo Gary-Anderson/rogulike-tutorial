@@ -1,0 +1,54 @@
+Picking up...
+Agnoid attacks greg for 3 damage!
+greg's health is 7/10
+Agnoid the green snake
+HP: 7/7
+MP: 1/1
+Map Address: (11,5)
+greg the python
+HP: 7/10
+MP: 11/11
+greg the python has: [<__main__.obj_Actor object at 0x111b9da20>]
+Map Address: (10,5)
+greg attacks Agnoid for 4 damage!
+Agnoid's health is 3/7
+Agnoid attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Agnoid for 4 damage!
+Agnoid's health is -1/7
+Agnoid is dead!
+Picking up...
++2 Shield is equipped
+greg attacks Orbane for 4 damage!
+Orbane's health is 0/4
+Orbane is dead!
+Brigna attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Brigna for 4 damage!
+Brigna's health is 0/4
+Brigna is dead!
+greg attacks Erchna for 4 damage!
+Erchna's health is 1/5
+Erchna the neonates anaconda's attack does no damage!
+greg's health is 3/10
+greg attacks Erchna for 4 damage!
+Erchna's health is -3/5
+Erchna is dead!
+Morrarma the cobra
+HP: 11/11
+MP: 1/1
+Map Address: (5,7)
+Morrarma the cobra is confused!
+greg attacks Morrarma for 4 damage!
+Morrarma's health is 7/11
+greg attacks Morrarma for 4 damage!
+Morrarma's health is 3/11
+greg attacks Morrarma for 4 damage!
+Morrarma's health is -1/11
+Morrarma is dead!
+Danbaan attacks greg for 2 damage!
+greg's health is 1/10
+greg attacks Danbaan for 4 damage!
+Danbaan's health is 4/8
+Danbaan attacks greg for 2 damage!
+greg's health is -1/10

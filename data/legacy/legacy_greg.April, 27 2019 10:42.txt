@@ -1,0 +1,39 @@
+greg attacks Ioboman for 4 damage!
+Ioboman's health is 1/5
+Ioboman attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Ioboman for 4 damage!
+Ioboman's health is -3/5
+Ioboman is dead!
+Brigne attacks greg for 6 damage!
+greg's health is 2/10
+Brigne the cobra is confused!
+greg attacks Brigne for 4 damage!
+Brigne's health is 6/10
+greg attacks Brigne for 4 damage!
+Brigne's health is 2/10
+greg attacks Brigne for 4 damage!
+Brigne's health is -2/10
+Brigne is dead!
+Picking up...
+Aentha the tarantula is hit by the fireball!
+Aentha's health is 1/4
+greg attacks Aentha for 4 damage!
+Aentha's health is -3/4
+Aentha is dead!
+Picking up...
+greg attacks Nemtha for 4 damage!
+Nemtha's health is 0/4
+Nemtha is dead!
+greg attacks Brigaai for 4 damage!
+Brigaai's health is 0/4
+Brigaai is dead!
+Picking up...
+greg attacks Elaand for 4 damage!
+Elaand's health is 0/4
+Elaand is dead!
+Picking up...
+Picking up...
++2 Sword is equipped
+Aentha attacks greg for 6 damage!
+greg's health is -4/10

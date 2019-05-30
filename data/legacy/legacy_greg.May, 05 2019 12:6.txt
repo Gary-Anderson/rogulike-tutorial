@@ -1,0 +1,41 @@
+Failed to gen mob
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 6/4
+Erbaai attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 8/4
+Erbaai attacks greg for 1 damage!
+greg's health is 8/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 10/4
+Erbaai attacks greg for 1 damage!
+greg's health is 7/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 12/4
+Erbaai attacks greg for 1 damage!
+greg's health is 6/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 14/4
+Erbaai attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 16/4
+Erbaai attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 18/4
+Erbaai attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 20/4
+Erbaai attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 22/4
+Erbaai attacks greg for 1 damage!
+greg's health is 1/10
+greg attacks Erbaai for 1 damage!
+Erbaai's health is 24/4
+Erbaai attacks greg for 1 damage!
+greg's health is 0/10

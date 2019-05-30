@@ -1,0 +1,44 @@
+Picking up...
++1 Sword is equipped
+greg attacks Allboma for 2 damage!
+Allboma's health is 5/7
+Allboma attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Allboma for 2 damage!
+Allboma's health is 3/7
+Allboma attacks greg for 1 damage!
+greg's health is 8/10
+greg attacks Allboma for 2 damage!
+Allboma's health is 1/7
+Allboma attacks greg for 1 damage!
+greg's health is 7/10
+greg attacks Allboma for 2 damage!
+Allboma's health is -1/7
+Allboma is dead!
++3 Sword
+Map Address: (3,9)
+Picking up...
++1 Sword is unequipped
++3 Sword is equipped
+greg attacks Brigiu for 7 damage!
+Brigiu's health is -2/5
+Brigiu is dead!
+Brigne attacks greg for 1 damage!
+greg's health is 6/10
+greg attacks Brigne for 4 damage!
+Brigne's health is 1/5
+Brigne attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Brigne for 4 damage!
+Brigne's health is -3/5
+Brigne is dead!
+Picking up...
+greg attacks Morran for 4 damage!
+Morran's health is 3/7
+Morran attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Morran for 4 damage!
+Morran's health is -1/7
+Morran is dead!
+Brigtha attacks greg for 8 damage!
+greg's health is -4/10

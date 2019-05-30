@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<!-- saved from url=(0102)http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1 -->
+<html lang="en" dir="ltr" class="client-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin</title>
+
+<meta name="generator" content="MediaWiki 1.19.9">
+<link rel="shortcut icon" href="http://www.roguebasin.com/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.roguebasin.com/opensearch_desc.php" title="RogueBasin (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://www.roguebasin.com/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="RogueBasin Atom feed" href="http://www.roguebasin.com/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin_files/load.php">
+<!--[if IE 6]><link rel="stylesheet" href="/skins/monobook/IE60Fixes.css?303" media="screen" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="/skins/monobook/IE70Fixes.css?303" media="screen" /><![endif]--><style type="text/css" media="all">.js-messagebox{margin:1em 5%;padding:0.5em 2.5%;border:1px solid #ccc;background-color:#fcfcfc;font-size:0.8em}.js-messagebox .js-messagebox-group{margin:1px;padding:0.5em 2.5%;border-bottom:1px solid #ddd}.js-messagebox .js-messagebox-group:last-child{border-bottom:thin none transparent}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:8b08bdc91c52a9ffba396dccfb5b473c */
+
+
+.mw-collapsible-toggle{float:right} li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:4250852ed2349a0d4d0fc6509a3e7d4c */
+</style><meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="./Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin_files/load(1).php">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: 133099-basin:resourceloader:filter:minify-css:7:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin_files/load(2).php"></script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin_files/load(3).php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_1","wgTitle":"Complete Roguelike Tutorial, using python3+libtcod, part 1","wgCurRevisionId":46877,"wgArticleId":8295,"wgIsArticle":true,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Developing"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgRelevantPageName":"Complete_Roguelike_Tutorial,_using_python3+libtcod,_part_1","wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($){mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"monobook","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":
+0,"watchlistdays":3,"watchlisthideanons":0,"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;},{},{});mw.loader.implement("user.tokens",function($){mw.user.tokens.set({"editToken":"+\\","watchToken":false});;},{},{});
+
+/* cache key: 133099-basin:resourceloader:filter:minify-js:7:74a832f2292f1f4d40d425d223444e78 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax"]);
+}</script><script type="text/javascript" src="./Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin_files/load(4).php"></script>
+<style type="text/css">/*<![CDATA[*/
+.source-python {line-height: normal;}
+.source-python li, .source-python pre {
+	line-height: normal; border: 0px none white;
+}
+/**
+ * GeSHi Dynamically Generated Stylesheet
+ * --------------------------------------
+ * Dynamically generated stylesheet for python
+ * CSS class: source-python, CSS id: 
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ * --------------------------------------
+ */
+.python.source-python .de1, .python.source-python .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+.python.source-python  {font-family:monospace;}
+.python.source-python .imp {font-weight: bold; color: red;}
+.python.source-python li, .python.source-python .li1 {font-weight: normal; vertical-align:top;}
+.python.source-python .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+.python.source-python .li2 {font-weight: bold; vertical-align:top;}
+.python.source-python .kw1 {color: #ff7700;font-weight:bold;}
+.python.source-python .kw2 {color: #008000;}
+.python.source-python .kw3 {color: #dc143c;}
+.python.source-python .kw4 {color: #0000cd;}
+.python.source-python .co1 {color: #808080; font-style: italic;}
+.python.source-python .coMULTI {color: #808080; font-style: italic;}
+.python.source-python .es0 {color: #000099; font-weight: bold;}
+.python.source-python .br0 {color: black;}
+.python.source-python .sy0 {color: #66cc66;}
+.python.source-python .st0 {color: #483d8b;}
+.python.source-python .nu0 {color: #ff4500;}
+.python.source-python .me1 {color: black;}
+.python.source-python .ln-xtra, .python.source-python li.ln-xtra, .python.source-python div.ln-xtra {background-color: #ffc;}
+.python.source-python span.xtra { display:block; }
+
+/*]]>*/
+</style>
+<style type="text/css">/*<![CDATA[*/
+@import "/index.php?title=MediaWiki:Geshi.css&usemsgcache=yes&action=raw&ctype=text/css&smaxage=18000";
+/*]]>*/
+</style></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Complete_Roguelike_Tutorial_using_python3_libtcod_part_1 skin-monobook action-view">
+<div id="globalWrapper">
+<div id="column-content"><div id="content"><div id="mw-js-message" class="js-messagebox" style="display: none;"></div>
+	<a id="top"></a>
+	<div id="siteNotice"><div id="localNotice" lang="en" dir="ltr"></div></div>
+	<h1 id="firstHeading" class="firstHeading"><span dir="auto">Complete Roguelike Tutorial, using python3+libtcod, part 1</span></h1>
+	<div id="bodyContent" class="mw-body">
+		<div id="siteSub">From RogueBasin</div>
+		<div id="contentSub"></div>
+		<div id="jump-to-nav" class="mw-jump">Jump to: <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#column-one">navigation</a>, <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#searchInput">search</a></div>
+		<!-- start content -->
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><center><table border="0" cellpadding="10" cellspacing="0" style="background:#F0E68C"><tbody><tr><td><center>
+<p>This is part of a series of tutorials; the main page can be found <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod" title="Complete Roguelike Tutorial, using python3+libtcod">here</a>.
+</p>
+</center></td></tr></tbody></table></center>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#" class="internal" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#Graphics"><span class="tocnumber">1</span> <span class="toctext"><b>Graphics</b></span></a>
+<ul>
+<li class="toclevel-2 tocsection-1"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#Setting_it_up"><span class="tocnumber">1.1</span> <span class="toctext">Setting it up</span></a></li>
+<li class="toclevel-2 tocsection-2"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#Download_a_font"><span class="tocnumber">1.2</span> <span class="toctext">Download a font</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#Showing_the_.40_on_screen"><span class="tocnumber">1.3</span> <span class="toctext">Showing the @ on screen</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#Common_Bugs"><span class="tocnumber">1.4</span> <span class="toctext">Common Bugs</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#Moving_around"><span class="tocnumber">1.5</span> <span class="toctext">Moving around</span></a></li>
+<li class="toclevel-2 tocsection-6"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1#Finishing_Touches"><span class="tocnumber">1.6</span> <span class="toctext">Finishing Touches</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<p><br>
+</p>
+<center><h1> <span class="mw-headline" id="Graphics"><b>Graphics</b></span></h1></center>
+<h2> <span class="mw-headline" id="Setting_it_up"> Setting it up </span></h2>
+<p>See <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_0" title="Complete Roguelike Tutorial, using python3+libtcod, part 0">Part 0</a>.
+</p>
+<h2> <span class="mw-headline" id="Download_a_font"> Download a font </span></h2>
+<p>You will also need to download a font file.  libtcod does not transform standard .ttf file fonts into something usable.  Instead, we must use what's called a bitmap format.  As a consequence, the font displayed is static - you will not be able to increase or decrease the size of the font on the screen without picking a new font file.  You may find these font files in a variety of <a rel="nofollow" class="external text" href="https://github.com/HexDecimal/python-tdl/raw/master/fonts/libtcod/">locations</a>, including the <a rel="nofollow" class="external text" href="https://bitbucket.org/libtcod/libtcod/src/c5a397b8f50a5409da26c0025a11f090bb842f73/data/fonts/?at=default">bitbucket repo</a> we downloaded within <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_0" title="Complete Roguelike Tutorial, using python3+libtcod, part 0">step 0</a>.  
+</p><p>For this tutorial, it is recommended that you download <a rel="nofollow" class="external text" href="https://bytebucket.org/libtcod/libtcod/raw/c5a397b8f50a5409da26c0025a11f090bb842f73/data/fonts/arial10x10.png">arial10x10.png</a>.  You will want to make sure that this font file is found within the same folder as the script we're creating within this tutorial.  For those on a posix system, please do not use `curl` or `wget` as this has caused problems in the past.  Instead, browse to the font and then save-as to the proper folder.
+</p><p>For more information on choosing a font, the author of Cogmind has done a great in-depth explanation <a rel="nofollow" class="external text" href="http://www.gridsagegames.com/blog/2014/09/fonts-in-roguelikes/">here</a>.
+</p>
+<h2> <span class="mw-headline" id="Showing_the_.40_on_screen"> Showing the @ on screen </span></h2>
+<p>This first part will be a bit of a crash-course. The reason is that you need a few lines of boilerplate code that will initialize and handle the basics of a libtcod window. And though there are many options, we won't explain them all or this part will really start to drag out. Fortunately the code involved is not as much as in many other libraries!
+</p><p>First we import the library. The name <i>libtcodpy</i> is a bit funky (sorry Jice!) so we'll rename it to just <i>tcod</i>, which is easier to type.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">import</span> libtcodpy <span class="kw1">as</span> tcod</pre></div></div></div>
+<p><br>
+Then, a couple of important values. It's good practice to define special numbers that might get reused. Many people capitalize them to distinguish from variables that may change.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">SCREEN_WIDTH = <span class="nu0">80</span>
+SCREEN_HEIGHT = <span class="nu0">50</span>
+LIMIT_FPS = <span class="nu0">20</span></pre></div></div></div>
+<p><br>
+Now, something libtcod-specific: we're going to use a custom font! It's pretty easy. libtcod comes bundled with a few fonts that are usable right out of the box. Remember however that they can be in different <b>formats</b>, and you'll need to tell it about this. This one is "grayscale" and using the "tcod layout", most fonts are in this format and thus end with <i>_gs_tc</i>. If you wanna use a font with a different layout or make your own, the <a rel="nofollow" class="external text" href="http://roguecentral.org/doryen/data/libtcod/doc/1.5.1/html2/console_set_custom_font.html?c=false&amp;cpp=false&amp;cs=false&amp;py=true&amp;lua=false">docs on the subject</a> are really informative. You can worry about that at a later time though. Notice that the size of a font is automatically detected.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">font_path = <span class="st0">'arial10x10.png'</span>  <span class="co1"># this will look in the same folder as this script</span>
+font_flags = tcod.<span class="me1">FONT_TYPE_GREYSCALE</span> | tcod.<span class="me1">FONT_LAYOUT_TCOD</span>  <span class="co1"># the layout may need to change with a different font file</span>
+tcod.<span class="me1">console_set_custom_font</span><span class="br0">(</span>font_path, font_flags<span class="br0">)</span></pre></div></div></div>
+<p><br>
+This is probably the most important call, initializing the window. We're specifying its size, the title (change it now if you want to), and the last parameter tells it if it should be fullscreen or not.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">window_title = <span class="st0">'Python 3 libtcod tutorial'</span>
+fullscreen = <span class="kw2">False</span>
+tcod.<span class="me1">console_init_root</span><span class="br0">(</span>SCREEN_WIDTH, SCREEN_HEIGHT, window_title, fullscreen<span class="br0">)</span></pre></div></div>
+</div>
+<p><br>
+For a real-time roguelike, you wanna limit the speed of the game (frames-per-second or FPS). If you want it to be turn-based, ignore this line. (This line will simply have no effect if your game is turn-based.)
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #D0FFC2"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">tcod.<span class="me1">sys_set_fps</span><span class="br0">(</span>LIMIT_FPS<span class="br0">)</span></pre></div></div></div>
+<p><br>
+Now the main loop. It will keep running the logic of your game as long as the window is not closed.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">while</span> <span class="kw1">not</span> tcod.<span class="me1">console_is_window_closed</span><span class="br0">(</span><span class="br0">)</span>:</pre></div></div></div>
+<p><br>
+For each iteration we'll want to print something useful to the window. If your game is turn-based each iteration is a turn; if it's real-time, each one is a frame. Here we're setting the text color to be white. <a rel="nofollow" class="external text" href="http://roguecentral.org/doryen/data/libtcod/doc/1.5.1/html2/color.html?c=false&amp;cpp=false&amp;cs=false&amp;py=true&amp;lua=false">There's a good list of colors you can use here</a>, along with some info about mixing them and all that. The zero is the console we're printing to, in this case the screen; more on that later.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    tcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span><span class="nu0">0</span>, tcod.<span class="me1">white</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Don't forget the indentation at the beginning of the line, it's extra-important in Python. <b>Make sure you don't mix tabs with spaces for indentation!</b> This comes up often if you copy-and-paste code from the net, and you'll see an error telling you something about the indentation (that's a pretty big clue right there!). Choose one option and stick with it. In this tutorial we're using the 4-spaces convention, but tabs are easy to work with in many editors so they're a valid choice too.
+</p><p>Now print a character to the coordinates (1,1). Once more the first zero specifies the console, which is the screen in this case. Can you guess what that character is? No, it doesn't move yet!
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    tcod.<span class="me1">console_put_char</span><span class="br0">(</span><span class="nu0">0</span>, <span class="nu0">1</span>, <span class="nu0">1</span>, <span class="st0">'@'</span>, tcod.<span class="me1">BKGND_NONE</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+</p><p>At the end of the main loop you'll always need to present the changes to the screen. This is called <i>flushing</i> the console and is done with the following line.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    tcod.<span class="me1">console_flush</span><span class="br0">(</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Ta-da! You're done. Run that code and give yourself a pat on the back!
+</p>
+<h2> <span class="mw-headline" id="Common_Bugs"> Common Bugs </span></h2>
+<center><table border="0" cellpadding="10" cellspacing="0" style="width: 65%; background:#F0E68C"><tbody><tr><td><center>
+<b>Common reasons the code won't run.</b></center>
+<ul><li> Python errors? Using Python 2?<br><i>This tutorial is only for Python 3.  See our <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python%2Blibtcod" title="Complete Roguelike Tutorial, using python+libtcod">Python 2 tutorial</a>.</i>
+</li><li> On Windows? Getting the "Incompatible architecture" error?<br><i>Make sure your Python and libtcod are either BOTH 32 bit, or BOTH 64 bit.</i>
+</li><li> On Windows? Getting the "The specified module could not be found" error?<br><i>You didn't verify that libtcod was working.  Go <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_setup_Windows#Validating_the_setup" title="Complete Roguelike Tutorial, using python3+libtcod, setup Windows">back and do it</a></i>
+</li><li> Still blocked for other reasons?  Check out the <a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_Python3%2Blibtcod,_problems" title="Complete Roguelike Tutorial, using Python3+libtcod, problems">problems page</a>.
+</li></ul>
+</td></tr></tbody></table></center>
+<p>Note that since we don't have any input handling code, the game may crash on exit (it won't process the OS's requests to close). Oops! Don't worry though, this problem will go away as soon as we add keyboard support.
+</p><p><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1_code#Showing_the_.40_on_screen" title="Complete Roguelike Tutorial, using python3+libtcod, part 1 code">Here</a>'s the complete code so far.
+</p>
+<h2> <span class="mw-headline" id="Moving_around"> Moving around </span></h2>
+<p>That was pretty neat, huh? Now we're going to move around that @ with the keys!
+</p><p>First, we need to keep track of the player's position. We'll use these variables for that, and take the opportunity to initialize them to the center of the screen instead of the top-left corner. This can go just before the main loop.  
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">player_x = SCREEN_WIDTH // <span class="nu0">2</span>
+player_y = SCREEN_HEIGHT // <span class="nu0">2</span></pre></div></div></div>
+<div style="padding: 5px; border: solid 1px #000000; background-color: #F0F0D0"><small><b><i>Notes: </i></b>
+<ul><li> The screen coordinates start at the top left corner (0, 0) and end at the bottom right corner (SCREEN_WIDTH, SCREEN_HEIGHT)
+</li><li> Python 3 has two types of division: "/" and "//".  The former will produce a floating point number (e.g. 1.0, 2.0, 3.0) while the latter will produce an integer (e.g. 1, 2, 3).  The libtcod library is explicitly expecting an integer, so we will make sure that Python produces an integer for the player's (x, y) coordinates.
+</li></ul>
+<b><i></i></b></small></div>
+<p><br>
+There are functions to check for pressed keys. When that happens, just change the coordinates accordingly. Then, print the @ at those coordinates. We'll make a separate function to handle the keys.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1"><span class="kw1">def</span> handle_keys<span class="br0">(</span><span class="br0">)</span>:
+    <span class="kw1">global</span> player_x, player_y
+&nbsp;
+    <span class="co1"># movement keys</span>
+    <span class="kw1">if</span> tcod.<span class="me1">console_is_key_pressed</span><span class="br0">(</span>tcod.<span class="me1">KEY_UP</span><span class="br0">)</span>:
+        player_y = player_y - <span class="nu0">1</span>
+&nbsp;
+    <span class="kw1">elif</span> tcod.<span class="me1">console_is_key_pressed</span><span class="br0">(</span>tcod.<span class="me1">KEY_DOWN</span><span class="br0">)</span>:
+        player_y = player_y + <span class="nu0">1</span>
+&nbsp;
+    <span class="kw1">elif</span> tcod.<span class="me1">console_is_key_pressed</span><span class="br0">(</span>tcod.<span class="me1">KEY_LEFT</span><span class="br0">)</span>:
+        player_x = player_x - <span class="nu0">1</span>
+&nbsp;
+    <span class="kw1">elif</span> tcod.<span class="me1">console_is_key_pressed</span><span class="br0">(</span>tcod.<span class="me1">KEY_RIGHT</span><span class="br0">)</span>:
+        player_x = player_x + <span class="nu0">1</span></pre></div></div></div>
+<p><br>
+Done! These are the arrow keys, if you want to use other keys here's a <a rel="nofollow" class="external text" href="http://roguecentral.org/doryen/data/libtcod/doc/1.5.1/html2/console_keycode_t.html?c=false&amp;cpp=false&amp;cs=false&amp;py=true&amp;lua=false">reference</a> (pay attention to the Python-specific notes).
+</p><p>While we're at it, why not include keys to toggle fullscreen mode, and exit the game? You can put this at the beginning of the function.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    key = tcod.<span class="me1">console_check_for_keypress</span><span class="br0">(</span><span class="br0">)</span>
+    <span class="kw1">if</span> key.<span class="me1">vk</span> == tcod.<span class="me1">KEY_ENTER</span> <span class="kw1">and</span> key.<span class="me1">lalt</span>:
+        <span class="co1">#Alt+Enter: toggle fullscreen</span>
+        tcod.<span class="me1">console_set_fullscreen</span><span class="br0">(</span><span class="kw1">not</span> tcod.<span class="me1">console_is_fullscreen</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw1">elif</span> key.<span class="me1">vk</span> == tcod.<span class="me1">KEY_ESCAPE</span>:
+        <span class="kw1">return</span> <span class="kw2">True</span>  <span class="co1">#exit game</span></pre></div></div></div>
+<p><br>
+From now on, we'll show code for a <span style="background-color: #D0FFC2"><b>real-time game</b></span> with a green background, and code for a <span style="background-color: #DFEEFF"><b>turn-based game</b></span> with a blue background.
+</p><p>Notice a subtle difference here. The <i>console_is_key_pressed</i> function is useful for real-time games, since it checks if a key is pressed with no delays. <i>console_check_for_keypress</i>, on the other hand, treats the key like it's being typed. So after the first press, it will stop working for a fraction of a second. This is the same behavior you see when you type, otherwise pressing a key would result in you typing 3 or 4 letters! It's useful for all commands except movement, which you usually want to react as soon as possible with no delays, and continue for as long as you press the movement keys.
+</p><p>Now here's an important thing: you can use that first line to distinguish between real-time and turn-based gameplay! See, <i>console_check_for_keypress</i> won't block the game. But if you replace it with this line:
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #DFEEFF"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    key = tcod.<span class="me1">console_wait_for_keypress</span><span class="br0">(</span><span class="kw2">True</span><span class="br0">)</span></pre></div></div></div>
+<p><br>
+Then the game won't go on unless the player presses a key. So effectively you have a turn-based game now.
+</p><p>Now, the main loop needs to call this function in order for it to work. If the returned value is True, then we "break" from the main loop, ending the game. The inside of the main loop should now look like this:
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">    tcod.<span class="me1">console_set_default_foreground</span><span class="br0">(</span><span class="nu0">0</span>, tcod.<span class="me1">white</span><span class="br0">)</span>
+    tcod.<span class="me1">console_put_char</span><span class="br0">(</span><span class="nu0">0</span>, player_x, player_y, <span class="st0">'@'</span>, tcod.<span class="me1">BKGND_NONE</span><span class="br0">)</span>
+&nbsp;
+    tcod.<span class="me1">console_flush</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    <span class="co1">#handle keys and exit game if needed</span>
+    exit = handle_keys<span class="br0">(</span><span class="br0">)</span>
+    <span class="kw1">if</span> exit:
+        <span class="kw1">break</span></pre></div></div></div>
+<p><br>
+The reason why we draw stuff before handling key input is that, in a turn-based game, the first screen is shown before the first key is pressed (otherwise the first screen would be blank).
+</p><p>One more thing! If you try that, you'll see that moving you leave around a trail of little @'s. That's not what we want! We need to clear the character at the last position before moving to the new one, this can be done by simply printing a space there. Put this just before <i>exit = handle_keys()</i>.
+</p>
+<div style="padding: 5px; border: solid 1px #C0C0C0; background-color: #F0F0F0"><div dir="ltr" class="mw-geshi" style="text-align: left;"><div class="python source-python"><pre class="de1">        tcod.<span class="me1">console_put_char</span><span class="br0">(</span><span class="nu0">0</span>, player_x, player_y, <span class="st0">' '</span>, tcod.<span class="me1">BKGND_NONE</span><span class="br0">)</span></pre></div></div></div>
+<h2> <span class="mw-headline" id="Finishing_Touches"> Finishing Touches </span></h2>
+<p><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1_code#Moving_around" title="Complete Roguelike Tutorial, using python3+libtcod, part 1 code">Here</a>'s a rundown of the whole code so far.
+</p><p><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_2" title="Complete Roguelike Tutorial, using python3+libtcod, part 2">Go on to the next part</a>.
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 181/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key 133099-basin:pcache:idhash:8295-0!*!0!!en!*!* and timestamp 20190322120012 -->
+</div><div class="printfooter">
+Retrieved from "<a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1&amp;oldid=46877">http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1&amp;oldid=46877</a>"</div>
+		<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="http://www.roguebasin.com/index.php?title=Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://www.roguebasin.com/index.php?title=Category:Developing" title="Category:Developing">Developing</a></li></ul></div></div>		<!-- end content -->
+				<div class="visualClear"></div>
+	</div>
+</div></div>
+<div id="column-one">
+	<div id="p-cactions" class="portlet">
+		<h5>Views</h5>
+		<div class="pBody">
+			<ul>
+				<li id="ca-nstab-main" class="selected"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1" primary="1" context="subject" title="View the content page [ctrl-option-c]" accesskey="c">Page</a></li>
+				<li id="ca-talk" class="new"><a href="http://www.roguebasin.com/index.php?title=Talk:Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1&amp;action=edit&amp;redlink=1" primary="1" context="talk" title="Discussion about the content page [ctrl-option-t]" accesskey="t">Discussion</a></li>
+				<li id="ca-viewsource"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1&amp;action=edit" primary="1" title="This page is protected.
+You can view its source [ctrl-option-e]" accesskey="e">View source</a></li>
+				<li id="ca-history"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1&amp;action=history" rel="archives" title="Past revisions of this page [ctrl-option-h]" accesskey="h">History</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-personal">
+		<h5>Personal tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="pt-login"><a href="http://www.roguebasin.com/index.php?title=Special:UserLogin&amp;returnto=Complete+Roguelike+Tutorial%2C+using+python3%2Blibtcod%2C+part+1" title="You are encouraged to log in; however, it is not mandatory [ctrl-option-o]" accesskey="o">Log in / create account</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="portlet" id="p-logo">
+<a href="http://www.roguebasin.com/index.php?title=Main_Page" style="background-image: url(/skins/roguebasin/RogueBasin_logo.png);" title="Visit the main page"></a>
+	</div>
+	<div class="generated-sidebar portlet" id="p-navigation">
+		<h5>Navigation</h5>
+		<div class="pBody">
+			<ul>
+				<li id="n-mainpage"><a href="http://www.roguebasin.com/index.php?title=Main_Page" title="Visit the main page [ctrl-option-z]" accesskey="z">Main Page</a></li>
+				<li id="n-portal"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li>
+				<li id="n-recentchanges"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChanges" title="A list of recent changes in the wiki [ctrl-option-r]" accesskey="r">Recent changes</a></li>
+				<li id="n-randompage"><a href="http://www.roguebasin.com/index.php?title=Special:Random" title="Load a random page [ctrl-option-x]" accesskey="x">Random page</a></li>
+				<li id="n-help"><a href="http://www.roguebasin.com/index.php?title=Help" title="The place to find out">Help</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="p-search" class="portlet">
+		<h5><label for="searchInput">Search</label></h5>
+		<div id="searchBody" class="pBody">
+			<form action="http://www.roguebasin.com/index.php" id="searchform">
+				<input type="hidden" name="title" value="Special:Search">
+				<input type="search" name="search" title="Search RogueBasin [ctrl-option-f]" accesskey="f" id="searchInput">
+				<input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton">&nbsp;
+				<input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton">
+			</form>
+		</div>
+	</div>
+	<div class="portlet" id="p-tb">
+		<h5>Tools</h5>
+		<div class="pBody">
+			<ul>
+				<li id="t-whatlinkshere"><a href="http://www.roguebasin.com/index.php?title=Special:WhatLinksHere/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1" title="A list of all wiki pages that link here [ctrl-option-j]" accesskey="j">What links here</a></li>
+				<li id="t-recentchangeslinked"><a href="http://www.roguebasin.com/index.php?title=Special:RecentChangesLinked/Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1" title="Recent changes in pages linked from this page [ctrl-option-k]" accesskey="k">Related changes</a></li>
+				<li id="t-specialpages"><a href="http://www.roguebasin.com/index.php?title=Special:SpecialPages" title="A list of all special pages [ctrl-option-q]" accesskey="q">Special pages</a></li>
+				<li><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1&amp;printable=yes" rel="alternate">Printable version</a></li>
+				<li id="t-permalink"><a href="http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python3%2Blibtcod,_part_1&amp;oldid=46877" title="Permanent link to this revision of the page">Permanent link</a></li>
+			</ul>
+		</div>
+	</div>
+</div><!-- end of the left (by default at least) column -->
+<div class="visualClear"></div>
+<div id="footer">
+	<div id="f-poweredbyico">
+		<a href="http://www.mediawiki.org/"><img src="./Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+	</div>
+	<ul id="f-list">
+		<li id="lastmod"> This page was last modified on 30 March 2018, at 02:31.</li>
+		<li id="viewcount">This page has been accessed 5,099 times.</li>
+		<li id="privacy"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:Privacy_policy" title="RogueBasin:Privacy policy">Privacy policy</a></li>
+		<li id="about"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:About" title="RogueBasin:About">About RogueBasin</a></li>
+		<li id="disclaimer"><a href="http://www.roguebasin.com/index.php?title=RogueBasin:General_disclaimer" title="RogueBasin:General disclaimer">Disclaimers</a></li>
+	</ul>
+</div>
+</div>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.user","mediawiki.page.ready"], null, true);
+}</script><script src="./Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin_files/load(5).php" type="text/javascript"></script>
+<script src="./Complete Roguelike Tutorial, using python3+libtcod, part 1 - RogueBasin_files/load(6).php"></script>
+<!-- Served in 0.156 secs. --></body></html>

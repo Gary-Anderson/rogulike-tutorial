@@ -1,0 +1,28 @@
+Picking up...
+Ogarlor attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Ogarlor for 4 damage!
+Ogarlor's health is 1/5
+Ogarlor attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Ogarlor for 4 damage!
+Ogarlor's health is -3/5
+Ogarlor is dead!
+Picking up...
+Picking up...
+Picking up...
+greg attacks Agnobat for 4 damage!
+Agnobat's health is 0/4
+Agnobat is dead!
+Picking up...
+Crebath attacks greg for 2 damage!
+greg's health is 2/10
+greg attacks Crebath for 4 damage!
+Crebath's health is 0/4
+Crebath is dead!
+greg attacks Ogthach for 4 damage!
+Ogthach's health is 0/4
+Ogthach is dead!
+Picking up...
+Dangus attacks greg for 2 damage!
+greg's health is 0/10

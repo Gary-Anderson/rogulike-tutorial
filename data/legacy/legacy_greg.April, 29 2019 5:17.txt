@@ -1,0 +1,61 @@
+Failed to gen mob
+Failed to gen mob
+Morrai the green snakelethas the scent: scent: python
+Morrai attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Morrai for 4 damage!
+Morrai's health is 1/5
+Morrai attacks greg for 2 damage!
+greg's health is 6/10
+greg attacks Morrai for 4 damage!
+Morrai's health is -3/5
+Morrai is dead!
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+Aenbone the green snakehas the scent: scent: python
+greg attacks Aenbone for 4 damage!
+Aenbone's health is 5/9
+Aenbone attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Aenbone for 4 damage!
+Aenbone's health is 1/9
+Aenbone attacks greg for 4 damage!
+greg's health is -2/10

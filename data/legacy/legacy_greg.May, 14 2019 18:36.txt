@@ -1,0 +1,33 @@
+Failed to gen mob
+Failed to gen mob
+greg the python's attack does no damage!
+Morrna's health is 5/5
+Morrna attacks greg for 1 damage!
+greg's health is 9/10
+Morrne attacks greg for 1 damage!
+greg's health is 8/10
+Morrne attacks greg for 1 damage!
+greg's health is 7/10
+Morrne attacks greg for 1 damage!
+greg's health is 6/10
+Morrna the snailhas the scent: scent: python
+Morrna the snailhas the scent: scent: python
+Morrna the snailhas the scent: scent: python
+Morrna the snailhas the scent: scent: python
+Morrna the snail is following the scent!
+Morrna the snailhas the scent: scent: python
+Morrna the snailhas the scent: scent: python
+Morrna the snailhas the scent: scent: python
+Morrna the snail is following the scent!
+Morrne attacks greg for 1 damage!
+greg's health is 5/10
+Morrna attacks greg for 1 damage!
+greg's health is 4/10
+Morrne attacks greg for 1 damage!
+greg's health is 3/10
+Morrna attacks greg for 1 damage!
+greg's health is 2/10
+Morrne attacks greg for 1 damage!
+greg's health is 1/10
+Morrna attacks greg for 1 damage!
+greg's health is 0/10

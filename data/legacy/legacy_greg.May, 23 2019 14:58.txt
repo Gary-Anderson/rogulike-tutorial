@@ -1,0 +1,30 @@
+Failed to gen mob
+Picking up...
+greg attacks Taboan for 4 damage!
+Taboan's health is 6/10
+Taboan attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Taboan for 4 damage!
+Taboan's health is 2/10
+Taboan attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Taboan for 4 damage!
+Taboan's health is -2/10
+Taboan is dead!
+greg attacks Morrai for 4 damage!
+Morrai's health is 8/12
+Morrai attacks greg for 2 damage!
+greg's health is 2/10
+Morrai the fernoid is confused!
+Morrai the fernoid has come to their senses!
+Morrda attacks Morrai for 1 damage!
+Morrai's health is 7/12
+Morrda the snailhas the scent: scent: python
+Morrda the snailhas the scent: scent: python
+Morrda the snail is following the scent!
+Morrai the fernoid is hit by the lightning!
+Morrai's health is 2/12
+Morrda the snail is hit by the lightning!
+Morrda's health is 3/8
+Morrai attacks greg for 2 damage!
+greg's health is 0/10

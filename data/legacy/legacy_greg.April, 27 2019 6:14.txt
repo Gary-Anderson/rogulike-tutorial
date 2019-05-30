@@ -1,0 +1,16 @@
+greg attacks Elatha for 4 damage!
+Elatha's health is 5/9
+Elatha attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Elatha for 4 damage!
+Elatha's health is 1/9
+Elatha attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Elatha for 4 damage!
+Elatha's health is -3/9
+Elatha is dead!
+Picking up...
+greg attacks Ogbama for 4 damage!
+Ogbama's health is 6/10
+Ogbama attacks greg for 3 damage!
+greg's health is -1/10

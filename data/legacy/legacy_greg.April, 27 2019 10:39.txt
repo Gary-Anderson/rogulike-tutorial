@@ -1,0 +1,39 @@
+Picking up...
+greg attacks Brigda for 4 damage!
+Brigda's health is 0/4
+Brigda is dead!
+greg attacks Agnochiu for 4 damage!
+Agnochiu's health is 1/5
+Agnochiu attacks greg for 8 damage!
+greg's health is 2/10
+greg attacks Agnochiu for 4 damage!
+Agnochiu's health is -3/5
+Agnochiu is dead!
+Picking up...
++3 Sword is equipped
+Delboan the anaconda is confused!
+greg attacks Delboan for 7 damage!
+Delboan's health is 8/15
+greg attacks Delboan for 7 damage!
+Delboan's health is 1/15
+greg attacks Delboan for 7 damage!
+Delboan's health is -6/15
+Delboan is dead!
+Picking up...
+greg attacks Etboda for 7 damage!
+Etboda's health is -2/5
+Etboda is dead!
+greg attacks Elaigaid for 7 damage!
+Elaigaid's health is -3/4
+Elaigaid is dead!
+greg attacks Brigbaand for 7 damage!
+Brigbaand's health is -3/4
+Brigbaand is dead!
+greg attacks Nembatha for 7 damage!
+Nembatha's health is -3/4
+Nembatha is dead!
+greg attacks Agnoda for 7 damage!
+Agnoda's health is -2/5
+Agnoda is dead!
+Cretha attacks greg for 4 damage!
+greg's health is -2/10

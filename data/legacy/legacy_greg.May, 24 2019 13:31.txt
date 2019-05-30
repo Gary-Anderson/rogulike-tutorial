@@ -1,0 +1,34 @@
+Picking up...
++3 Sword is equipped
+Agnotha attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Agnotha for 7 damage!
+Agnotha's health is -1/6
+Agnotha is dead!
+greg attacks Creama for 4 damage!
+Creama's health is 1/5
+Creama attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Creama for 4 damage!
+Creama's health is -3/5
+Creama is dead!
+Picking up...
++1 Shield is equipped
+Beoarma attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Beoarma for 7 damage!
+Beoarma's health is 3/10
+Beoarma attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Beoarma for 7 damage!
+Beoarma's health is -4/10
+Beoarma is dead!
+greg attacks Agnoid for 7 damage!
+Agnoid's health is 4/11
+Agnoid attacks greg for 2 damage!
+greg's health is 1/10
+greg attacks Agnoid for 7 damage!
+Agnoid's health is -3/11
+Agnoid is dead!
+Morrid attacks greg for 1 damage!
+greg's health is 0/10

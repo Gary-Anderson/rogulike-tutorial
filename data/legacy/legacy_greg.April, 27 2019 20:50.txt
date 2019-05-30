@@ -1,0 +1,24 @@
+Orthach attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Orthach for 4 damage!
+Orthach's health is 0/4
+Orthach is dead!
+Picking up...
+Picking up...
+greg attacks Daneth for 4 damage!
+Daneth's health is 0/4
+Daneth is dead!
+Ioagus attacks greg for 2 damage!
+greg's health is 6/10
+greg attacks Ioagus for 4 damage!
+Ioagus's health is 0/4
+Ioagus is dead!
+Picking up...
+Picking up...
+Picking up...
+Creaid attacks greg for 2 damage!
+greg's health is 4/10
+Creaid attacks greg for 2 damage!
+greg's health is 2/10
+Creaid attacks greg for 2 damage!
+greg's health is 0/10

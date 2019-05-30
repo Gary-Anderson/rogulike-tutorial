@@ -1,0 +1,21 @@
+Agnoid the cobra is confused!
+Picking up...
+Agnoid the cobra has come to their senses!
+greg attacks Agnoid for 4 damage!
+Agnoid's health is 5/9
+Agnoid attacks greg for 5 damage!
+greg's health is 5/10
+greg attacks Agnoid for 4 damage!
+Agnoid's health is 1/9
+Agnoid attacks greg for 5 damage!
+greg's health is 0/10
+Morrarma attacks greg for 2 damage!
+greg's health is 8/10
+Morrarma attacks greg for 2 damage!
+greg's health is 6/10
+Morrarma attacks greg for 2 damage!
+greg's health is 4/10
+Morrarma attacks greg for 2 damage!
+greg's health is 2/10
+Morrarma attacks greg for 2 damage!
+greg's health is 0/10

@@ -1,0 +1,10 @@
+Tachna attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Tachna for 4 damage!
+Tachna's health is -3/1
+Tachna is dead!
+Picking up...
+Danbada attacks greg for 4 damage!
+greg's health is 4/10
+Danbada attacks greg for 4 damage!
+greg's health is 0/10

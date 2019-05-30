@@ -1,0 +1,63 @@
+Agnone attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Agnone for 4 damage!
+Agnone's health is 3/7
+Agnone attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Agnone for 4 damage!
+Agnone's health is -1/7
+Agnone is dead!
+Picking up...
++1 Shield is equipped
+greg attacks Agnoth for 4 damage!
+Agnoth's health is 1/5
+Agnoth attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Agnoth for 4 damage!
+Agnoth's health is -3/5
+Agnoth is dead!
+Picking up...
+Picking up...
+greg the python is healed for 8
+greg the python health is now 10/10
+Picking up...
++1 Sword is equipped
+Picking up...
+greg attacks Elatha for 5 damage!
+Elatha's health is 5/10
+Elatha attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Elatha for 5 damage!
+Elatha's health is 0/10
+Elatha is dead!
+greg attacks Dellam for 5 damage!
+Dellam's health is 0/5
+Dellam is dead!
+Picking up...
+Picking up...
+Picking up...
+Picking up...
++1 Sword is unequipped
++2 Sword is equipped
+greg attacks Ciboiu for 6 damage!
+Ciboiu's health is 8/14
+Ciboiu attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Ciboiu for 6 damage!
+Ciboiu's health is 2/14
+Ciboiu attacks greg for 3 damage!
+greg's health is 1/10
+Nuigthach attacks greg for 1 damage!
+greg's health is 0/10
+Picking up...
+greg attacks Nubotha for 4 damage!
+Nubotha's health is 1/5
+Nubotha attacks greg for 6 damage!
+greg's health is 4/10
+greg attacks Nubotha for 4 damage!
+Nubotha's health is -3/5
+Nubotha is dead!
+greg attacks Baarna for 4 damage!
+Baarna's health is 1/5
+Baarna attacks greg for 8 damage!
+greg's health is -4/10

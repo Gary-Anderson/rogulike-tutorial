@@ -1,0 +1,37 @@
+greg attacks Morrai for 4 damage!
+Morrai's health is 1/5
+Morrai attacks greg for 7 damage!
+greg's health is 3/10
+greg attacks Morrai for 4 damage!
+Morrai's health is -3/5
+Morrai is dead!
+Aentha the tarantula is hit by the lightning!
+Aentha's health is -1/4
+Aentha is dead!
+Picking up...
++2 Sword is equipped
+Morrme the tarantula is hit by the lightning!
+Morrme's health is -1/4
+Morrme is dead!
+Picking up...
++2 Shield is equipped
+greg attacks Nubome for 6 damage!
+Nubome's health is -2/4
+Nubome is dead!
+greg attacks Allboan for 6 damage!
+Allboan's health is -2/4
+Allboan is dead!
+greg attacks Agnotha for 6 damage!
+Agnotha's health is -2/4
+Agnotha is dead!
+Picking up...
++2 Shield is unequipped
++3 Shield is equipped
+greg attacks Creigtha for 6 damage!
+Creigtha's health is -2/4
+Creigtha is dead!
+greg attacks Morrme for 6 damage!
+Morrme's health is -2/4
+Morrme is dead!
+Morrid attacks greg for 4 damage!
+greg's health is -1/10

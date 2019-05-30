@@ -1,0 +1,48 @@
+Failed to gen mob
+greg attacks Brigan for 4 damage!
+Brigan's health is 0/4
+Brigan is dead!
+Picking up...
+Beoain the alchemisthas the scent: scent: python
+Beoain the alchemisthas the scent: scent: python
+Beoain the alchemisthas the scent: scent: python
+Beoain the alchemisthas the scent: scent: python
+Beoain the alchemisthas the scent: scent: python
+Beoain the alchemisthas the scent: scent: python
+greg attacks Beoain for 4 damage!
+Beoain's health is 0/4
+Beoain is dead!
+Picking up...
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme the tarantulahas the scent: scent: python
+Brigme attacks greg for 7 damage!
+greg's health is 3/10
+greg attacks Brigme for 4 damage!
+Brigme's health is 1/5
+Brigme attacks greg for 7 damage!
+greg's health is -4/10

@@ -1,0 +1,78 @@
+greg attacks Etbane for 4 damage!
+Etbane's health is 1/5
+Etbane attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Etbane for 4 damage!
+Etbane's health is -3/5
+Etbane is dead!
+Picking up...
+Morrid the green snakelethas the scent: scent: python
+Morrid the green snakelet is following the scent!
+Morrid attacks greg for 2 damage!
+greg's health is 5/10
+greg attacks Morrid for 4 damage!
+Morrid's health is 0/4
+Morrid is dead!
+greg attacks Alldtha for 1 damage!
+Alldtha's health is 5/6
+Alldtha attacks greg for 1 damage!
+greg's health is 4/10
+Alldtha the snail is confused!
+Alldtha attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Alldtha for 1 damage!
+Alldtha's health is 4/6
+greg attacks Alldtha for 1 damage!
+Alldtha's health is 3/6
+greg attacks Alldtha for 1 damage!
+Alldtha's health is 2/6
+Alldtha the snail has come to their senses!
+greg attacks Alldtha for 1 damage!
+Alldtha's health is 1/6
+Alldtha attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Alldtha for 1 damage!
+Alldtha's health is 0/6
+Alldtha is dead!
+Failed to gen mob
+Inchid the tarantula is hit by the fireball!
+Inchid's health is 1/4
+greg attacks Inchid for 4 damage!
+Inchid's health is -3/4
+Inchid is dead!
+Brigne the tarantula is hit by the lightning!
+Brigne's health is 0/5
+Brigne is dead!
+Failed to gen mob
+Failed to gen mob
+Failed to gen mob
+Origma the snailhas the scent: scent: python
+Origma the snailhas the scent: scent: python
+Origma the snail is following the scent!
+Origma the snailhas the scent: scent: python
+Origma the snailhas the scent: scent: python
+Origma the snail is following the scent!
+Origma the snailhas the scent: scent: python
+Origma the snailhas the scent: scent: python
+Origma the snail is following the scent!
+Origma the snailhas the scent: scent: python
+Origma the snail is following the scent!
+Origma the snailhas the scent: scent: python
+Origma the snail is following the scent!
+Origma the snailhas the scent: scent: python
+Origma the snailhas the scent: scent: python
+Origma the snail is following the scent!
+Origma the snailhas the scent: scent: python
+Origma the snailhas the scent: scent: python
+Origma the snail is following the scent!
+Origma the snailhas the scent: scent: python
+Origma the snailhas the scent: scent: python
+Origma the snailhas the scent: scent: python
+Origma the snail is following the scent!
+Origma attacks greg for 1 damage!
+greg's health is 1/10
+Failed to gen mob
+Picking up...
++3 Shield is equipped
+Creigai attacks greg for 5 damage!
+greg's health is -4/10

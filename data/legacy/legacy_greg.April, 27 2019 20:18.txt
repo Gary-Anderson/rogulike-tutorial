@@ -1,0 +1,16 @@
+Allaid attacks greg for 2 damage!
+greg's health is 8/10
+Allaid attacks greg for 2 damage!
+greg's health is 6/10
+greg attacks Allaid for 4 damage!
+Allaid's health is 0/4
+Allaid is dead!
+Morrth attacks greg for 3 damage!
+greg's health is 3/10
+greg attacks Morrth for 4 damage!
+Morrth's health is 0/4
+Morrth is dead!
+greg attacks Crelor for 4 damage!
+Crelor's health is 1/5
+Crelor attacks greg for 3 damage!
+greg's health is 0/10

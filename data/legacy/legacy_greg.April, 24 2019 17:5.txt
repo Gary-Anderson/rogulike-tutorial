@@ -1,0 +1,41 @@
+Picking up...
++2 Shield is equipped
+Beotha attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Beotha for 4 damage!
+Beotha's health is 2/6
+Beotha attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Beotha for 4 damage!
+Beotha's health is -2/6
+Beotha is dead!
+Picking up...
+greg the python is healed for 2
+greg the python health is now 6/10
+Picking up...
+Morrne attacks greg for 3 damage!
+greg's health is 3/10
+greg attacks Morrne for 4 damage!
+Morrne's health is 4/8
+Morrne attacks greg for 3 damage!
+greg's health is 0/10
+Enboai the cobra is hit by the lightning!
+Enboai's health is 5/10
+greg attacks Enboai for 4 damage!
+Enboai's health is 1/10
+Enboai attacks greg for 6 damage!
+greg's health is 4/10
+greg attacks Enboai for 4 damage!
+Enboai's health is -3/10
+Enboai is dead!
+Picking up...
+greg the python is healed for 3
+greg the python health is now 7/10
+greg attacks Brigan for 4 damage!
+Brigan's health is 5/9
+Brigan attacks greg for 4 damage!
+greg's health is 3/10
+greg attacks Brigan for 4 damage!
+Brigan's health is 1/9
+Brigan attacks greg for 4 damage!
+greg's health is -1/10

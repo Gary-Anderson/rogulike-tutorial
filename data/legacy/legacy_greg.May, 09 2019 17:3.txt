@@ -1,0 +1,14 @@
+Brigtha attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Brigtha for 4 damage!
+Brigtha's health is 4/8
+Brigtha attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Brigtha for 4 damage!
+Brigtha's health is 0/8
+Brigtha is dead!
+Brigid attacks greg for 1 damage!
+greg's health is 1/10
+Picking up...
+Endtha attacks greg for 1 damage!
+greg's health is 0/10

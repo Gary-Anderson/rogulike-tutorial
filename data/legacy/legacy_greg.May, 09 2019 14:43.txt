@@ -1,0 +1,233 @@
+Morrda attacks greg for 1 damage!
+greg's health is 9/10
+Morrda attacks greg for 1 damage!
+greg's health is 8/10
+Picking up...
+Morrda attacks greg for 1 damage!
+greg's health is 7/10
++3 Shield is equipped
+Morrda the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrda for 1 damage!
+Morrda's health is 7/8
+Morrda the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrda for 1 damage!
+Morrda's health is 6/8
+Morrda the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrda for 1 damage!
+Morrda's health is 5/8
+Morrda the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrda for 1 damage!
+Morrda's health is 4/8
+Morrda the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrda for 1 damage!
+Morrda's health is 3/8
+Morrda the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrda for 1 damage!
+Morrda's health is 2/8
+Morrda the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrda for 1 damage!
+Morrda's health is 1/8
+Morrda the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrda for 1 damage!
+Morrda's health is 0/8
+Morrda is dead!
+greg attacks Ciboai for 2 damage!
+Ciboai's health is 4/6
+Ciboai the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Ciboai for 2 damage!
+Ciboai's health is 2/6
+Ciboai the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Ciboai for 2 damage!
+Ciboai's health is 0/6
+Ciboai is dead!
+Failed to gen mob
+Iochan the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Iochan for 2 damage!
+Iochan's health is 5/7
+Iochan the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Iochan for 2 damage!
+Iochan's health is 3/7
+Iochan the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Iochan for 2 damage!
+Iochan's health is 1/7
+Iochan the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Iochan for 2 damage!
+Iochan's health is -1/7
+Iochan is dead!
+Picking up...
+greg attacks Brigod for 4 damage!
+Brigod's health is 1/5
+Brigod the alchemist's attack does no damage!
+greg's health is 7/10
+greg attacks Brigod for 4 damage!
+Brigod's health is -3/5
+Brigod is dead!
+Picking up...
+greg attacks Morrtha for 4 damage!
+Morrtha's health is 0/4
+Morrtha is dead!
+greg attacks Morrai for 4 damage!
+Morrai's health is 2/6
+Morrai the green snake's attack does no damage!
+greg's health is 7/10
+greg attacks Morrai for 4 damage!
+Morrai's health is -2/6
+Morrai is dead!
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anaconda is following the scent!
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anaconda is following the scent!
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anaconda is following the scent!
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anaconda is following the scent!
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anaconda is following the scent!
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anacondahas the scent: scent: python
+Agnoma the snakelet anaconda is following the scent!
+greg the python's attack does no damage!
+Enboai's health is 8/8
+Agnoma attacks greg for 1 damage!
+greg's health is 6/10
+Enboai the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Agnoma for 4 damage!
+Agnoma's health is 5/9
+Agnoma attacks greg for 1 damage!
+greg's health is 5/10
+Enboai the snail's attack does no damage!
+greg's health is 5/10
+greg attacks Agnoma for 4 damage!
+Agnoma's health is 1/9
+Agnoma attacks greg for 1 damage!
+greg's health is 4/10
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg attacks Agnoma for 4 damage!
+Agnoma's health is -3/9
+Agnoma is dead!
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Enboai's health is 8/8
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Enboai's health is 8/8
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Enboai's health is 8/8
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Enboai's health is 8/8
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Enboai's health is 8/8
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Enboai's health is 8/8
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Enboai's health is 8/8
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+Enboai the snail's attack does no damage!
+greg's health is 4/10
+greg attacks Delthach for 4 damage!
+Delthach's health is 1/5
+Delthach the alchemist's attack does no damage!
+greg's health is 4/10
+greg attacks Delthach for 4 damage!
+Delthach's health is -3/5
+Delthach is dead!
+Picking up...
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Agnoda's health is 6/6
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Agnoda's health is 6/6
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Agnoda's health is 6/6
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Agnoda's health is 6/6
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Eoboai the snailhas the scent: scent: python
+Eoboai the snailhas the scent: scent: python
+Eoboai the snailhas the scent: scent: python
+Eoboai the snailhas the scent: scent: python
+Eoboai the snail is following the scent!
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Eoboai the snailhas the scent: scent: python
+Eoboai the snailhas the scent: scent: python
+Eoboai the snailhas the scent: scent: python
+Eoboai the snail is following the scent!
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+greg attacks Iochne for 4 damage!
+Iochne's health is 1/5
+Agnoda the snail's attack does no damage!
+greg's health is 4/10
+Iochne attacks greg for 5 damage!
+greg's health is -1/10

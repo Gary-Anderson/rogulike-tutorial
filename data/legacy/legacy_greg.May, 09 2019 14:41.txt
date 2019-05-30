@@ -1,0 +1,68 @@
+Failed to gen mob
+Morriu attacks greg for 1 damage!
+greg's health is 9/10
+Brigan attacks greg for 3 damage!
+greg's health is 6/10
+Morriu attacks Brigan for 1 damage!
+Brigan's health is 3/4
+greg attacks Brigan for 4 damage!
+Brigan's health is -1/4
+Brigan is dead!
+Morriu attacks greg for 1 damage!
+greg's health is 5/10
+Morriu attacks greg for 1 damage!
+greg's health is 4/10
+Morriu attacks greg for 1 damage!
+greg's health is 3/10
+Picking up...
+Morriu attacks greg for 1 damage!
+greg's health is 2/10
+Agnotha attacks greg for 1 damage!
+greg's health is 1/10
+Morriu attacks greg for 1 damage!
+greg's health is 0/10
+Failed to gen mob
+greg attacks Brigchid for 4 damage!
+Brigchid's health is 3/7
+Brigchid attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Brigchid for 4 damage!
+Brigchid's health is -1/7
+Brigchid is dead!
+Agnodme the snail is hit by the lightning!
+Agnodme's health is 3/8
+greg attacks Agnodme for 1 damage!
+Agnodme's health is 2/8
+Agnodme attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Agnodme for 1 damage!
+Agnodme's health is 1/8
+Agnodme attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Agnodme for 1 damage!
+Agnodme's health is 0/8
+Agnodme is dead!
+Picking up...
+Failed to gen mob
+Etigme the snailhas the scent: scent: python
+Etigme the snailhas the scent: scent: python
+Etigme the snailhas the scent: scent: python
+Etigme the snail is following the scent!
+greg attacks Morrdan for 4 damage!
+Morrdan's health is 1/5
+Morrdan attacks greg for 2 damage!
+greg's health is 2/10
+greg attacks Morrdan for 4 damage!
+Morrdan's health is -3/5
+Morrdan is dead!
+Etigme attacks greg for 1 damage!
+greg's health is 1/10
+Etigme the snail is confused!
+greg attacks Etigme for 1 damage!
+Etigme's health is 6/7
+greg attacks Etigme for 1 damage!
+Etigme's health is 5/7
+greg attacks Etigme for 1 damage!
+Etigme's health is 4/7
+Etigme attacks greg for 1 damage!
+greg's health is 0/10

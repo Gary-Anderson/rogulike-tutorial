@@ -1,0 +1,50 @@
+Agnoan attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Agnoan for 4 damage!
+Agnoan's health is 3/7
+Agnoan attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Agnoan for 4 damage!
+Agnoan's health is -1/7
+Agnoan is dead!
+Picking up...
+Picking up...
+greg the python is healed for 3
+greg the python health is now 7/10
+Agnoda attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Agnoda for 4 damage!
+Agnoda's health is 0/4
+Agnoda is dead!
+Picking up...
+Picking up...
+greg attacks Erigda for 4 damage!
+Erigda's health is -2/2
+Erigda is dead!
+Picking up...
+greg the python is healed for 1
+greg the python health is now 5/10
+greg the python is healed for 1
+greg the python health is now 6/10
+greg attacks Morrma for 4 damage!
+Morrma's health is 3/7
+Morrma attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Morrma for 4 damage!
+Morrma's health is -1/7
+Morrma is dead!
+Picking up...
+greg the python is healed for 2
+greg the python health is now 4/10
+greg attacks Aenariu for 4 damage!
+Aenariu's health is 0/4
+Aenariu is dead!
+Picking up...
+greg the python is healed for 1
+greg the python health is now 5/10
+Morrda attacks greg for 3 damage!
+greg's health is 2/10
+greg attacks Morrda for 4 damage!
+Morrda's health is 4/8
+Morrda attacks greg for 3 damage!
+greg's health is -1/10

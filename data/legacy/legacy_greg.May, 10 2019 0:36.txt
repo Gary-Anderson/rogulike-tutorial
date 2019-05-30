@@ -1,0 +1,129 @@
+Picking up...
+Brigne attacks greg for 2 damage!
+greg's health is 8/10
+Origai attacks greg for 1 damage!
+greg's health is 7/10
++3 Shield is equipped
+greg attacks Brigne for 4 damage!
+Brigne's health is 0/4
+Brigne is dead!
+Origai the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Origai for 2 damage!
+Origai's health is 3/5
+Origai the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Origai for 2 damage!
+Origai's health is 1/5
+Origai the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Origai for 2 damage!
+Origai's health is -1/5
+Origai is dead!
+Agnona the green snake's attack does no damage!
+greg's health is 7/10
+greg attacks Agnona for 4 damage!
+Agnona's health is 2/6
+Agnona the green snake's attack does no damage!
+greg's health is 7/10
+greg attacks Agnona for 4 damage!
+Agnona's health is -2/6
+Agnona is dead!
+Morrdme the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrdme for 1 damage!
+Morrdme's health is 4/5
+Morrdme the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrdme for 1 damage!
+Morrdme's health is 3/5
+Morrdme the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrdme for 1 damage!
+Morrdme's health is 2/5
+Morrdme the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrdme for 1 damage!
+Morrdme's health is 1/5
+Morrdme the snail's attack does no damage!
+greg's health is 7/10
+greg attacks Morrdme for 1 damage!
+Morrdme's health is 0/5
+Morrdme is dead!
+Picking up...
++1 Sword is equipped
+Elathach the alchemist's attack does no damage!
+greg's health is 7/10
+greg attacks Elathach for 5 damage!
+Elathach's health is 0/5
+Elathach is dead!
+Picking up...
+greg attacks Agnoan for 5 damage!
+Agnoan's health is 2/7
+Agnoan attacks greg for 1 damage!
+greg's health is 6/10
+Endthach the alchemist's attack does no damage!
+greg's health is 6/10
+greg attacks Agnoan for 5 damage!
+Agnoan's health is -3/7
+Agnoan is dead!
+Endthach the alchemist's attack does no damage!
+greg's health is 6/10
+greg attacks Endthach for 5 damage!
+Endthach's health is -1/4
+Endthach is dead!
+Picking up...
+greg attacks Morrod for 5 damage!
+Morrod's health is 0/5
+Morrod is dead!
+greg attacks Inchna for 5 damage!
+Inchna's health is -1/4
+Inchna is dead!
+Picking up...
+Cichme the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Cichme for 3 damage!
+Cichme's health is 2/5
+Cichme the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Cichme for 3 damage!
+Cichme's health is -1/5
+Cichme is dead!
+Aentha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Aentha for 1 damage!
+Aentha's health is 5/6
+Aentha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Aentha for 1 damage!
+Aentha's health is 4/6
+Aentha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Aentha for 1 damage!
+Aentha's health is 3/6
+Aentha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Aentha for 1 damage!
+Aentha's health is 2/6
+Aentha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Aentha for 1 damage!
+Aentha's health is 1/6
+Aentha the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Aentha for 1 damage!
+Aentha's health is 0/6
+Aentha is dead!
+Failed to gen mob
+Delgus the alchemist's attack does no damage!
+greg's health is 6/10
+Delgus the alchemist's attack does no damage!
+greg's health is 6/10
+Delgus the alchemist's attack does no damage!
+greg's health is 6/10
+greg attacks Delgus for 5 damage!
+Delgus's health is 0/5
+Delgus is dead!
+Picking up...
+Nemboda attacks greg for 6 damage!
+greg's health is 0/10

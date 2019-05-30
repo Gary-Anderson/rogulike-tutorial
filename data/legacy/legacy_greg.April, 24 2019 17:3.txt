@@ -1,0 +1,22 @@
+Morran attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Morran for 4 damage!
+Morran's health is 0/4
+Morran is dead!
+Picking up...
+Allarma attacks greg for 2 damage!
+greg's health is 7/10
+greg attacks Allarma for 4 damage!
+Allarma's health is 1/5
+Allarma attacks greg for 2 damage!
+greg's health is 5/10
+greg attacks Allarma for 4 damage!
+Allarma's health is -3/5
+Allarma is dead!
+Picking up...
+Agnona attacks greg for 3 damage!
+greg's health is 2/10
+greg attacks Agnona for 4 damage!
+Agnona's health is 1/5
+Agnona attacks greg for 3 damage!
+greg's health is -1/10

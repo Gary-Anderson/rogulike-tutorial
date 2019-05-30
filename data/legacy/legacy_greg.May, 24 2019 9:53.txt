@@ -1,0 +1,99 @@
+Failed to gen mob
+Nubaai attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Nubaai for 2 damage!
+Nubaai's health is 5/7
+Nubaai attacks greg for 1 damage!
+greg's health is 8/10
+greg attacks Nubaai for 2 damage!
+Nubaai's health is 3/7
+Nubaai attacks greg for 1 damage!
+greg's health is 7/10
+greg attacks Nubaai for 2 damage!
+Nubaai's health is 1/7
+Nubaai attacks greg for 1 damage!
+greg's health is 6/10
+greg attacks Nubaai for 2 damage!
+Nubaai's health is -1/7
+Nubaai is dead!
+greg the python's attack does no damage!
+Inchne's health is 5/5
+Inchne attacks greg for 1 damage!
+greg's health is 5/10
+greg the python's attack does no damage!
+Inchne's health is 5/5
+Inchne attacks greg for 1 damage!
+greg's health is 4/10
+greg the python's attack does no damage!
+Inchne's health is 5/5
+Inchne attacks greg for 1 damage!
+greg's health is 3/10
+greg the python's attack does no damage!
+Inchne's health is 5/5
+Inchne attacks greg for 1 damage!
+greg's health is 2/10
+Inchne attacks greg for 1 damage!
+greg's health is 1/10
+Picking up...
+Inchne attacks greg for 1 damage!
+greg's health is 0/10
+greg attacks Aenboiu for 4 damage!
+Aenboiu's health is 1/5
+Aenboiu attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Aenboiu for 4 damage!
+Aenboiu's health is -3/5
+Aenboiu is dead!
+Morrbama the snailhas the scent: scent: python
+Morrbama the snailhas the scent: scent: python
+Morrbama the snail is following the scent!
+Morrbama the snailhas the scent: scent: python
+Morrbama the snail is following the scent!
+Morrbama the snailhas the scent: scent: python
+Morrbama the snailhas the scent: scent: python
+Morrbama the snail is following the scent!
+Morrbama attacks greg for 1 damage!
+greg's health is 6/10
+Morrbama attacks greg for 1 damage!
+greg's health is 5/10
+Picking up...
+Morrbama attacks greg for 1 damage!
+greg's health is 4/10
+Deltha attacks greg for 1 damage!
+greg's health is 3/10
++1 Shield is equipped
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+Morrbama the snail's attack does no damage!
+greg's health is 3/10
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+Morrbama the snail's attack does no damage!
+greg's health is 3/10
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+greg attacks Orchna for 4 damage!
+Orchna's health is 0/4
+Orchna is dead!
+Morrbama the snail's attack does no damage!
+greg's health is 3/10
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+Morrbama the snail's attack does no damage!
+greg's health is 3/10
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+Morrbama the snail's attack does no damage!
+greg's health is 3/10
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+Deltha the snail's attack does no damage!
+greg's health is 3/10
+greg attacks Beodne for 4 damage!
+Beodne's health is 1/5
+Beodne attacks greg for 7 damage!
+greg's health is -4/10

@@ -1,0 +1,16 @@
+greg attacks Allain for 4 damage!
+Allain's health is 0/4
+Allain is dead!
+Picking up...
+Briglam attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Briglam for 4 damage!
+Briglam's health is 0/4
+Briglam is dead!
+Picking up...
+Brigai attacks greg for 5 damage!
+greg's health is 2/10
+greg attacks Brigai for 4 damage!
+Brigai's health is 1/5
+Brigai attacks greg for 5 damage!
+greg's health is -3/10

@@ -1,0 +1,70 @@
+Failed to gen mob
+greg attacks Delbaid for 2 damage!
+Delbaid's health is 5/7
+Delbaid attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Delbaid for 2 damage!
+Delbaid's health is 3/7
+Delbaid attacks greg for 1 damage!
+greg's health is 8/10
+greg attacks Delbaid for 2 damage!
+Delbaid's health is 1/7
+Delbaid attacks greg for 1 damage!
+greg's health is 7/10
+greg attacks Delbaid for 2 damage!
+Delbaid's health is -1/7
+Delbaid is dead!
+greg the python's attack does no damage!
+Morran's health is 8/8
+Morran attacks greg for 1 damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Morran's health is 8/8
+Morran attacks greg for 1 damage!
+greg's health is 5/10
+greg the python's attack does no damage!
+Morran's health is 8/8
+Morran attacks greg for 1 damage!
+greg's health is 4/10
+Morran the snailhas the scent: scent: python
+Morran the snail is following the scent!
+Morran the snailhas the scent: scent: python
+Morran the snailhas the scent: scent: python
+Morran the snail is following the scent!
+Nembane attacks greg for 1 damage!
+greg's health is 3/10
+Nembane attacks greg for 1 damage!
+greg's health is 2/10
+Morran the green snake is hit by the lightning!
+Morran's health is 2/7
+greg attacks Morran for 4 damage!
+Morran's health is -2/7
+Morran is dead!
+Picking up...
++1 Shield is equipped
+greg attacks Beolor for 4 damage!
+Beolor's health is 0/4
+Beolor is dead!
+greg attacks Brigai for 4 damage!
+Brigai's health is 0/4
+Brigai is dead!
+Morrtha the green snakelet is confused!
+greg attacks Morrtha for 4 damage!
+Morrtha's health is 1/5
+greg attacks Morrtha for 4 damage!
+Morrtha's health is -3/5
+Morrtha is dead!
+Agnome the anacondahas the scent: scent: python
+Agnome the anacondahas the scent: scent: python
+Agnome the anaconda is following the scent!
+Agnome the anacondahas the scent: scent: python
+Agnome the anacondahas the scent: scent: python
+Agnome the anaconda is following the scent!
+Agnome the anacondahas the scent: scent: python
+Agnome the anaconda is following the scent!
+Agnome the anacondahas the scent: scent: python
+Agnome the anacondahas the scent: scent: python
+Agnome the anacondahas the scent: scent: python
+Agnome the anaconda is following the scent!
+Agnome attacks greg for 4 damage!
+greg's health is -2/10

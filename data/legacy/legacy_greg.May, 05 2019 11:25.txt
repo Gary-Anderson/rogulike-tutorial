@@ -1,0 +1,7 @@
+Failed to gen mob
+Allbane attacks greg for 9 damage!
+greg's health is 1/10
+greg attacks Allbane for 4 damage!
+Allbane's health is 1/5
+Allbane attacks greg for 9 damage!
+greg's health is -8/10

@@ -1,0 +1,35 @@
+greg attacks Aenarna for 1 damage!
+Aenarna's health is 7/8
+Aenarna attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Aenarna for 1 damage!
+Aenarna's health is 6/8
+Aenarna attacks greg for 1 damage!
+greg's health is 8/10
+Aenarna attacks greg for 1 damage!
+greg's health is 7/10
+Picking up...
+Aenarna attacks greg for 1 damage!
+greg's health is 6/10
+greg attacks Aenarna for 1 damage!
+Aenarna's health is 5/8
+Aenarna attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Aenarna for 1 damage!
+Aenarna's health is 4/8
+Aenarna attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Aenarna for 1 damage!
+Aenarna's health is 3/8
+Aenarna attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Aenarna for 1 damage!
+Aenarna's health is 2/8
+Aenarna attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Aenarna for 1 damage!
+Aenarna's health is 1/8
+Aenarna attacks greg for 1 damage!
+greg's health is 1/10
+Aenarna attacks greg for 1 damage!
+greg's health is 0/10

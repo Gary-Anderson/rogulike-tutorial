@@ -1,0 +1,196 @@
+Failed to gen mob
+greg attacks Orbama for 4 damage!
+Orbama's health is 0/4
+Orbama is dead!
+greg the python's attack does no damage!
+Agnona's health is 6/6
+Agnona attacks greg for 1 damage!
+greg's health is 9/10
+Agnona attacks greg for 1 damage!
+greg's health is 8/10
+Agnona attacks greg for 1 damage!
+greg's health is 7/10
+Picking up...
+Agnona attacks greg for 1 damage!
+greg's health is 6/10
++1 Shield is equipped
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+Morriu the snail's attack does no damage!
+greg's health is 6/10
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+Morriu the snail's attack does no damage!
+greg's health is 6/10
+Morriu the snail's attack does no damage!
+greg's health is 6/10
+Morriu the snailhas the scent: scent: python
+Morriu the snailhas the scent: scent: python
+Morriu the snail is following the scent!
+Agnona the snail is hit by the lightning!
+Agnona's health is 1/6
+Morriu the snail is hit by the lightning!
+Morriu's health is 2/7
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Agnona's health is 1/6
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Agnona's health is 1/6
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Agnona's health is 1/6
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Agnona's health is 1/6
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Agnona's health is 1/6
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+Agnona the snail's attack does no damage!
+greg's health is 6/10
+Morriu the snail's attack does no damage!
+greg's health is 6/10
+Morrid the snail's attack does no damage!
+greg's health is 6/10
+Morrid the snail's attack does no damage!
+greg's health is 6/10
+Morrid the snail's attack does no damage!
+greg's health is 6/10
+Morrid the snail's attack does no damage!
+greg's health is 6/10
+Morrid the snail's attack does no damage!
+greg's health is 6/10
+Morrid the snail is hit by the lightning!
+Morrid's health is 1/6
+Agnona the snail is hit by the lightning!
+Agnona's health is -4/6
+Agnona is dead!
+Morriu the snail is hit by the lightning!
+Morriu's health is -3/7
+Morriu is dead!
+Morrid the snail's attack does no damage!
+greg's health is 6/10
+greg attacks Morrid for 1 damage!
+Morrid's health is 0/6
+Morrid is dead!
+Failed to gen mob
+Picking up...
++1 Shield is unequipped
++3 Shield is equipped
+greg attacks Nemthach for 4 damage!
+Nemthach's health is 1/5
+Nemthach the alchemist's attack does no damage!
+greg's health is 6/10
+greg attacks Nemthach for 4 damage!
+Nemthach's health is -3/5
+Nemthach is dead!
+Erartha the snailhas the scent: scent: python
+Erartha the snail is following the scent!
+greg the python's attack does no damage!
+Erartha's health is 7/7
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Erartha's health is 7/7
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Picking up...
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail is hit by the fireball!
+Erartha's health is 4/7
+cast fireball
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+greg the python's attack does no damage!
+Erartha's health is 4/7
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Erartha the snail's attack does no damage!
+greg's health is 6/10
+Brigid attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Brigid for 4 damage!
+Brigid's health is 0/4
+Brigid is dead!
+Erartha the snail's attack does no damage!
+greg's health is 2/10
+Erartha the snail's attack does no damage!
+greg's health is 2/10
+Erartha the snail's attack does no damage!
+greg's health is 2/10
+greg attacks Etbada for 4 damage!
+Etbada's health is 0/4
+Etbada is dead!
+Erartha the snail's attack does no damage!
+greg's health is 2/10
+Erartha the snail's attack does no damage!
+greg's health is 2/10
+Erartha the snail's attack does no damage!
+greg's health is 2/10
+Erartha the snail's attack does no damage!
+greg's health is 2/10
+Erartha the snail's attack does no damage!
+greg's health is 2/10
+Failed to gen mob
+greg attacks Ogbogus for 4 damage!
+Ogbogus's health is 0/4
+Ogbogus is dead!
+Picking up...
+greg the python's mana is healed for 7
+greg the python MP is now 8/11
+cast heal mana
+greg attacks Morrma for 4 damage!
+Morrma's health is 1/5
+Morrma the neonates anaconda's attack does no damage!
+greg's health is 2/10
+greg attacks Morrma for 4 damage!
+Morrma's health is -3/5
+Morrma is dead!
+Failed to gen mob
+Failed to gen mob
+Deligthach the alchemist's attack does no damage!
+greg's health is 2/10
+greg attacks Deligthach for 4 damage!
+Deligthach's health is 1/5
+Deligthach the alchemist's attack does no damage!
+greg's health is 2/10
+greg attacks Deligthach for 4 damage!
+Deligthach's health is -3/5
+Deligthach is dead!
+Picking up...
+greg attacks Delarna for 4 damage!
+Delarna's health is 1/5
+Delarna attacks greg for 3 damage!
+greg's health is -1/10

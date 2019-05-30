@@ -1,0 +1,57 @@
+Daneth attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Daneth for 4 damage!
+Daneth's health is 1/5
+Daneth attacks greg for 2 damage!
+greg's health is 6/10
+greg attacks Daneth for 4 damage!
+Daneth's health is -3/5
+Daneth is dead!
+greg attacks Morrtha for 4 damage!
+Morrtha's health is 0/4
+Morrtha is dead!
+greg attacks Iodtha for 4 damage!
+Iodtha's health is 0/4
+Iodtha is dead!
+Picking up...
++2 Sword is equipped
+greg attacks Beotha for 6 damage!
+Beotha's health is -2/4
+Beotha is dead!
+Nemarai attacks greg for 4 damage!
+greg's health is 2/10
+Nemarai the anaconda is confused!
+greg attacks Nemarai for 6 damage!
+Nemarai's health is 4/10
+greg attacks Nemarai for 6 damage!
+Nemarai's health is -2/10
+Nemarai is dead!
+greg attacks Nemtha for 6 damage!
+Nemtha's health is -3/3
+Nemtha is dead!
+greg attacks Nemtha for 6 damage!
+Nemtha's health is -2/4
+Nemtha is dead!
+greg attacks Ogariu for 6 damage!
+Ogariu's health is 4/10
+Ogariu attacks greg for 3 damage!
+greg's health is -1/10
+Picking up...
+greg attacks Allariu for 4 damage!
+Allariu's health is 5/9
+Allariu attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Allariu for 4 damage!
+Allariu's health is 1/9
+Allariu attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Allariu for 4 damage!
+Allariu's health is -3/9
+Allariu is dead!
+greg attacks Origda for 4 damage!
+Origda's health is 0/4
+Origda is dead!
+greg attacks Creatha for 4 damage!
+Creatha's health is 4/8
+Creatha attacks greg for 3 damage!
+greg's health is -1/10

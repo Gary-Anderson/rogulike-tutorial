@@ -1,0 +1,20 @@
+greg attacks Alligai for 4 damage!
+Alligai's health is 3/7
+Alligai attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Alligai for 4 damage!
+Alligai's health is -1/7
+Alligai is dead!
+greg attacks Beogus for 4 damage!
+Beogus's health is 1/5
+Beogus attacks greg for 2 damage!
+greg's health is 5/10
+greg attacks Beogus for 4 damage!
+Beogus's health is -3/5
+Beogus is dead!
+Agnoma attacks greg for 4 damage!
+greg's health is 1/10
+greg attacks Agnoma for 4 damage!
+Agnoma's health is 5/9
+Agnoma attacks greg for 4 damage!
+greg's health is -3/10

@@ -1,0 +1,61 @@
+greg attacks Badtha for 4 damage!
+Badtha's health is 1/5
+Badtha attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Badtha for 4 damage!
+Badtha's health is -3/5
+Badtha is dead!
+Picking up...
++2 Sword is equipped
+greg attacks Elatha for 2 damage!
+Elatha's health is 4/6
+Elatha attacks greg for 1 damage!
+greg's health is 6/10
+greg attacks Elatha for 2 damage!
+Elatha's health is 2/6
+Elatha attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Elatha for 2 damage!
+Elatha's health is 0/6
+Elatha is dead!
+greg attacks Crebaiu for 3 damage!
+Crebaiu's health is 4/7
+Crebaiu attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Crebaiu for 3 damage!
+Crebaiu's health is 1/7
+Crebaiu attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Crebaiu for 3 damage!
+Crebaiu's health is -2/7
+Crebaiu is dead!
+Failed to gen mob
+Failed to gen mob
+Picking up...
+That slot is full
++2 Sword is unequipped
++3 Sword is equipped
+Item dropped
+Item dropped
+Picking up...
+greg attacks Agnoda for 7 damage!
+Agnoda's health is -3/4
+Agnoda is dead!
+Picking up...
+greg attacks Alltha for 7 damage!
+Alltha's health is -3/4
+Alltha is dead!
+greg attacks Brigna for 3 damage!
+Brigna's health is 3/6
+Brigna attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Brigna for 3 damage!
+Brigna's health is 0/6
+Brigna is dead!
+Picking up...
++1 Shield is equipped
+greg attacks Morran for 7 damage!
+Morran's health is -3/4
+Morran is dead!
+Agnoda attacks greg for 2 damage!
+greg's health is 0/10

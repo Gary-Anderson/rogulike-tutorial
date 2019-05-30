@@ -1,0 +1,8 @@
+Brigan attacks greg for 3 damage!
+greg's health is 7/10
+Brigan attacks greg for 3 damage!
+greg's health is 4/10
+Brigan attacks greg for 3 damage!
+greg's health is 1/10
+Brigan attacks greg for 3 damage!
+greg's health is -2/10

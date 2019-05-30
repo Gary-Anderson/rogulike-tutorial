@@ -1,0 +1,17 @@
+Brigme attacks greg for 3 damage!
+greg's health is 7/10
+Brigme attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Brigme for 4 damage!
+Brigme's health is -2/2
+Brigme is dead!
+Picking up...
+greg the python is healed for 1
+greg the python health is now 5/10
+Picking up...
+Cretha attacks greg for 4 damage!
+greg's health is 1/10
+greg attacks Cretha for 4 damage!
+Cretha's health is 4/8
+Cretha attacks greg for 4 damage!
+greg's health is -3/10

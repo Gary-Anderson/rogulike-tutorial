@@ -1,0 +1,60 @@
+Failed to gen mob
+greg attacks Elaboma for 2 damage!
+Elaboma's health is 3/5
+Elaboma attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Elaboma for 2 damage!
+Elaboma's health is 1/5
+Crearai attacks greg for 1 damage!
+greg's health is 8/10
+Elaboma attacks greg for 1 damage!
+greg's health is 7/10
+greg attacks Elaboma for 2 damage!
+Elaboma's health is -1/5
+Elaboma is dead!
+Crearai attacks greg for 1 damage!
+greg's health is 6/10
+greg attacks Crearai for 2 damage!
+Crearai's health is 6/8
+Crearai attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Crearai for 2 damage!
+Crearai's health is 4/8
+Crearai attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Crearai for 2 damage!
+Crearai's health is 2/8
+Crearai attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Crearai for 2 damage!
+Crearai's health is 0/8
+Crearai is dead!
+Brigtha attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Brigtha for 4 damage!
+Brigtha's health is 0/4
+Brigtha is dead!
+Failed to gen mob
+Failed to gen mob
+Picking up...
++3 Sword is equipped
+greg attacks Agnome for 7 damage!
+Agnome's health is -2/5
+Agnome is dead!
+Picking up...
+greg attacks Tachgus for 7 damage!
+Tachgus's health is -3/4
+Tachgus is dead!
+Picking up...
+Failed to gen mob
+greg attacks Brigane for 4 damage!
+Brigane's health is 2/6
+Brigane attacks greg for 1 damage!
+greg's health is 1/10
+greg attacks Brigane for 4 damage!
+Brigane's health is -2/6
+Brigane is dead!
+greg attacks Etchtha for 4 damage!
+Etchtha's health is 2/6
+Etchtha attacks greg for 1 damage!
+greg's health is 0/10

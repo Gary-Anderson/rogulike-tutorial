@@ -1,0 +1,10 @@
+Brigme attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Brigme for 4 damage!
+Brigme's health is 5/9
+Brigme attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Brigme for 4 damage!
+Brigme's health is 1/9
+Brigme attacks greg for 4 damage!
+greg's health is -2/10

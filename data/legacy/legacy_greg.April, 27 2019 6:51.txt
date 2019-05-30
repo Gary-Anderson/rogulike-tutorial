@@ -1,0 +1,14 @@
+greg attacks Delaid for 4 damage!
+Delaid's health is 1/5
+Delaid attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Delaid for 4 damage!
+Delaid's health is -3/5
+Delaid is dead!
+Picking up...
+Elabotha attacks greg for 3 damage!
+greg's health is 4/10
+Elabotha attacks greg for 3 damage!
+greg's health is 1/10
+Elabotha attacks greg for 3 damage!
+greg's health is -2/10

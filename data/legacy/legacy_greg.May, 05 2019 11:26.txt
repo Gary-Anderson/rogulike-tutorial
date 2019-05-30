@@ -1,0 +1,24 @@
+Failed to gen mob
+Failed to gen mob
+Picking up...
+greg attacks Morrda for 4 damage!
+Morrda's health is -3/1
+Morrda is dead!
+greg attacks Morrma for 4 damage!
+Morrma's health is 0/4
+Morrma is dead!
+greg attacks Aenboid for 4 damage!
+Aenboid's health is 0/4
+Aenboid is dead!
+Failed to gen mob
+greg attacks Aendiu for 4 damage!
+Aendiu's health is 3/7
+Aendiu attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Aendiu for 4 damage!
+Aendiu's health is -1/7
+Aendiu is dead!
+greg attacks Elatha for 4 damage!
+Elatha's health is 1/5
+Elatha attacks greg for 7 damage!
+greg's health is -1/10

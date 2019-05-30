@@ -1,0 +1,52 @@
+Failed to gen mob
+Picking up...
+greg attacks Agnone for 4 damage!
+Agnone's health is 7/11
+Agnone attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Agnone for 4 damage!
+Agnone's health is 3/11
+Agnone attacks greg for 2 damage!
+greg's health is 6/10
+greg attacks Agnone for 4 damage!
+Agnone's health is -1/11
+Agnone is dead!
+greg attacks Agnona for 4 damage!
+Agnona's health is 7/11
+Agnona attacks greg for 3 damage!
+greg's health is 3/10
+greg attacks Agnona for 4 damage!
+Agnona's health is 3/11
+Agnona attacks greg for 3 damage!
+greg's health is 0/10
+greg attacks Baarda for 4 damage!
+Baarda's health is 5/9
+Baarda attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Baarda for 4 damage!
+Baarda's health is 1/9
+Baarda attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Baarda for 4 damage!
+Baarda's health is -3/9
+Baarda is dead!
+Picking up...
++1 Shield is equipped
+Cretha the snail's attack does no damage!
+greg's health is 2/10
+Cretha the snail's attack does no damage!
+greg's health is 2/10
+Cretha the snail's attack does no damage!
+greg's health is 2/10
+Cretha the snail's attack does no damage!
+greg's health is 2/10
+greg attacks Morrma for 4 damage!
+Morrma's health is -1/3
+Morrma is dead!
+Cretha the snail's attack does no damage!
+greg's health is 2/10
+Failed to gen mob
+greg attacks Morrtha for 4 damage!
+Morrtha's health is 1/5
+Morrtha attacks greg for 2 damage!
+greg's health is 0/10

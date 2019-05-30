@@ -1,0 +1,18 @@
+Failed to gen mob
+greg attacks Nembaai for 4 damage!
+Nembaai's health is 5/9
+Nembaai attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Nembaai for 4 damage!
+Nembaai's health is 1/9
+Nembaai attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Nembaai for 4 damage!
+Nembaai's health is -3/9
+Nembaai is dead!
+Brigid attacks greg for 2 damage!
+greg's health is 2/10
+greg attacks Brigid for 4 damage!
+Brigid's health is 1/5
+Brigid attacks greg for 2 damage!
+greg's health is 0/10

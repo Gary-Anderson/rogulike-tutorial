@@ -1,0 +1,51 @@
+Failed to gen mob
+Failed to gen mob
+Picking up...
+Picking up...
++1 Shield is equipped
+Failed to gen mob
+greg attacks Orartha for 4 damage!
+Orartha's health is 0/4
+Orartha is dead!
+Aenchiu the tarantula is hit by the lightning!
+Aenchiu's health is -1/4
+Aenchiu is dead!
+Picking up...
++1 Sword is equipped
+greg attacks Brigma for 5 damage!
+Brigma's health is 3/8
+Brigma attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Brigma for 5 damage!
+Brigma's health is -2/8
+Brigma is dead!
+Morrna attacks greg for 4 damage!
+greg's health is 4/10
+greg attacks Morrna for 5 damage!
+Morrna's health is 1/6
+Morrna attacks greg for 4 damage!
+greg's health is 0/10
+greg attacks Agnoid for 4 damage!
+Agnoid's health is 0/4
+Agnoid is dead!
+greg attacks Brigma for 4 damage!
+Brigma's health is 1/5
+Brigma attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Brigma for 4 damage!
+Brigma's health is -3/5
+Brigma is dead!
+greg attacks Morrne for 4 damage!
+Morrne's health is 3/7
+Morrne attacks greg for 3 damage!
+greg's health is 5/10
+greg attacks Morrne for 4 damage!
+Morrne's health is -1/7
+Morrne is dead!
+Morrne the tarantulahas the scent: scent: python
+Morrne the tarantula is following the scent!
+greg attacks Morrne for 4 damage!
+Morrne's health is 0/4
+Morrne is dead!
+Delchai attacks greg for 6 damage!
+greg's health is -1/10

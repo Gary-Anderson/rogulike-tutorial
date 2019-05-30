@@ -1,0 +1,78 @@
+Enigan attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Enigan for 2 damage!
+Enigan's health is 6/8
+Enigan attacks greg for 1 damage!
+greg's health is 8/10
+greg attacks Enigan for 2 damage!
+Enigan's health is 4/8
+Enigan attacks greg for 1 damage!
+greg's health is 7/10
+greg attacks Enigan for 2 damage!
+Enigan's health is 2/8
+Enigan attacks greg for 1 damage!
+greg's health is 6/10
+greg attacks Enigan for 2 damage!
+Enigan's health is 0/8
+Enigan is dead!
+Delchiu attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Delchiu for 1 damage!
+Delchiu's health is 5/6
+Delchiu attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Delchiu for 1 damage!
+Delchiu's health is 4/6
+Delchiu attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Delchiu for 1 damage!
+Delchiu's health is 3/6
+Delchiu attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Delchiu for 1 damage!
+Delchiu's health is 2/6
+Delchiu attacks greg for 1 damage!
+greg's health is 1/10
+greg attacks Delchiu for 1 damage!
+Delchiu's health is 1/6
+Delchiu attacks greg for 1 damage!
+greg's health is 0/10
+greg attacks Beotha for 2 damage!
+Beotha's health is 3/5
+Beotha attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Beotha for 2 damage!
+Beotha's health is 1/5
+Beotha attacks greg for 1 damage!
+greg's health is 8/10
+greg attacks Beotha for 2 damage!
+Beotha's health is -1/5
+Beotha is dead!
+greg attacks Aenigan for 4 damage!
+Aenigan's health is 1/5
+Aenigan attacks greg for 2 damage!
+greg's health is 6/10
+greg attacks Aenigan for 4 damage!
+Aenigan's health is -3/5
+Aenigan is dead!
+greg attacks Nemboma for 1 damage!
+Nemboma's health is 4/5
+Nemboma attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Nemboma for 1 damage!
+Nemboma's health is 3/5
+Nemboma attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Nemboma for 1 damage!
+Nemboma's health is 2/5
+Nemboma attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Nemboma for 1 damage!
+Nemboma's health is 1/5
+Nemboma attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Nemboma for 1 damage!
+Nemboma's health is 0/5
+Nemboma is dead!
+Brigiu attacks greg for 2 damage!
+greg's health is 0/10

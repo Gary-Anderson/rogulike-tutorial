@@ -1,0 +1,58 @@
+greg the python's attack does no damage!
+Nemdid's health is 6/6
+Nemdid attacks greg for 1 damage!
+greg's health is 9/10
+greg the python's attack does no damage!
+Nemdid's health is 6/6
+Nemdid attacks greg for 1 damage!
+greg's health is 8/10
+greg the python's attack does no damage!
+Nemdid's health is 6/6
+Nemdid attacks greg for 1 damage!
+greg's health is 7/10
+Nemdid attacks greg for 1 damage!
+greg's health is 6/10
+Brigiu attacks greg for 3 damage!
+greg's health is 3/10
+greg attacks Brigiu for 4 damage!
+Brigiu's health is 1/5
+Nemdid attacks greg for 1 damage!
+greg's health is 2/10
+Brigiu attacks greg for 3 damage!
+greg's health is -1/10
+Allbatha the green snakelethas the scent: scent: python
+Allbatha the green snakelet is following the scent!
+greg the python's attack does no damage!
+Iobaan's health is 6/6
+Iobaan attacks greg for 1 damage!
+greg's health is 9/10
+Allbatha attacks greg for 3 damage!
+greg's health is 6/10
+greg attacks Allbatha for 4 damage!
+Allbatha's health is 0/4
+Allbatha is dead!
+Iobaan attacks greg for 1 damage!
+greg's health is 5/10
+Picking up...
+Iobaan attacks greg for 1 damage!
+greg's health is 4/10
+Iobaan attacks greg for 1 damage!
+greg's health is 3/10
+Brigdda the green snake's attack does no damage!
+Iobaan's health is 6/6
+Picking up...
+Iobaan attacks greg for 1 damage!
+greg's health is 2/10
++1 Sword is equipped
+greg attacks Iobaan for 1 damage!
+Iobaan's health is 5/6
+Brigdda the green snake's attack does no damage!
+Iobaan's health is 5/6
+Iobaan attacks greg for 1 damage!
+greg's health is 1/10
+greg attacks Iobaan for 1 damage!
+Iobaan's health is 4/6
+Brigdda the green snake's attack does no damage!
+Iobaan's health is 4/6
+Iobaan attacks greg for 1 damage!
+greg's health is 0/10

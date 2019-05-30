@@ -1,0 +1,8 @@
+greg attacks Danbada for 4 damage!
+Danbada's health is 7/11
+Danbada attacks greg for 5 damage!
+greg's health is 5/10
+greg attacks Danbada for 4 damage!
+Danbada's health is 3/11
+Danbada attacks greg for 5 damage!
+greg's health is 0/10

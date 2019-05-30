@@ -1,0 +1,42 @@
+Failed to gen mob
+Picking up...
++1 Sword is equipped
+greg attacks Orarme for 5 damage!
+Orarme's health is 1/6
+Orarme attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Orarme for 5 damage!
+Orarme's health is -4/6
+Orarme is dead!
+Picking up...
+greg attacks Alldiu for 2 damage!
+Alldiu's health is 6/8
+Alldiu attacks greg for 1 damage!
+greg's health is 5/10
+greg attacks Alldiu for 2 damage!
+Alldiu's health is 4/8
+Alldiu attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Alldiu for 2 damage!
+Alldiu's health is 2/8
+Alldiu attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Alldiu for 2 damage!
+Alldiu's health is 0/8
+Alldiu is dead!
+greg the python is healed for 10
+greg the python health is now 10/10
+greg attacks Etbaan for 5 damage!
+Etbaan's health is 5/10
+Etbaan attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Etbaan for 5 damage!
+Etbaan's health is 0/10
+Etbaan is dead!
+Picking up...
+greg attacks Nuthach for 5 damage!
+Nuthach's health is -1/4
+Nuthach is dead!
+Picking up...
+Brigna attacks greg for 8 damage!
+greg's health is 0/10

@@ -1,0 +1,19 @@
+greg attacks Brigalam for 4 damage!
+Brigalam's health is 0/4
+Brigalam is dead!
+Picking up...
+Picking up...
+Deldlor attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Deldlor for 4 damage!
+Deldlor's health is 0/4
+Deldlor is dead!
+Picking up...
+Picking up...
+Picking up...
++2 Shield is equipped
+Agnoaai attacks greg for 5 damage!
+greg's health is 2/10
+Agnoaai the cobra is confused!
+Agnoaai attacks greg for 5 damage!
+greg's health is -3/10

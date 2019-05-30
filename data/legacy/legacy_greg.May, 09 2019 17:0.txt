@@ -1,0 +1,22 @@
+Agnoda attacks greg for 1 damage!
+greg's health is 9/10
+Creada the green snakehas the scent: scent: python
+Creada the green snakehas the scent: scent: python
+Creada the green snake is following the scent!
+Creada the green snakehas the scent: scent: python
+Creada the green snakehas the scent: scent: python
+Creada the green snakehas the scent: scent: python
+Creada the green snake is following the scent!
+Creada the green snakehas the scent: scent: python
+Creada the green snakehas the scent: scent: python
+Creada the green snake is following the scent!
+Agnoda attacks greg for 1 damage!
+greg's health is 8/10
+Agnoda attacks greg for 1 damage!
+greg's health is 7/10
+Creada attacks greg for 3 damage!
+greg's health is 4/10
+Creada attacks greg for 3 damage!
+greg's health is 1/10
+Agnoda attacks greg for 1 damage!
+greg's health is 0/10

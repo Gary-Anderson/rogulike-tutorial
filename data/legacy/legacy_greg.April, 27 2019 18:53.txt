@@ -1,0 +1,17 @@
+Picking up...
+greg attacks Inigtha for 4 damage!
+Inigtha's health is 2/6
+Inigtha attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Inigtha for 4 damage!
+Inigtha's health is -2/6
+Inigtha is dead!
+Picking up...
+greg attacks Danbatha for 4 damage!
+Danbatha's health is 5/9
+Danbatha attacks greg for 4 damage!
+greg's health is 3/10
+greg attacks Danbatha for 4 damage!
+Danbatha's health is 1/9
+Danbatha attacks greg for 4 damage!
+greg's health is -1/10

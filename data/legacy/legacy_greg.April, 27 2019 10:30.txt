@@ -1,0 +1,30 @@
+Picking up...
++1 Shield is equipped
+greg attacks Delbagus for 4 damage!
+Delbagus's health is 1/5
+Delbagus attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Delbagus for 4 damage!
+Delbagus's health is -3/5
+Delbagus is dead!
+Map Address: (14,5)
+Picking up...
+Picking up...
+Picking up...
+Picking up...
+greg attacks Ioigne for 4 damage!
+Ioigne's health is 4/8
+Ioigne attacks greg for 4 damage!
+greg's health is 5/10
+greg attacks Ioigne for 4 damage!
+Ioigne's health is 0/8
+Ioigne is dead!
+Picking up...
+greg attacks Nuarma for 4 damage!
+Nuarma's health is 0/4
+Nuarma is dead!
+Picking up...
+greg attacks Brigboma for 4 damage!
+Brigboma's health is 1/5
+Brigboma attacks greg for 6 damage!
+greg's health is -1/10

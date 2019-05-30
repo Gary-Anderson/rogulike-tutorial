@@ -1,0 +1,56 @@
+Failed to gen mob
+greg attacks Brigma for 2 damage!
+Brigma's health is 6/8
+Brigma attacks greg for 1 damage!
+greg's health is 9/10
+greg attacks Brigma for 2 damage!
+Brigma's health is 4/8
+Brigma attacks greg for 1 damage!
+greg's health is 8/10
+greg attacks Brigma for 2 damage!
+Brigma's health is 2/8
+Brigma attacks greg for 1 damage!
+greg's health is 7/10
+greg attacks Brigma for 2 damage!
+Brigma's health is 0/8
+Brigma is dead!
+Picking up...
+greg attacks Delarai for 4 damage!
+Delarai's health is 1/5
+Delarai attacks greg for 2 damage!
+greg's health is 5/10
+greg attacks Delarai for 4 damage!
+Delarai's health is -3/5
+Delarai is dead!
+Picking up...
+Agnodda attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Agnodda for 2 damage!
+Agnodda's health is 6/8
+Agnodda attacks greg for 1 damage!
+greg's health is 3/10
+greg attacks Agnodda for 2 damage!
+Agnodda's health is 4/8
+Agnodda attacks greg for 1 damage!
+greg's health is 2/10
+greg attacks Agnodda for 2 damage!
+Agnodda's health is 2/8
+Agnodda attacks greg for 1 damage!
+greg's health is 1/10
+greg attacks Agnodda for 2 damage!
+Agnodda's health is 0/8
+Agnodda is dead!
+Picking up...
++1 Sword is equipped
+Morrdai the tarantulahas the scent: scent: python
+Morrdai the tarantula is following the scent!
+greg attacks Morrdai for 5 damage!
+Morrdai's health is -1/4
+Morrdai is dead!
+greg attacks Eoigan for 5 damage!
+Eoigan's health is 0/5
+Eoigan is dead!
+greg attacks Cichid for 5 damage!
+Cichid's health is 3/8
+Cichid attacks greg for 4 damage!
+greg's health is -3/10

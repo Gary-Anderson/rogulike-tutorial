@@ -562,8 +562,6 @@ class obj_Assets:
         self.reptile = obj_Spritesheet(constants.PATH + "data/graphics/Characters/Reptile.png")
         self.aquatic = obj_Spritesheet(constants.PATH + "data/graphics/Characters/Aquatic.png")
         self.flesh = obj_Spritesheet(constants.PATH + "data/graphics/Items/Flesh.png")
-        self.plant = obj_Spritesheet(constants.PATH + "data/graphics/Characters/Plant.png")
-        self.undead = obj_Spritesheet(constants.PATH + "data/graphics/Characters/Undead.png")
         #walls and floors
         self.wall = obj_Spritesheet(constants.PATH + "data/graphics/Objects/Wall.png")
         self.floor = obj_Spritesheet(constants.PATH + "data/graphics/Objects/Floor.png")
@@ -579,8 +577,6 @@ class obj_Assets:
         self.tool = obj_Spritesheet(constants.PATH + "data/graphics/Items/Tool.png")
         self.amulet = obj_Spritesheet(constants.PATH + "data/graphics/Items/Amulet.png")
         self.potion = obj_Spritesheet(constants.PATH + "data/graphics/Items/Potion.png")
-        # GUI
-        self.gui = obj_Spritesheet(constants.PATH + "data/graphics/GUI/GUI.png")
 
 
         ################
@@ -612,14 +608,8 @@ class obj_Assets:
         # humanoids
         self.A_ALCHEMIST = self.humanoid.getAnimation('a', 16, 16, 16, 2, (32, 32))
 
-        # undead
-        self.A_DEATH_CRACK = self.undead.getAnimation('g', 5, 16, 16, 2, (32, 32))
-
         # animals
         self.A_SQUIREL = self.rodent.getAnimation('a', 1, 16, 16, 2, (32, 32))
-
-        # plants
-        self.A_FERNOID = self.plant.getAnimation('a', 6, 16, 16, 2, (32, 32))
 
         # corpse
         self.S_FLESH_TAIL = self.flesh.getImage('b', 4, 16, 16, (32, 32))[0]
@@ -665,10 +655,6 @@ class obj_Assets:
         self.S_STAIRS_DOWN = self.tile.getImage('h', 4, 16, 16, (32, 32))[0]
         self.S_STAIRS_UP = self.tile.getImage('e', 4, 16, 16, (32, 32))[0]
 
-        # GUI
-        self.S_UP_ARROW_LARGE = self.gui.getImage('c', 7, 16, 16, (32, 32))[0]
-        self.S_UP_ARROW_SMALL = self.gui.getImage('d', 7, 16, 16, (32, 32))[0]
-
         self.animationDict = {
 
             "A_PLAYER" : self.A_PLAYER,
@@ -687,10 +673,6 @@ class obj_Assets:
             "A_SPIDER_TARANTULA" : self.A_SPIDER_TARANTULA,
             "A_SPIDER_TARANTULA_GIANT_ZOMBIE" : self.A_SPIDER_TARANTULA_GIANT_ZOMBIE,
             "A_SNAIL" : self.A_SNAIL,
-            # plant
-            "A_FERNOID" : self.A_FERNOID,
-            # undead
-            "A_DEATH_CRACK" : self.A_DEATH_CRACK,
 
             # corpse
             "S_FLESH_TAIL" : self.S_FLESH_TAIL,
@@ -716,10 +698,6 @@ class obj_Assets:
             "A_WINCON" : self.A_WINCON,
             "S_MANA_POTION" : self.S_MANA_POTION,
             "S_HEALTH_POTION" : self.S_HEALTH_POTION,
-
-            # GUI
-            "S_UP_ARROW_LARGE" : self.S_UP_ARROW_LARGE,
-            "S_UP_ARROW_SMALL" : self.S_UP_ARROW_SMALL,
 
             # SPECIAL
             "S_STAIRS_DOWN" : self.S_STAIRS_DOWN,
@@ -1094,11 +1072,15 @@ class com_Item:
 
         if self.useFunc:
             result = self.useFunc(self.container.owner, self.value)
-            gameMessage(str(result))
-            print(str(result))
-            if result != 'canceled':
-                gameMessage('Item used')
+            self.container.inventory.remove(self.owner)
+            return result
+
+        if self.useFunc:
+            if result == 'canceled' or not result:
+                return 'canceled'
+            else:
                 self.container.inventory.remove(self.owner)
+
 
 class com_Equipment:
     def __init__(self, attackBonus=0, defenseBonus=0, slot=None):
@@ -1954,149 +1936,6 @@ def drawGUI():
                            emptyColor = constants.COLOR_DARK_BLUE)
     magicBar.draw(magicBar.T_coords)
 
-
-def drawInventory():
-
-    # FRAME_INV is the GUI object that holds everything on the right part of the screen
-    # box refers to the surface that contains all the inventory stuff
-    # menu is the inventory list
-
-    # dimensions of inventory frame
-    frameWidth = FRAME_INV.width
-    frameHeight = FRAME_INV.height
-
-    # margins
-    frameBorder = FRAME_INV.border
-    boxBody = frameHeight * .3
-    boxHeaderMargin = 32
-    boxFooterMargin = 32
-    boxLeftMargin = 0
-    boxRightMargin = 0
-
-    # dimensions of box surface
-    boxWidth = frameWidth - (frameBorder * 2)
-    boxHeight = boxBody + boxHeaderMargin + boxFooterMargin
-    boxX = frameBorder
-    boxY = frameBorder
-
-    # dimensions of inventory surface
-    menuWidth = boxWidth - boxRightMargin - boxLeftMargin
-    menuHeight = boxBody
-
-    # placement of inventory surface in box surface
-    menuX = 0 + boxLeftMargin
-    menuY = 0 + boxHeaderMargin
-
-    # font...
-    menuFont = constants.FONT_DEBUG_MESSAGE
-    textHeight = helperTextHeight(menuFont)
-    titleFont = constants.FONT_INV_TITLE
-    titleHeight = helperTextHeight(titleFont)
-    menuTextColor = constants.COLOR_WHITE
-
-    # Surface to draw onto
-    boxSurf = pygame.Surface((boxWidth, boxHeight))
-    localInventorySurf = pygame.Surface((menuWidth, menuHeight))
-
-    # scroll buttons
-    # def __init__(self, surface, buttonText, size, T_coordsCenter,
-    #              Xoffset,
-    #              Yoffset,
-    #              sprite = None,
-    #              mouseOverSprite = None,
-    #              color = constants.COLOR_GREY,
-    #              box_mouseOverColor = constants.COLOR_RED,
-    #              box_colorDefault = constants.COLOR_BLUE,
-    #              text_mouseOverColor = constants.COLOR_WHITE,
-    #              text_colorDefault = constants.COLOR_WHITE,
-    #              disabled = False):
-    scrollDim = 32
-    scrollUp = ui_Button(boxSurf,
-                           '',
-                           (scrollDim, scrollDim),
-                           (boxWidth - (scrollDim * .75),
-                           boxHeaderMargin - (scrollDim * .75)),
-                           (FRAME_INV.x + boxX),
-                           (FRAME_INV.y + boxY),
-                           spriteKey = "S_UP_ARROW_SMALL",
-                           mouseOverSpriteKey = "S_UP_ARROW_LARGE")
-
-    scrollDown = ui_Button(boxSurf,
-                           '',
-                           (scrollDim, scrollDim),
-                           (boxWidth - (scrollDim * .75),
-                           (boxHeaderMargin + boxBody) - (scrollDim * .25)),
-                           (FRAME_INV.x + boxX),
-                           (FRAME_INV.y + boxY),
-                           spriteKey = "S_UP_ARROW_SMALL",
-                           mouseOverSpriteKey = "S_UP_ARROW_LARGE")
-
-    # inventory title placement
-    titleX = 0
-    titleY = ((boxHeaderMargin - titleHeight) // 2)
-    drawText(boxSurf, "Inventory:", (titleX, titleY), constants.COLOR_WHITE, font = titleFont)
-
-    # Clear the menu
-    localInventorySurf.fill(constants.COLOR_MENU)
-
-    # generate a list of whats in the players inventory
-    printList = [obj.displayName for obj in PLAYER.container.inventory]
-
-
-    # get mouse x, y
-    mouseX, mouseY = pygame.mouse.get_pos()
-    mouseX_rel = (mouseX - FRAME_INV.x) - boxX - menuX
-    mouseY_rel = (mouseY - FRAME_INV.y) - boxY - menuY
-
-    mouseInventory = (mouseX_rel >= 0 and
-                   mouseY_rel >= 0 and
-                   mouseX_rel <= menuWidth and
-                   mouseY_rel <= menuHeight)
-
-    mouseLineSelect = mouseY_rel // textHeight
-
-    # iterate over the events list
-    for event in MASTER_EVENTS:
-        result = 'menu open'
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-
-                if (mouseInventory and
-                    mouseLineSelect <= len(printList) - 1):
-                    result = PLAYER.container.inventory[mouseLineSelect].item.use()
-
-        if result == 'canceled' or not result:
-            return 'no action'
-        elif result == 'menu open':
-            pass
-        else:
-            return 'result'
-
-    # iterate and draw the inventory list
-    line = 0
-    for name in printList:
-        if line == mouseLineSelect and mouseInventory:
-            drawText(localInventorySurf,
-                     name,
-                     font=constants.FONT_MESSAGE_TEXT,
-                     T_coords=(0, (0 + (line * textHeight))),
-                     textColor=menuTextColor,
-                     backColor=constants.COLOR_GREY)
-        else:
-            drawText(localInventorySurf,
-                     name,
-                     font=constants.FONT_MESSAGE_TEXT,
-                     T_coords=(0, (0 + (line * textHeight))),
-                     textColor=menuTextColor)
-        line += 1
-
-    # blit our menu onto the main window and position it (center it)
-    scrollUp.draw()
-    scrollDown.draw()
-    boxSurf.blit(localInventorySurf, (menuX, menuY))
-    FRAME_INV.surface.blit(boxSurf, (boxX, boxY))
-
-
 def drawGame():
 
     SURFACE_MAP.fill(constants.COLOR_MAP_FOG)
@@ -2114,15 +1953,14 @@ def drawGame():
     # draw the gui
     drawGUI()
 
-    # update Inventory window
-    drawInventory()
-
+    # SURFACE_MAIN.blit(SURFACE_MAP, (0, 0), CAMERA.rectangle)
 
     drawDebug()
     drawMessages()
 
     # update the display
     pygame.display.flip()
+
 
 def drawMap(mapToDraw):
     # get camera possition
@@ -2176,6 +2014,7 @@ def drawMap(mapToDraw):
                     # draw floor
                     SURFACE_MAP.blit(ASSETS.S_FLOOR_EXPLORED,
                                       (x * constants.CELL_WIDTH, y * constants.CELL_HEIGHT))
+
 
 def drawText(displaySurf, textToDisplay, T_coords, textColor, font=constants.FONT_DEBUG_MESSAGE,
              backColor=None, centered=False):
@@ -2556,33 +2395,18 @@ class ui_frame:
 
 
 class ui_Button:
-    def __init__(self, destSurface, buttonText, size, T_coordsCenter,
-                 Xoffset,
-                 Yoffset,
-                 spriteKey = None,
-                 mouseOverSpriteKey = None,
+    def __init__(self, surface, buttonText, size, T_coordsCenter,
                  color = constants.COLOR_GREY,
-                 box_mouseOverColor = None,
-                 box_colorDefault = None,
-                 text_mouseOverColor = None,
-                 text_colorDefault = None,
+                 box_mouseOverColor = constants.COLOR_RED,
+                 box_colorDefault = constants.COLOR_BLUE,
+                 text_mouseOverColor = constants.COLOR_WHITE,
+                 text_colorDefault = constants.COLOR_WHITE,
                  disabled = False):
 
-        self.destSurface = destSurface
+        self.surface = surface
         self.buttonText  = buttonText
         self.size = size
-        self.surface = pygame.Surface(self.size)
         self.T_coordsCenter = T_coordsCenter
-
-        self.Xoffset = Xoffset
-        self.Yoffset = Yoffset
-
-        self.spriteKey = spriteKey
-        if self.spriteKey:
-            self.sprite = ASSETS.animationDict[self.spriteKey]
-        self.mouseOverSpriteKey = mouseOverSpriteKey
-        if self.mouseOverSpriteKey:
-            self.mouseOverSprite = ASSETS.animationDict[self.mouseOverSpriteKey]
 
         self.color = color
         self.box_mouseOverColor = box_mouseOverColor
@@ -2604,16 +2428,12 @@ class ui_Button:
         windowHeight = constants.WINDOW_HEIGHT
 
         # dimensions of our Button
-        if self.spriteKey == None:
-            surfaceX, surfaceY = self.rect.topleft
-        else:
-            surfaceX, surfaceY = self.T_coordsCenter
-
+        surfaceX, surfaceY = self.rect.topleft
         surfaceWidth, surfaceHeight = self.size
         # get mouse x, y
         mouseX, mouseY = pygame.mouse.get_pos()
-        mouseX_rel = mouseX - self.Xoffset - surfaceX
-        mouseY_rel = mouseY - self.Yoffset - surfaceY
+        mouseX_rel = mouseX - surfaceX
+        mouseY_rel = mouseY - surfaceY
         mouseInSurface = (mouseX_rel >= 0 and
                           mouseY_rel >= 0 and
                           mouseX_rel <= surfaceWidth and
@@ -2630,35 +2450,23 @@ class ui_Button:
         return buttonPressed
 
     def draw(self):
-        if self.spriteKey == None:
-            if not self.disabled:
-                if self.mouseInSurface:
-                    self.box_currentColor = self.box_mouseOverColor
-                    self.text_currentColor = self.text_mouseOverColor
-                else:
-                    self.box_currentColor = self.box_colorDefault
-                    self.text_currentColor = self.text_colorDefault
-            else:
-                self.box_currentColor = constants.COLOR_LIGHT_GREY
-                self.text_currentColor = constants.COLOR_WHITE
-
-            pygame.draw.rect(self.destSurface, self.box_currentColor, self.rect)
-            drawText(self.destSurface,
-                     self.buttonText,
-                     T_coords = self.T_coordsCenter,
-                     textColor = self.text_currentColor,
-                     centered = True)
-
-        else:
+        if not self.disabled:
             if self.mouseInSurface:
-                self.surface.blit(self.mouseOverSprite, (-8, -8))
-                self.destSurface.blit(self.surface, self.T_coordsCenter)
+                self.box_currentColor = self.box_mouseOverColor
+                self.text_currentColor = self.text_mouseOverColor
             else:
-                self.surface.blit(self.sprite, (-8, -8))
-                self.destSurface.blit(self.surface, self.T_coordsCenter)
+                self.box_currentColor = self.box_colorDefault
+                self.text_currentColor = self.text_colorDefault
+        else:
+            self.box_currentColor = constants.COLOR_LIGHT_GREY
+            self.text_currentColor = constants.COLOR_WHITE
 
-
-
+        pygame.draw.rect(self.surface, self.box_currentColor, self.rect)
+        drawText(self.surface,
+                 self.buttonText,
+                 T_coords = self.T_coordsCenter,
+                 textColor = self.text_currentColor,
+                 centered = True)
 
 class ui_Slider:
 
@@ -2884,8 +2692,6 @@ def menu_main():
 
     gameInit()
 
-    global MASTER_EVENTS
-
     # Title surface dimentions
     titleSurfDimX = constants.WINDOW_WIDTH * 0.75
     titleSurfDimY = constants.WINDOW_HEIGHT * .5
@@ -2915,53 +2721,33 @@ def menu_main():
                            'New Game',
                            (buttonWidth, buttonHeight),
                            (windowCenterX - (buttonWidth),
-                           titleSurfBottomY + (buttonHeight * 1.5)),
-                           0, 0,
-                           box_mouseOverColor = constants.COLOR_RED,
-                           box_colorDefault = constants.COLOR_BLUE,
-                           text_mouseOverColor = constants.COLOR_WHITE,
-                           text_colorDefault = constants.COLOR_WHITE)
+                           titleSurfBottomY + (buttonHeight * 1.5)))
 
     loadGameButton = ui_Button(SURFACE_MAIN,
                            'Continue',
                            (buttonWidth, buttonHeight),
                            (windowCenterX + (buttonWidth),
                            titleSurfBottomY + (buttonHeight * 1.5)),
-                           0, 0,
-                           box_mouseOverColor = constants.COLOR_RED,
-                           box_colorDefault = constants.COLOR_BLUE,
-                           text_mouseOverColor = constants.COLOR_WHITE,
-                           text_colorDefault = constants.COLOR_WHITE,
                            disabled = True)
+
 
     optionsButton = ui_Button(SURFACE_MAIN,
                            'Options',
                            (buttonWidth, buttonHeight),
                            (windowCenterX + (buttonWidth),
-                           titleSurfBottomY + (buttonHeight * 3)),
-                           0, 0,
-                           box_mouseOverColor = constants.COLOR_RED,
-                           box_colorDefault = constants.COLOR_BLUE,
-                           text_mouseOverColor = constants.COLOR_WHITE,
-                           text_colorDefault = constants.COLOR_WHITE,)
-
+                           titleSurfBottomY + (buttonHeight * 3)))
     quitGameButton = ui_Button(SURFACE_MAIN,
                            'Quit',
                            (buttonWidth, buttonHeight),
                            (windowCenterX - (buttonWidth),
-                           titleSurfBottomY + (buttonHeight * 3)),
-                           0, 0,
-                           box_mouseOverColor = constants.COLOR_RED,
-                           box_colorDefault = constants.COLOR_BLUE,
-                           text_mouseOverColor = constants.COLOR_WHITE,
-                           text_colorDefault = constants.COLOR_WHITE,)
+                           titleSurfBottomY + (buttonHeight * 3)))
     while menuRunning:
         eventsList = pygame.event.get()
         mousePosX, mousePosY = pygame.mouse.get_pos()
 
         menuInput = (eventsList)
 
-        for event in menuInput:
+        for event in eventsList:
             if event.type == pygame.QUIT:
                 gameExit(save = False)
 
@@ -3153,6 +2939,9 @@ def menu_pause():
 
 def menu_inventory():
 
+    # toggle the menu
+    menuClose = False
+
     # dimensions of menu and main window
     windowWidth = FRAME_INV.width
     windowHeight = FRAME_INV.height
@@ -3170,80 +2959,96 @@ def menu_inventory():
     # Surface to draw onto
     localInventorySurf = pygame.Surface((menuWidth, menuHeight))
 
-    # Clear the menu
-    localInventorySurf.fill(constants.COLOR_MENU)
+    # your standard "while not" menu technique
+    while not menuClose:
 
-    # generate a list of whats in the players inventory
-    printList = [obj.displayName for obj in PLAYER.container.inventory]
+        # Clear the menu
+        localInventorySurf.fill(constants.COLOR_MENU)
 
-    # generate a list of events (inputs)
-    eventsList = pygame.event.get()
+        # generate a list of whats in the players inventory
+        printList = [obj.displayName for obj in PLAYER.container.inventory]
 
-    # get mouse x, y
-    mouseX, mouseY = pygame.mouse.get_pos()
-    mouseX_rel = (mouseX - FRAME_INV.x) - FRAME_INV.border
-    mouseY_rel = (mouseY - FRAME_INV.y) - FRAME_INV.border
-    mouseInMenu = (mouseX_rel >= 0 and
-                   mouseY_rel >= 0 and
-                   mouseX_rel <= FRAME_INV.width and
-                   mouseY_rel <= FRAME_INV.height)
-    mouseLineSelect = mouseY_rel // textHeight
+        # generate a list of events (inputs)
+        eventsList = pygame.event.get()
 
-    # iterate over the events list
-    for event in eventsList:
-        result = 'menu open'
-        if event.type == pygame.KEYDOWN:
+        # get mouse x, y
+        mouseX, mouseY = pygame.mouse.get_pos()
+        mouseX_rel = (mouseX - FRAME_INV.x) - FRAME_INV.border
+        mouseY_rel = (mouseY - FRAME_INV.y) - FRAME_INV.border
+        print("mousePos = " + str(mouseX_rel) + ", " + str(mouseY_rel))
+        mouseInMenu = (mouseX_rel >= 0 and
+                       mouseY_rel >= 0 and
+                       mouseX_rel <= FRAME_INV.width and
+                       mouseY_rel <= FRAME_INV.height)
+        print(str(mouseInMenu))
+        mouseLineSelect = mouseY_rel // textHeight
 
-            if event.key == pygame.K_ESCAPE:
-                result = 'canceled'
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
+        # iterate over the events list
+        for event in eventsList:
+            result = 'menu open'
+            if event.type == pygame.KEYDOWN:
 
-                if (mouseInMenu and
-                        mouseLineSelect <= len(printList) - 1):
+                if event.key == pygame.K_ESCAPE:
+                    result = 'canceled'
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
 
-                    result = PLAYER.container.inventory[mouseLineSelect].item.use()
+                    if (mouseInMenu and
+                            mouseLineSelect <= len(printList) - 1):
+
+                        result = PLAYER.container.inventory[mouseLineSelect].item.use()
 
 
-        if result == 'canceled' or not result:
-            return 'no action'
-        elif result == 'menu open':
-            pass
-        else:
-            return 'result'
+            if result == 'canceled' or not result:
+                return 'no action'
+            elif result == 'menu open':
+                pass
+            else:
+                return 'result'
 
-    # iterate and draw the inventory list
-    line = 0
-    for name in printList:
-        if line == mouseLineSelect and mouseInMenu:
-            drawText(localInventorySurf,
-                     name,
-                     font=constants.FONT_MESSAGE_TEXT,
-                     T_coords=(0, (0 + (line * textHeight))),
-                     textColor=menuTextColor,
-                     backColor=constants.COLOR_GREY)
-        else:
-            drawText(localInventorySurf,
-                     name,
-                     font=constants.FONT_MESSAGE_TEXT,
-                     T_coords=(0, (0 + (line * textHeight))),
-                     textColor=menuTextColor)
-        line += 1
+        # iterate and draw the inventory list
+        line = 0
+        for name in printList:
+            # drawText(displaySurf,
+                     # textToDisplay,
+                     # T_coords,
+                     # textColor,
+                     # backColor = None):
+            if line == mouseLineSelect and mouseInMenu:
+                drawText(localInventorySurf,
+                         name,
+                         font=constants.FONT_MESSAGE_TEXT,
+                         T_coords=(0, (0 + (line * textHeight))),
+                         textColor=menuTextColor,
+                         backColor=constants.COLOR_GREY)
+            else:
+                drawText(localInventorySurf,
+                         name,
+                         font=constants.FONT_MESSAGE_TEXT,
+                         T_coords=(0, (0 + (line * textHeight))),
+                         textColor=menuTextColor)
+            line += 1
 
-    '''
-    This code is boilerplate menu code.
-    drawGame ensures the animations continue
-    - THEN -
-    SURFACE_MAIN.blit puts our menu up on the screen
-    - THEN -
-    CLOCK.tick prevents the animations from backlogging
-    - THEN -
-    display.update
-    '''
+        '''
+        This code is boilerplate menu code.
+        drawGame ensures the animations continue
+        - THEN -
+        SURFACE_MAIN.blit puts our menu up on the screen
+        - THEN -
+        CLOCK.tick prevents the animations from backlogging
+        - THEN -
+        display.update
+        '''
+        drawGame()
 
-    # blit our menu onto the main window and position it (center it)
-    FRAME_INV.surface.blit(localInventorySurf,
-                      (menuX, menuY))
+
+        # blit our menu onto the main window and position it (center it)
+        FRAME_INV.surface.blit(localInventorySurf,
+                          (menuX, menuY))
+
+        CLOCK.tick(constants.GAME_FPS)
+        # actually draw everything
+        pygame.display.update()
 
 def menu_magic():
 
@@ -3514,7 +3319,7 @@ def menu_tileSelectLine(coordsOrigin,
 
                 if event.key == pygame.K_ESCAPE:
                     menuClose = True
-                    return ('canceled', None)
+                    return 'canceled', None
 
             # return map coords when mouse pressed
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -3785,9 +3590,7 @@ def gen_enemy(T_coords):
     2 : gen_alchemist(T_coords),
     3 : gen_spider_tarantula(T_coords),
     4 : gen_spider_tarantula_giant_zombie(T_coords),
-    5 : gen_snail(T_coords),
-    6 : gen_fernoid(T_coords),
-    7 : gen_death_crack(T_coords)
+    5 : gen_snail(T_coords)
     }
 
     bestiaryLen = len(enemyDict)
@@ -3966,50 +3769,6 @@ def gen_spider_tarantula(T_coords):
                                ai=aiCom)
 
     return spider
-
-def gen_fernoid(T_coords):
-    x, y = T_coords
-
-    maxHealth = libtcod.random_get_int(0, 10, 12)
-    baseAttack = libtcod.random_get_int(0, 2, 3)
-    creatureName = libtcod.namegen_generate("Celtic female")
-    creatureCom = com_Creature(creatureName,
-                                faction = 'fernoid',
-                                baseAtk=baseAttack,
-                                maxHP = maxHealth,
-                                deathFunc=death_Mob,
-                                dungeonLevel=1)
-    aiCom = ai_chase()
-    fernoid = obj_Actor(x, y, "fernoid",
-                               depth = constants.DEPTH_CREATURE,
-                               animationKey = "A_FERNOID",
-                               animationSpeed=2,
-                               creature=creatureCom,
-                               ai=aiCom)
-
-    return fernoid
-
-def gen_death_crack(T_coords):
-    x, y = T_coords
-
-    maxHealth = libtcod.random_get_int(0, 20, 25)
-    baseAttack = libtcod.random_get_int(0, 3, 4)
-    creatureName = libtcod.namegen_generate("Celtic female")
-    creatureCom = com_Creature(creatureName,
-                                faction = 'shade',
-                                baseAtk=baseAttack,
-                                maxHP = maxHealth,
-                                deathFunc=death_Mob,
-                                dungeonLevel=4)
-    aiCom = ai_chase()
-    shade = obj_Actor(x, y, "death crack",
-                               depth = constants.DEPTH_CREATURE,
-                               animationKey = "A_DEATH_CRACK",
-                               animationSpeed=2,
-                               creature=creatureCom,
-                               ai=aiCom)
-
-    return shade
 
 def gen_spider_tarantula_giant_zombie(T_coords):
     x, y = T_coords
@@ -4314,16 +4073,16 @@ def gameExit(save = True):
     exit()
 
 def gameHandleKeys():
-    global FOV_CALC, MASTER_EVENTS
+    global FOV_CALC
     # TODO gets all player inputs and makes a list out of them
-    MASTER_EVENTS = pygame.event.get()
+    eventsList = pygame.event.get()
     keysList = pygame.key.get_pressed()
 
     #check for mod key
     modKey = (keysList[pygame.K_RSHIFT] or
               keysList[pygame.K_LSHIFT])
 
-    for event in MASTER_EVENTS:
+    for event in eventsList:
         if event.type == pygame.QUIT:
             return 'QUIT'
 
@@ -4413,26 +4172,21 @@ def gameHandleKeys():
             if event.key == pygame.K_d:
                 if len(PLAYER.container.inventory) > 0:
                     PLAYER.container.inventory[-1].item.drop(PLAYER.x, PLAYER.y)
-
-            ###################
-            ## TESTING MAGIC ##
-            ###################
-
+            # hard-coded magic
             if event.key == pygame.K_BACKQUOTE:
                 cast_look()
-            if event.key == pygame.K_1:
-                cast_heal(PLAYER, 10, cost=0)
-            if event.key == pygame.K_2:
-                cast_heal_mana(PLAYER, 10, cost=0)
-            if event.key == pygame.K_3:
-                gen_item((PLAYER.x, PLAYER.y))
 
+            if event.key == pygame.K_1:
+                cast_lightning((PLAYER.x, PLAYER.y), cost=5)
+            if event.key == pygame.K_2:
+                cast_fireball((PLAYER.x, PLAYER.y), cost=5)
+            if event.key == pygame.K_3:
+                cast_confusion(caster = PLAYER, cost=5)
             # map testing
             if event.key == pygame.K_4:
                 GAME.transitionNextMap()
             if event.key == pygame.K_5:
                 GAME.transitionPreviousMap()
-
             if modKey and event.key == pygame.K_SEMICOLON:
                 objectsAtPlayer = mapAtCoords(PLAYER.x, PLAYER.y)
 
@@ -4448,6 +4202,9 @@ def gameHandleKeys():
             # key 'c' -> "cast"
             if event.key == pygame.K_c:
                 playerAction = menu_magic()
+                return playerAction
+            if event.key == pygame.K_i:
+                playerAction = menu_inventory()
                 return playerAction
 
     return 'no action'

@@ -1,0 +1,46 @@
+Failed to gen mob
+Failed to gen mob
+greg attacks Morrne for 4 damage!
+Morrne's health is -2/2
+Morrne is dead!
+greg attacks Nuboiu for 4 damage!
+Nuboiu's health is 0/4
+Nuboiu is dead!
+Baboid the green snakelethas the scent: scent: python
+Baboid the green snakelet is following the scent!
+Baboid the green snakelethas the scent: scent: python
+Baboid the green snakelet is following the scent!
+Baboid the green snakelethas the scent: scent: python
+Baboid the green snakelet is following the scent!
+Baboid attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Baboid for 4 damage!
+Baboid's health is 0/4
+Baboid is dead!
+Picking up...
++3 Sword is equipped
+Nubada attacks greg for 3 damage!
+greg's health is 4/10
+Nubada attacks greg for 3 damage!
+greg's health is 1/10
+greg attacks Nubada for 7 damage!
+Nubada's health is -3/4
+Nubada is dead!
+Failed to gen mob
+Failed to gen mob
+Picking up...
++1 Shield is equipped
+greg attacks Aenada for 7 damage!
+Aenada's health is -2/5
+Aenada is dead!
+Failed to gen mob
+Picking up...
+greg attacks Etbona for 7 damage!
+Etbona's health is -2/5
+Etbona is dead!
+Picking up...
+Item dropped
+greg attacks Brigai for 7 damage!
+Brigai's health is 2/9
+Brigai attacks greg for 2 damage!
+greg's health is -1/10

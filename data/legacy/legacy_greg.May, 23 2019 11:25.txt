@@ -1,0 +1,67 @@
+Agnochne the snail is hit by the lightning!
+Agnochne's health is 0/5
+Agnochne is dead!
+Morrid attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Morrid for 4 damage!
+Morrid's health is 8/12
+Morrid attacks greg for 3 damage!
+greg's health is 4/10
+greg attacks Morrid for 4 damage!
+Morrid's health is 4/12
+Morrid attacks greg for 3 damage!
+greg's health is 1/10
+greg attacks Morrid for 4 damage!
+Morrid's health is 0/12
+Morrid is dead!
+Nuigne the green snakelethas the scent: scent: python
+Nuigne the green snakelethas the scent: scent: python
+Nuigne the green snakelet is following the scent!
+Nuigne the green snakelet is confused!
+Picking up...
+Nuigne the green snakelet is hit by the fireball!
+Nuigne's health is 1/4
+cast fireball
+Item used
+greg attacks Nuigne for 4 damage!
+Nuigne's health is -3/4
+Nuigne is dead!
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelet is following the scent!
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelet is following the scent!
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelet is following the scent!
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelet is following the scent!
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelet is following the scent!
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelethas the scent: scent: python
+Enbotha the green snakelet is following the scent!
+Failed to gen mob
+greg attacks Morrma for 4 damage!
+Morrma's health is -1/3
+Morrma is dead!
+Picking up...
+Tathach the alchemist is hit by the lightning!
+Tathach's health is -3/4
+Tathach is dead!
+cast lightning
+Item used
+Picking up...
+greg the python's mana is healed for 8
+greg the python MP is now 9/11
+cast heal mana
+Item used
+Picking up...
++1 Sword is equipped
+Failed to gen mob
+Creane attacks greg for 2 damage!
+greg's health is -1/10

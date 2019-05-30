@@ -1,0 +1,23 @@
+greg the python's attack does no damage!
+Alltha's health is 7/7
+Alltha attacks greg for 1 damage!
+greg's health is 9/10
+greg the python's attack does no damage!
+Alltha's health is 7/7
+Alltha attacks greg for 1 damage!
+greg's health is 8/10
+Alltha attacks greg for 1 damage!
+greg's health is 7/10
+Alltha attacks greg for 1 damage!
+greg's health is 6/10
+Picking up...
+Alltha attacks greg for 1 damage!
+greg's health is 5/10
+Alltha attacks greg for 1 damage!
+greg's health is 4/10
+greg attacks Agnona for 4 damage!
+Agnona's health is 1/5
+Alltha attacks greg for 1 damage!
+greg's health is 3/10
+Agnona attacks greg for 3 damage!
+greg's health is 0/10

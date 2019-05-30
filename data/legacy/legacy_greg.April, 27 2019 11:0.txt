@@ -1,0 +1,17 @@
+Failed to gen mob
+Failed to gen mob
+greg attacks Deltha for 4 damage!
+Deltha's health is 5/9
+Deltha attacks greg for 4 damage!
+greg's health is 6/10
+greg attacks Deltha for 4 damage!
+Deltha's health is 1/9
+Deltha attacks greg for 4 damage!
+greg's health is 2/10
+greg attacks Deltha for 4 damage!
+Deltha's health is -3/9
+Deltha is dead!
+Picking up...
++3 Sword is equipped
+Credtha attacks greg for 3 damage!
+greg's health is -1/10

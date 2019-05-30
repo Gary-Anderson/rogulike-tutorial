@@ -1,0 +1,15 @@
+Failed to gen mob
+Picking up...
+Brigma attacks greg for 4 damage!
+greg's health is 6/10
++2 Shield is equipped
+Brigma attacks greg for 2 damage!
+greg's health is 4/10
+greg attacks Brigma for 4 damage!
+Brigma's health is 5/9
+Brigma attacks greg for 2 damage!
+greg's health is 2/10
+greg attacks Brigma for 4 damage!
+Brigma's health is 1/9
+Brigma attacks greg for 2 damage!
+greg's health is 0/10

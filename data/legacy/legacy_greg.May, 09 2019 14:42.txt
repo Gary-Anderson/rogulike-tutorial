@@ -1,0 +1,52 @@
+greg attacks Crechme for 4 damage!
+Crechme's health is 1/5
+Crechme attacks greg for 2 damage!
+greg's health is 8/10
+greg attacks Crechme for 4 damage!
+Crechme's health is -3/5
+Crechme is dead!
+Morrbatha the snail is confused!
+Brigiu attacks greg for 1 damage!
+greg's health is 7/10
+Brigiu the snail is confused!
+Morrbatha attacks greg for 1 damage!
+greg's health is 6/10
+Morrbatha the snail has come to their senses!
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snail is following the scent!
+Brigiu the snail has come to their senses!
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snail is following the scent!
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snail is following the scent!
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snail is following the scent!
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snail is following the scent!
+Morrbatha attacks greg for 1 damage!
+greg's health is 5/10
+Brigiu attacks greg for 1 damage!
+greg's health is 4/10
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snail is following the scent!
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snail is following the scent!
+Morrbatha the snailhas the scent: scent: python
+Morrbatha the snail is following the scent!
+greg attacks Agnoiu for 4 damage!
+Agnoiu's health is 2/6
+Brigiu attacks greg for 1 damage!
+greg's health is 3/10
+Agnoiu attacks greg for 3 damage!
+greg's health is 0/10

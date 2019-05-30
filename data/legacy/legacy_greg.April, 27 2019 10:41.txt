@@ -1,0 +1,33 @@
+Agnoid attacks greg for 6 damage!
+greg's health is 4/10
+greg attacks Agnoid for 4 damage!
+Agnoid's health is 0/4
+Agnoid is dead!
+greg attacks Aenthach for 4 damage!
+Aenthach's health is 0/4
+Aenthach is dead!
+Picking up...
+greg the python is healed for 7
+greg the python health is now 10/10
+greg attacks Orbaain for 4 damage!
+Orbaain's health is 0/4
+Orbaain is dead!
+Picking up...
+greg attacks Cibada for 4 damage!
+Cibada's health is -1/3
+Cibada is dead!
+greg attacks Agnoma for 4 damage!
+Agnoma's health is 1/5
+Agnoma attacks greg for 3 damage!
+greg's health is 7/10
+greg attacks Agnoma for 4 damage!
+Agnoma's health is -3/5
+Agnoma is dead!
+greg attacks Agnoai for 4 damage!
+Agnoai's health is 11/15
+Agnoai attacks greg for 5 damage!
+greg's health is 2/10
+greg attacks Agnoai for 4 damage!
+Agnoai's health is 7/15
+Agnoai attacks greg for 5 damage!
+greg's health is -3/10
