@@ -50,6 +50,8 @@ PATH = "/Users/garyanderson/Desktop/Education/Computer Science/Roguelike tutoria
 COLOR_DEFAULT_BG = COLOR_BLACK
 COLOR_MAP_FOG = COLOR_BLACK
 COLOR_MENU = COLOR_DARK_GREY
+COLOR_FRAME = COLOR_BLACK
+COLOR_BUTTON = COLOR_BLUE
 
 # FONTS ##
 FONT_DEBUG_MESSAGE = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 10)

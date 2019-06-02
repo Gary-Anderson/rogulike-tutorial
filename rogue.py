@@ -1998,18 +1998,6 @@ def drawInventory():
     boxSurf = pygame.Surface((boxWidth, boxHeight))
     localInventorySurf = pygame.Surface((menuWidth, menuHeight))
 
-    # scroll buttons
-    # def __init__(self, surface, buttonText, size, T_coordsCenter,
-    #              Xoffset,
-    #              Yoffset,
-    #              sprite = None,
-    #              mouseOverSprite = None,
-    #              color = constants.COLOR_GREY,
-    #              box_mouseOverColor = constants.COLOR_RED,
-    #              box_colorDefault = constants.COLOR_BLUE,
-    #              text_mouseOverColor = constants.COLOR_WHITE,
-    #              text_colorDefault = constants.COLOR_WHITE,
-    #              disabled = False):
     scrollDim = 15
     scrollUp = ui_Button(destSurface = boxSurf,
                          buttonText = '',
@@ -2022,18 +2010,8 @@ def drawInventory():
                          box_colorDefault = constants.COLOR_BLUE,
                          text_mouseOverColor = constants.COLOR_BLUE,
                          text_colorDefault = constants.COLOR_BLUE,
-                         disabled = False)
-
-    # def __init__(self, destSurface, buttonText, size, T_coordsCenter,
-    #              Xoffset,
-    #              Yoffset,
-    #              spriteKey = None,
-    #              mouseOverSpriteKey = None,
-    #              box_mouseOverColor = None,
-    #              box_colorDefault = None,
-    #              text_mouseOverColor = None,
-    #              text_colorDefault = None,
-    #              disabled = False):
+                         disabled = False,
+                         polyWidth = 1)
 
     scrollDown = ui_Button(destSurface = boxSurf,
                            buttonText = '',
@@ -2046,7 +2024,27 @@ def drawInventory():
                            box_colorDefault = constants.COLOR_BLUE,
                            text_mouseOverColor = constants.COLOR_BLUE,
                            text_colorDefault = constants.COLOR_BLUE,
-                           disabled = False)
+                           disabled = False,
+                           pointlist = [],
+                           polyWidth = 1)
+
+    Xoff = (boxWidth - scrollDim - 4)
+    Yoff = (boxHeaderMargin - scrollDim)
+
+    scrollUpArrowPointlist = [ (Xoff + scrollDim // 2 + 1 , 0         + Yoff),
+                               (Xoff + scrollDim          , scrollDim + Yoff),
+                               (Xoff + 0                  , scrollDim + Yoff)]
+
+    Xoff = (boxWidth - scrollDim - 4)
+    Yoff = (boxHeaderMargin + boxBody)
+
+    scrollDownArrowPointlist = [ (Xoff + 0              , 0         + Yoff),
+                                 (Xoff + scrollDim      , 0         + Yoff),
+                                 (Xoff + scrollDim // 2 , scrollDim + Yoff)]
+
+    scrollUp.pointlist = scrollUpArrowPointlist
+    scrollDown.pointlist = scrollDownArrowPointlist
+
 
     # inventory title placement
     titleX = 0
@@ -2582,7 +2580,9 @@ class ui_Button:
                  box_colorDefault = None,
                  text_mouseOverColor = None,
                  text_colorDefault = None,
-                 disabled = False):
+                 disabled = False,
+                 pointlist = None,
+                 polyWidth = 0):
 
         self.destSurface = destSurface
         self.buttonText  = buttonText
@@ -2605,6 +2605,9 @@ class ui_Button:
         self.text_mouseOverColor = text_mouseOverColor
         self.text_colorDefault = text_colorDefault
         self.disabled = disabled
+
+        self.pointlist = pointlist
+        self.polyWidth = polyWidth
 
         self.box_currentColor = box_colorDefault
         self.text_currentColor = text_colorDefault
@@ -2657,7 +2660,11 @@ class ui_Button:
                 self.box_currentColor = constants.COLOR_LIGHT_GREY
                 self.text_currentColor = constants.COLOR_WHITE
 
-            pygame.draw.rect(self.destSurface, self.box_currentColor, self.rect)
+            if self.pointlist == None:
+                pygame.draw.rect(self.destSurface, self.box_currentColor, self.rect)
+            else:
+                pygame.draw.polygon(self.destSurface, constants.COLOR_BLUE, self.pointlist, self.polyWidth)
+
             drawText(self.destSurface,
                      self.buttonText,
                      T_coords = self.T_coordsCenter,
@@ -4226,20 +4233,20 @@ def gameInit():
     FRAME_CONSOLE = ui_frame(width = (constants.WINDOW_WIDTH * .75),
                            height = (constants.WINDOW_HEIGHT - FRAME_MAP.height),
                            T_coords = (0, FRAME_MAP.height),
-                           color = constants.COLOR_BLACK)
+                           color = constants.COLOR_FRAME)
     FRAME_CONSOLE.drawBorder()
 
     # GUI frame for the PLAYER inventory (right side)
     FRAME_INV = ui_frame(width = (constants.WINDOW_WIDTH - FRAME_MAP.width),
                            height = (constants.WINDOW_HEIGHT * .75),
                            T_coords = (FRAME_MAP.width, 0),
-                           color = constants.COLOR_BLACK)
+                           color = constants.COLOR_FRAME)
     FRAME_INV.drawBorder()
 
     FRAME_STATUS = ui_frame(width = (constants.WINDOW_WIDTH - FRAME_MAP.width),
                            height = (constants.WINDOW_HEIGHT - FRAME_MAP.height),
                            T_coords = (FRAME_MAP.width, FRAME_MAP.height),
-                           color = constants.COLOR_BLACK)
+                           color = constants.COLOR_FRAME)
     FRAME_STATUS.drawBorder()
 
     # The GUI surface the map sits in
