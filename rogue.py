@@ -2010,26 +2010,43 @@ def drawInventory():
     #              text_mouseOverColor = constants.COLOR_WHITE,
     #              text_colorDefault = constants.COLOR_WHITE,
     #              disabled = False):
-    scrollDim = 32
-    scrollUp = ui_Button(boxSurf,
-                           '',
-                           (scrollDim, scrollDim),
-                           (boxWidth - (scrollDim * .75),
-                           boxHeaderMargin - (scrollDim * .75)),
-                           (FRAME_INV.x + boxX),
-                           (FRAME_INV.y + boxY),
-                           spriteKey = "S_UP_ARROW_SMALL",
-                           mouseOverSpriteKey = "S_UP_ARROW_LARGE")
+    scrollDim = 15
+    scrollUp = ui_Button(destSurface = boxSurf,
+                         buttonText = '',
+                         size = (scrollDim, scrollDim),
+                         T_coordsCenter = (boxWidth - (scrollDim * .5),
+                                          boxHeaderMargin + (scrollDim * .5)),
+                         Xoffset = (FRAME_INV.x + boxX),
+                         Yoffset = (FRAME_INV.y + boxY),
+                         box_mouseOverColor = constants.COLOR_RED,
+                         box_colorDefault = constants.COLOR_BLUE,
+                         text_mouseOverColor = constants.COLOR_BLUE,
+                         text_colorDefault = constants.COLOR_BLUE,
+                         disabled = False)
 
-    scrollDown = ui_Button(boxSurf,
-                           '',
-                           (scrollDim, scrollDim),
-                           (boxWidth - (scrollDim * .75),
-                           (boxHeaderMargin + boxBody) - (scrollDim * .25)),
-                           (FRAME_INV.x + boxX),
-                           (FRAME_INV.y + boxY),
-                           spriteKey = "S_UP_ARROW_SMALL",
-                           mouseOverSpriteKey = "S_UP_ARROW_LARGE")
+    # def __init__(self, destSurface, buttonText, size, T_coordsCenter,
+    #              Xoffset,
+    #              Yoffset,
+    #              spriteKey = None,
+    #              mouseOverSpriteKey = None,
+    #              box_mouseOverColor = None,
+    #              box_colorDefault = None,
+    #              text_mouseOverColor = None,
+    #              text_colorDefault = None,
+    #              disabled = False):
+
+    scrollDown = ui_Button(destSurface = boxSurf,
+                           buttonText = '',
+                           size = (scrollDim,scrollDim),
+                           T_coordsCenter = (boxWidth - (scrollDim * .5),
+                                            (boxHeaderMargin + boxBody) - (scrollDim * .5) - 1),
+                           Xoffset = (FRAME_INV.x + boxX),
+                           Yoffset = (FRAME_INV.y + boxY),
+                           box_mouseOverColor = constants.COLOR_RED,
+                           box_colorDefault = constants.COLOR_BLUE,
+                           text_mouseOverColor = constants.COLOR_BLUE,
+                           text_colorDefault = constants.COLOR_BLUE,
+                           disabled = False)
 
     # inventory title placement
     titleX = 0
@@ -2091,9 +2108,9 @@ def drawInventory():
         line += 1
 
     # blit our menu onto the main window and position it (center it)
+    boxSurf.blit(localInventorySurf, (menuX, menuY))
     scrollUp.draw()
     scrollDown.draw()
-    boxSurf.blit(localInventorySurf, (menuX, menuY))
     FRAME_INV.surface.blit(boxSurf, (boxX, boxY))
 
 
@@ -2561,7 +2578,6 @@ class ui_Button:
                  Yoffset,
                  spriteKey = None,
                  mouseOverSpriteKey = None,
-                 color = constants.COLOR_GREY,
                  box_mouseOverColor = None,
                  box_colorDefault = None,
                  text_mouseOverColor = None,
@@ -2584,7 +2600,6 @@ class ui_Button:
         if self.mouseOverSpriteKey:
             self.mouseOverSprite = ASSETS.animationDict[self.mouseOverSpriteKey]
 
-        self.color = color
         self.box_mouseOverColor = box_mouseOverColor
         self.box_colorDefault = box_colorDefault
         self.text_mouseOverColor = text_mouseOverColor
