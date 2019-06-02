@@ -1998,32 +1998,31 @@ def drawInventory():
     boxSurf = pygame.Surface((boxWidth, boxHeight))
     localInventorySurf = pygame.Surface((menuWidth, menuHeight))
 
-    scrollDim = 15
+    scrollDim = 10
     scrollUp = ui_Button(destSurface = boxSurf,
                          buttonText = '',
                          size = (scrollDim, scrollDim),
-                         T_coordsCenter = (boxWidth - (scrollDim * .5),
-                                          boxHeaderMargin + (scrollDim * .5)),
+                         T_coordsCenter = (boxWidth - (scrollDim),
+                                          boxHeaderMargin + frameBorder - 4 - (scrollDim)),
                          Xoffset = (FRAME_INV.x + boxX),
                          Yoffset = (FRAME_INV.y + boxY),
-                         box_mouseOverColor = constants.COLOR_RED,
-                         box_colorDefault = constants.COLOR_BLUE,
-                         text_mouseOverColor = constants.COLOR_BLUE,
-                         text_colorDefault = constants.COLOR_BLUE,
-                         disabled = False,
+                         box_mouseOverColor = constants.COLOR_BUTTON,
+                         box_colorDefault = constants.COLOR_BUTTON,
+                         text_mouseOverColor = constants.COLOR_BUTTON,
+                         text_colorDefault = constants.COLOR_BUTTON,                      disabled = False,
                          polyWidth = 1)
 
     scrollDown = ui_Button(destSurface = boxSurf,
                            buttonText = '',
                            size = (scrollDim,scrollDim),
-                           T_coordsCenter = (boxWidth - (scrollDim * .5),
-                                            (boxHeaderMargin + boxBody) - (scrollDim * .5) - 1),
+                           T_coordsCenter = (boxWidth - (scrollDim),
+                                            (boxHeaderMargin + boxBody) + (scrollDim) - 4),
                            Xoffset = (FRAME_INV.x + boxX),
                            Yoffset = (FRAME_INV.y + boxY),
-                           box_mouseOverColor = constants.COLOR_RED,
-                           box_colorDefault = constants.COLOR_BLUE,
-                           text_mouseOverColor = constants.COLOR_BLUE,
-                           text_colorDefault = constants.COLOR_BLUE,
+                           box_mouseOverColor = constants.COLOR_BUTTON,
+                           box_colorDefault = constants.COLOR_BUTTON,
+                           text_mouseOverColor = constants.COLOR_BUTTON,
+                           text_colorDefault = constants.COLOR_BUTTON,
                            disabled = False,
                            pointlist = [],
                            polyWidth = 1)
@@ -2031,7 +2030,7 @@ def drawInventory():
     Xoff = (boxWidth - scrollDim - 4)
     Yoff = (boxHeaderMargin - scrollDim)
 
-    scrollUpArrowPointlist = [ (Xoff + scrollDim // 2 + 1 , 0         + Yoff),
+    scrollUpArrowPointlist = [ (Xoff + scrollDim // 2 , 0         + Yoff),
                                (Xoff + scrollDim          , scrollDim + Yoff),
                                (Xoff + 0                  , scrollDim + Yoff)]
 
@@ -2578,8 +2577,10 @@ class ui_Button:
                  mouseOverSpriteKey = None,
                  box_mouseOverColor = None,
                  box_colorDefault = None,
+                 box_clickColor = None,
                  text_mouseOverColor = None,
                  text_colorDefault = None,
+                 text_clickColor = None,
                  disabled = False,
                  pointlist = None,
                  polyWidth = 0):
@@ -2602,12 +2603,16 @@ class ui_Button:
 
         self.box_mouseOverColor = box_mouseOverColor
         self.box_colorDefault = box_colorDefault
+        self.box_clickColor = box_clickColor
         self.text_mouseOverColor = text_mouseOverColor
         self.text_colorDefault = text_colorDefault
+        self.text_clickColor = text_clickColor
         self.disabled = disabled
 
+        # polygonal button features
         self.pointlist = pointlist
         self.polyWidth = polyWidth
+        self.polyWidthConst = self.polyWidth
 
         self.box_currentColor = box_colorDefault
         self.text_currentColor = text_colorDefault
@@ -2645,6 +2650,7 @@ class ui_Button:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         buttonPressed = True
+
         return buttonPressed
 
     def draw(self):
@@ -2653,9 +2659,11 @@ class ui_Button:
                 if self.mouseInSurface:
                     self.box_currentColor = self.box_mouseOverColor
                     self.text_currentColor = self.text_mouseOverColor
+                    self.polyWidth = 0
                 else:
                     self.box_currentColor = self.box_colorDefault
                     self.text_currentColor = self.text_colorDefault
+                    self.polyWidth = self.polyWidthConst
             else:
                 self.box_currentColor = constants.COLOR_LIGHT_GREY
                 self.text_currentColor = constants.COLOR_WHITE
@@ -2663,7 +2671,7 @@ class ui_Button:
             if self.pointlist == None:
                 pygame.draw.rect(self.destSurface, self.box_currentColor, self.rect)
             else:
-                pygame.draw.polygon(self.destSurface, constants.COLOR_BLUE, self.pointlist, self.polyWidth)
+                pygame.draw.polygon(self.destSurface, self.box_currentColor, self.pointlist, self.polyWidth)
 
             drawText(self.destSurface,
                      self.buttonText,
