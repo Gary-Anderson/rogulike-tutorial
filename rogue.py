@@ -2136,7 +2136,10 @@ def drawInventory():
 
                 if (mouseInventory and
                     mouseLineSelect <= len(printList) - 1):
-                    result = PLAYER.container.inventory[mouseLineSelect].item.use()
+                    if IS_DROPPING:
+                        result = PLAYER.container.inventory[mouseLineSelect].item.drop(PLAYER.x, PLAYER.y)
+                    else:
+                        result = PLAYER.container.inventory[mouseLineSelect].item.use()
 
         if result == 'canceled' or not result:
             return 'no action'
@@ -2368,7 +2371,7 @@ def drawTileRect(T_coords, rectAlpha=None, mark=None, rectColor=constants.COLOR_
         tileSurf.set_alpha(rectAlpha)
 
     if mark:
-        r, g, b = rectColor
+        r, g, b, a = rectColor
         if ((r + g + b) / 3) < 80:
             drawText(tileSurf, mark, font=constants.FONT_CURSOR_TEXT, T_coords=(
                 (constants.CELL_WIDTH // 2) - 0, (constants.CELL_HEIGHT // 2) - 1), textColor=constants.COLOR_WHITE, centered=True)

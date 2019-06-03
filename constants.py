@@ -27,23 +27,23 @@ ROOM_MAX_HEIGHT = 7
 ROOM_MIN_HEIGHT = 3
 ROOM_MAX_WIDTH = 5
 ROOM_MIN_WIDTH = 2
-# Color Definitions
-COLOR_BLACK = (0, 0, 0)
-COLOR_LIGHT_GREY = (175, 175, 175)
-COLOR_GREY = (100, 100, 100)
-COLOR_DARK_GREY = (25, 25, 25)
-COLOR_WHITE = (255, 255, 255)
-COLOR_PINK = (255, 100, 147)
-COLOR_RED = (255, 0, 0)
-COLOR_ORANGE = (255, 165, 0)
-COLOR_YELLOW = (255, 255, 0)
-COLOR_GREEN = pygame.Color(0, 255, 0, 255)
-COLOR_DARK_GREEN = pygame.Color(0, 128, 0, 255)
-COLOR_CYAN = (0, 255, 255)
-COLOR_BLUE = pygame.Color(0, 0, 255, 255)
-COLOR_LIGHT_BLUE = (100, 100, 255)
-COLOR_DARK_BLUE = pygame.Color(0, 0, 128, 255)
-COLOR_PURPLE = (128, 0, 128)
+# Color Definitions pygame.Color(red, blue, green, opacity)
+COLOR_BLACK =       pygame.Color(  0,   0,   0, 255)
+COLOR_LIGHT_GREY =  pygame.Color(175, 175, 175, 255)
+COLOR_GREY =        pygame.Color(100, 100, 100, 255)
+COLOR_DARK_GREY =   pygame.Color( 25,  25,  25, 255)
+COLOR_WHITE =       pygame.Color(255, 255, 255, 255)
+COLOR_PINK =        pygame.Color(255, 100, 147, 255)
+COLOR_RED =         pygame.Color(255,   0,   0, 255)
+COLOR_ORANGE =      pygame.Color(255, 165,   0, 255)
+COLOR_YELLOW =      pygame.Color(255, 255,   0, 255)
+COLOR_GREEN =       pygame.Color(  0, 255,   0, 255)
+COLOR_DARK_GREEN =  pygame.Color(  0, 128,   0, 255)
+COLOR_CYAN =        pygame.Color(  0, 255, 255, 255)
+COLOR_BLUE =        pygame.Color(  0,   0, 255, 255)
+COLOR_LIGHT_BLUE =  pygame.Color(100, 100, 255, 255)
+COLOR_DARK_BLUE =   pygame.Color(  0,   0, 128, 255)
+COLOR_PURPLE =      pygame.Color(128,   0, 128, 255)
 
 
 PATH = "/Users/garyanderson/Desktop/Education/Computer Science/Roguelike tutorial/Project/repos/roguelike/first/"
