@@ -2006,14 +2006,38 @@ def drawInventory():
     inventoryWindow = pygame.Surface((menuWidth, menuHeight))
     localInventorySurf = pygame.Surface((menuWidth, (invNum * textHeight)))
 
+    # inventory title placement
+    titleX = 0
+    titleY = ((boxHeaderMargin - titleHeight) // 2)
+    drawText(boxSurf, "Inventory:", (titleX, titleY), constants.COLOR_WHITE, font = titleFont)
+
+    #############
+    ## buttons ##
+    #############
     # size of the scroll buttons
     scrollDim = 10
+    dropDimX = 36
+    dropDimY = 11
+
+    dropButton = ui_Button(destSurface = boxSurf,
+                           buttonText = 'Drop',
+                           size = (dropDimX, dropDimY),
+                           T_coordsCenter = ( dropDimX // 2,
+                                              (boxHeaderMargin + boxBody) + dropDimY - 5),
+                           Xoffset = (FRAME_INV.x + boxX),
+                           Yoffset = (FRAME_INV.y + boxY),
+                           box_mouseOverColor = constants.COLOR_BUTTON_MOUSEOVER,
+                           box_colorDefault = constants.COLOR_BUTTON,
+                           text_mouseOverColor = constants.COLOR_BUTTON_TEXT_MOUSEOVER,
+                           text_colorDefault = constants.COLOR_BUTTON_TEXT,
+                           disabled = False,
+                           visibleWhenDisabled = False)
 
     scrollUp = ui_Button(destSurface = boxSurf,
                          buttonText = '',
                          size = (scrollDim, scrollDim),
                          T_coordsCenter = (boxWidth - (scrollDim),
-                                          boxHeaderMargin + frameBorder - 4 - (scrollDim)),
+                                          boxHeaderMargin  - (scrollDim)),
                          Xoffset = (FRAME_INV.x + boxX),
                          Yoffset = (FRAME_INV.y + boxY),
                          box_mouseOverColor = constants.COLOR_FRAME,
@@ -2040,6 +2064,11 @@ def drawInventory():
                            pointlist = [],
                            polyWidth = 1)
 
+
+    ###################################
+    ## pointlist for polygon drawing ##
+    ###################################
+
     # scrollUp's x and y offset
     Xoff = (boxWidth - scrollDim - 4)
     Yoff = (boxHeaderMargin - scrollDim)
@@ -2059,14 +2088,15 @@ def drawInventory():
     scrollUp.pointlist = scrollUpArrowPointlist
     scrollDown.pointlist = scrollDownArrowPointlist
 
+    ####################
+    ## button pushing ##
+    ####################
+
     # return true when pressed
     scrollUpPressed = scrollUp.update(MASTER_EVENTS)
     scrollDownPressed = scrollDown.update(MASTER_EVENTS)
 
-    # inventory title placement
-    titleX = 0
-    titleY = ((boxHeaderMargin - titleHeight) // 2)
-    drawText(boxSurf, "Inventory:", (titleX, titleY), constants.COLOR_WHITE, font = titleFont)
+
 
     # Clear the menu
     localInventorySurf.fill(constants.COLOR_MENU)
@@ -2186,6 +2216,7 @@ def drawInventory():
     boxSurf.blit(inventoryWindow, (menuX, menuY))
     scrollUp.draw()
     scrollDown.draw()
+    dropButton.draw()
     FRAME_INV.surface.blit(boxSurf, (boxX, boxY))
 
 
@@ -4287,9 +4318,10 @@ def gen_snail(T_coords):
 def gameInit():
     # this function sets up the main window and pygame
 
-    global SURFACE_MAIN, SURFACE_MAP, GAME_LOOP_ITER, INV_SCROLL_INDEX
+    global SURFACE_MAIN, SURFACE_MAP, GAME_LOOP_ITER
     global FRAME_MAP, BOX_MAP, FRAME_CONSOLE, FRAME_INV, FRAME_STATUS
     global CLOCK, FOV_CALC, FOV_MAP, ENEMY, ASSETS, PREF, CAMERA, RANDOM_ENGINE
+    global INV_SCROLL_INDEX, IS_DROPPING
 
     # initialiaze pygame
     pygame.init()
@@ -4368,6 +4400,9 @@ def gameInit():
 
     # initializes what item we are scrolled to in the inventory window
     INV_SCROLL_INDEX = 0
+
+    # if the user is selecting something to be dropped
+    IS_DROPPING = 0
 
 def gameStart(new=True):
     if not new:
