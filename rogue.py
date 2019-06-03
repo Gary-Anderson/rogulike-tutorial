@@ -1961,7 +1961,7 @@ def drawInventory():
     # box refers to the surface that contains all the inventory stuff
     # menu is the inventory list
 
-    global INV_SCROLL_INDEX
+    global INV_SCROLL_INDEX, IS_DROPPING
 
     # generate a list of whats in the players inventory
     printList = [obj.displayName for obj in PLAYER.container.inventory]
@@ -2026,7 +2026,6 @@ def drawInventory():
                                               (boxHeaderMargin + boxBody) + dropDimY - 5),
                            Xoffset = (FRAME_INV.x + boxX),
                            Yoffset = (FRAME_INV.y + boxY),
-                           box_mouseOverColor = constants.COLOR_BUTTON_MOUSEOVER,
                            box_colorDefault = constants.COLOR_BUTTON,
                            text_mouseOverColor = constants.COLOR_BUTTON_TEXT_MOUSEOVER,
                            text_colorDefault = constants.COLOR_BUTTON_TEXT,
@@ -2096,7 +2095,19 @@ def drawInventory():
     scrollUpPressed = scrollUp.update(MASTER_EVENTS)
     scrollDownPressed = scrollDown.update(MASTER_EVENTS)
 
+    dropButtonPressed = dropButton.update(MASTER_EVENTS)
 
+    # drop button toggles IS_DROPPING
+    if dropButtonPressed:
+        if IS_DROPPING == False: IS_DROPPING = True
+        else: IS_DROPPING = False
+
+    # change color of drop button to indicate switch
+    if IS_DROPPING == True:
+        dropButton.box_currentColor = constants.COLOR_SWITCH
+        dropButton.box_colorDefault = constants.COLOR_SWITCH
+    else:
+        dropButton.box_currentColor = constants.COLOR_BUTTON
 
     # Clear the menu
     localInventorySurf.fill(constants.COLOR_MENU)
@@ -2203,13 +2214,6 @@ def drawInventory():
         scrollUp.visibleWhenDisabled = False
         scrollDown.disabled = True
         scrollDown.visibleWhenDisabled = False
-
-        # scrollUp.box_colorDefault = constants.COLOR_FRAME
-        # scrollUp.box_mouseOverColor = constants.COLOR_FRAME
-        # scrollDown.box_colorDefault = constants.COLOR_FRAME
-        # scrollDown.box_mouseOverColor = constants.COLOR_FRAME
-
-
 
     # blit our menu onto the main window and position it (center it)
     inventoryWindow.blit(localInventorySurf, (0, currentInvY))
@@ -2773,9 +2777,12 @@ class ui_Button:
         if self.spriteKey == None:
             if not self.disabled:
                 if self.mouseInSurface:
-                    self.box_currentColor = self.box_mouseOverColor
-                    self.text_currentColor = self.text_mouseOverColor
-                    self.polyWidth = 0
+                    if self.box_mouseOverColor:
+                        self.box_currentColor = self.box_mouseOverColor
+                        self.text_currentColor = self.text_mouseOverColor
+                        self.polyWidth = 0
+                    else:
+                        self.box_currentColor += pygame.Color(100, 100, 100, 0)
                 else:
                     self.box_currentColor = self.box_colorDefault
                     self.text_currentColor = self.text_colorDefault
@@ -4402,7 +4409,7 @@ def gameInit():
     INV_SCROLL_INDEX = 0
 
     # if the user is selecting something to be dropped
-    IS_DROPPING = 0
+    IS_DROPPING = False
 
 def gameStart(new=True):
     if not new:
