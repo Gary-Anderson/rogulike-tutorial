@@ -2152,12 +2152,20 @@ def drawInventory():
     line = 0
     for name in printList:
         if line == mouseLineSelect and mouseInventory:
-            drawText(localInventorySurf,
-                     name,
-                     font=constants.FONT_MESSAGE_TEXT,
-                     T_coords=(0, (0 + (line * textHeight))),
-                     textColor=menuTextColor,
-                     backColor=constants.COLOR_GREY)
+            if IS_DROPPING:
+                drawText(localInventorySurf,
+                         name,
+                         font=constants.FONT_MESSAGE_TEXT,
+                         T_coords=(0, (0 + (line * textHeight))),
+                         textColor=constants.COLOR_DROPPING_TEXT,
+                         backColor=constants.COLOR_DROPPING_HIGHLIGHT)
+            else:
+                drawText(localInventorySurf,
+                         name,
+                         font=constants.FONT_MESSAGE_TEXT,
+                         T_coords=(0, (0 + (line * textHeight))),
+                         textColor=menuTextColor,
+                         backColor=constants.COLOR_GREY)
         else:
             drawText(localInventorySurf,
                      name,
