@@ -1961,6 +1961,8 @@ def drawInventory():
     # box refers to the surface that contains all the inventory stuff
     # menu is the inventory list
 
+    global INV_SCROLL_INDEX
+    
     # generate a list of whats in the players inventory
     printList = [obj.displayName for obj in PLAYER.container.inventory]
     # length of that list
@@ -2069,6 +2071,10 @@ def drawInventory():
     # Clear the menu
     localInventorySurf.fill(constants.COLOR_MENU)
 
+    #########################
+    ## inventory selection ##
+    #########################
+
     # get mouse x, y
     mouseX, mouseY = pygame.mouse.get_pos()
     mouseX_rel = (mouseX - FRAME_INV.x) - boxX - menuX
@@ -2079,7 +2085,7 @@ def drawInventory():
                    mouseX_rel <= menuWidth and
                    mouseY_rel <= menuHeight)
 
-    mouseLineSelect = mouseY_rel // textHeight
+    mouseLineSelect = (mouseY_rel // textHeight) + INV_SCROLL_INDEX
 
     # iterate over the events list
     for event in MASTER_EVENTS:
@@ -2119,7 +2125,6 @@ def drawInventory():
     ####################
     ## menu scrolling ##
     ####################
-    global INV_SCROLL_INDEX
 
     #Current Y coord of localInventorySurf
     currentInvY = (INV_SCROLL_INDEX * (-1)) * textHeight
@@ -2134,7 +2139,6 @@ def drawInventory():
     if scrollDownPressed and INV_SCROLL_INDEX != ((menuHeight // textHeight) - invNum) * (-1):
         INV_SCROLL_INDEX += 1
 
-    print("((menuHeight // textHeight) - invNum) * (-1)  = " + str(((menuHeight // textHeight) - invNum) * (-1)))
 
     # scroll buttons only visible when inventory exceeds localInventorySurf's height
     #  if there are more items in the inventory then we can see
@@ -2145,7 +2149,6 @@ def drawInventory():
         if INV_SCROLL_INDEX == 0:
             # grey-out the scroll up button
             scrollUp.disabled = True
-            print("scrollUp.disabled = " + str(scrollUp.disabled))
             # enable the scroll down button
             scrollDown.disabled = False
             scrollDown.box_colorDefault = constants.COLOR_BUTTON
