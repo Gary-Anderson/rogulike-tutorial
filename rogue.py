@@ -2150,28 +2150,74 @@ def drawInventory():
 
     # iterate and draw the inventory list
     line = 0
-    for name in printList:
+    for obj in PLAYER.container.inventory:
         if line == mouseLineSelect and mouseInventory:
             if IS_DROPPING:
-                drawText(localInventorySurf,
-                         name,
-                         font=constants.FONT_MESSAGE_TEXT,
-                         T_coords=(0, (0 + (line * textHeight))),
-                         textColor=constants.COLOR_DROPPING_TEXT,
-                         backColor=constants.COLOR_DROPPING_HIGHLIGHT)
+                if obj.equipment:
+                    if obj.equipment.equipped:
+                        drawText(localInventorySurf,
+                                 obj.displayName,
+                                 font=constants.FONT_MESSAGE_TEXT,
+                                 T_coords=(0, (0 + (line * textHeight))),
+                                 textColor=constants.COLOR_EQUIPPED,
+                                 backColor=constants.COLOR_DROPPING_HIGHLIGHT)
+                    else:
+                        drawText(localInventorySurf,
+                                 obj.displayName,
+                                 font=constants.FONT_MESSAGE_TEXT,
+                                 T_coords=(0, (0 + (line * textHeight))),
+                                 textColor=menuTextColor,
+                                 backColor=constants.COLOR_DROPPING_HIGHLIGHT)
+                else:
+                    drawText(localInventorySurf,
+                             obj.displayName,
+                             font=constants.FONT_MESSAGE_TEXT,
+                             T_coords=(0, (0 + (line * textHeight))),
+                             textColor=constants.COLOR_DROPPING_TEXT,
+                             backColor=constants.COLOR_DROPPING_HIGHLIGHT)
+            else:
+                if obj.equipment:
+                    if obj.equipment.equipped:
+                        drawText(localInventorySurf,
+                                 obj.displayName,
+                                 font=constants.FONT_MESSAGE_TEXT,
+                                 T_coords=(0, (0 + (line * textHeight))),
+                                 textColor=constants.COLOR_EQUIPPED,
+                                 backColor=constants.COLOR_GREY)
+                    else:
+                        drawText(localInventorySurf,
+                                 obj.displayName,
+                                 font=constants.FONT_MESSAGE_TEXT,
+                                 T_coords=(0, (0 + (line * textHeight))),
+                                 textColor=menuTextColor,
+                                 backColor=constants.COLOR_GREY)
+                else:
+                    drawText(localInventorySurf,
+                             obj.displayName,
+                             font=constants.FONT_MESSAGE_TEXT,
+                             T_coords=(0, (0 + (line * textHeight))),
+                             textColor=menuTextColor,
+                             backColor=constants.COLOR_GREY)
+        else:
+            if obj.equipment:
+                if obj.equipment.equipped:
+                    drawText(localInventorySurf,
+                             obj.displayName,
+                             font=constants.FONT_MESSAGE_TEXT,
+                             T_coords=(0, (0 + (line * textHeight))),
+                             textColor=constants.COLOR_EQUIPPED)
+                else:
+                    drawText(localInventorySurf,
+                             obj.displayName,
+                             font=constants.FONT_MESSAGE_TEXT,
+                             T_coords=(0, (0 + (line * textHeight))),
+                             textColor=menuTextColor)
             else:
                 drawText(localInventorySurf,
-                         name,
+                         obj.displayName,
                          font=constants.FONT_MESSAGE_TEXT,
                          T_coords=(0, (0 + (line * textHeight))),
-                         textColor=menuTextColor,
-                         backColor=constants.COLOR_GREY)
-        else:
-            drawText(localInventorySurf,
-                     name,
-                     font=constants.FONT_MESSAGE_TEXT,
-                     T_coords=(0, (0 + (line * textHeight))),
-                     textColor=menuTextColor)
+                         textColor=menuTextColor)
         line += 1
 
     ####################
