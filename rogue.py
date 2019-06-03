@@ -1962,11 +1962,18 @@ def drawInventory():
     # menu is the inventory list
 
     global INV_SCROLL_INDEX
-    
+
     # generate a list of whats in the players inventory
     printList = [obj.displayName for obj in PLAYER.container.inventory]
     # length of that list
     invNum = len(printList)
+
+    # font...
+    menuFont = constants.FONT_DEBUG_MESSAGE
+    textHeight = helperTextHeight(menuFont)
+    titleFont = constants.FONT_INV_TITLE
+    titleHeight = helperTextHeight(titleFont)
+    menuTextColor = constants.COLOR_WHITE
 
     # dimensions of inventory frame
     frameWidth = FRAME_INV.width
@@ -1974,7 +1981,7 @@ def drawInventory():
 
     # margins
     frameBorder = FRAME_INV.border
-    boxBody = frameHeight * .3
+    boxBody = (frameHeight * .3) - ((frameHeight * .3) % textHeight)
     boxHeaderMargin = 32
     boxFooterMargin = 32
     boxLeftMargin = 0
@@ -1986,20 +1993,13 @@ def drawInventory():
     boxX = frameBorder
     boxY = frameBorder
 
-    # dimensions of inventory surface
+    # dimensions of inventory window surface
     menuWidth = boxWidth - boxRightMargin - boxLeftMargin
     menuHeight = boxBody
 
     # placement of inventory surface in box surface
     menuX = 0 + boxLeftMargin
     menuY = 0 + boxHeaderMargin
-
-    # font...
-    menuFont = constants.FONT_DEBUG_MESSAGE
-    textHeight = helperTextHeight(menuFont)
-    titleFont = constants.FONT_INV_TITLE
-    titleHeight = helperTextHeight(titleFont)
-    menuTextColor = constants.COLOR_WHITE
 
     # Surface to draw onto
     boxSurf = pygame.Surface((boxWidth, boxHeight))
