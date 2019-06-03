@@ -1961,6 +1961,11 @@ def drawInventory():
     # box refers to the surface that contains all the inventory stuff
     # menu is the inventory list
 
+    # generate a list of whats in the players inventory
+    printList = [obj.displayName for obj in PLAYER.container.inventory]
+    # length of that list
+    invNum = len(printList)
+
     # dimensions of inventory frame
     frameWidth = FRAME_INV.width
     frameHeight = FRAME_INV.height
@@ -1996,9 +2001,12 @@ def drawInventory():
 
     # Surface to draw onto
     boxSurf = pygame.Surface((boxWidth, boxHeight))
-    localInventorySurf = pygame.Surface((menuWidth, menuHeight))
+    inventoryWindow = pygame.Surface((menuWidth, menuHeight))
+    localInventorySurf = pygame.Surface((menuWidth, (invNum * textHeight)))
 
+    # size of the scroll buttons
     scrollDim = 10
+
     scrollUp = ui_Button(destSurface = boxSurf,
                          buttonText = '',
                          size = (scrollDim, scrollDim),
@@ -2006,10 +2014,12 @@ def drawInventory():
                                           boxHeaderMargin + frameBorder - 4 - (scrollDim)),
                          Xoffset = (FRAME_INV.x + boxX),
                          Yoffset = (FRAME_INV.y + boxY),
-                         box_mouseOverColor = constants.COLOR_BUTTON,
-                         box_colorDefault = constants.COLOR_BUTTON,
-                         text_mouseOverColor = constants.COLOR_BUTTON,
-                         text_colorDefault = constants.COLOR_BUTTON,                      disabled = False,
+                         box_mouseOverColor = constants.COLOR_FRAME,
+                         box_colorDefault = constants.COLOR_FRAME,
+                         text_mouseOverColor = constants.COLOR_FRAME,
+                         text_colorDefault = constants.COLOR_FRAME,
+                         disabled = False,
+                         visibleWhenDisabled = False,
                          polyWidth = 1)
 
     scrollDown = ui_Button(destSurface = boxSurf,
@@ -2019,24 +2029,27 @@ def drawInventory():
                                             (boxHeaderMargin + boxBody) + (scrollDim) - 4),
                            Xoffset = (FRAME_INV.x + boxX),
                            Yoffset = (FRAME_INV.y + boxY),
-                           box_mouseOverColor = constants.COLOR_BUTTON,
-                           box_colorDefault = constants.COLOR_BUTTON,
-                           text_mouseOverColor = constants.COLOR_BUTTON,
-                           text_colorDefault = constants.COLOR_BUTTON,
+                           box_mouseOverColor = constants.COLOR_FRAME,
+                           box_colorDefault = constants.COLOR_FRAME,
+                           text_mouseOverColor = constants.COLOR_FRAME,
+                           text_colorDefault = constants.COLOR_FRAME,
                            disabled = False,
+                           visibleWhenDisabled = False,
                            pointlist = [],
                            polyWidth = 1)
 
+    # scrollUp's x and y offset
     Xoff = (boxWidth - scrollDim - 4)
     Yoff = (boxHeaderMargin - scrollDim)
 
+    # scrollUp's pointlist makes its triangle shape
     scrollUpArrowPointlist = [ (Xoff + scrollDim // 2 , 0         + Yoff),
                                (Xoff + scrollDim          , scrollDim + Yoff),
                                (Xoff + 0                  , scrollDim + Yoff)]
-
-    Xoff = (boxWidth - scrollDim - 4)
+    # scroll down's Y offset
     Yoff = (boxHeaderMargin + boxBody)
 
+    # scrollDown's pointlist makes its triangle shape
     scrollDownArrowPointlist = [ (Xoff + 0              , 0         + Yoff),
                                  (Xoff + scrollDim      , 0         + Yoff),
                                  (Xoff + scrollDim // 2 , scrollDim + Yoff)]
@@ -2044,6 +2057,9 @@ def drawInventory():
     scrollUp.pointlist = scrollUpArrowPointlist
     scrollDown.pointlist = scrollDownArrowPointlist
 
+    # return true when pressed
+    scrollUpPressed = scrollUp.update(MASTER_EVENTS)
+    scrollDownPressed = scrollDown.update(MASTER_EVENTS)
 
     # inventory title placement
     titleX = 0
@@ -2052,10 +2068,6 @@ def drawInventory():
 
     # Clear the menu
     localInventorySurf.fill(constants.COLOR_MENU)
-
-    # generate a list of whats in the players inventory
-    printList = [obj.displayName for obj in PLAYER.container.inventory]
-
 
     # get mouse x, y
     mouseX, mouseY = pygame.mouse.get_pos()
@@ -2104,8 +2116,71 @@ def drawInventory():
                      textColor=menuTextColor)
         line += 1
 
+    ####################
+    ## menu scrolling ##
+    ####################
+    global INV_SCROLL_INDEX
+
+    #Current Y coord of localInventorySurf
+    currentInvY = (INV_SCROLL_INDEX * (-1)) * textHeight
+
+    # how many items in the player's inventory
+    invNum = len(printList)
+
+
+    # if the scroll buttons are pressed, INV_SCROLL_INDEX is incremented
+    if scrollUpPressed and INV_SCROLL_INDEX != 0:
+        INV_SCROLL_INDEX -= 1
+    if scrollDownPressed and INV_SCROLL_INDEX != ((menuHeight // textHeight) - invNum) * (-1):
+        INV_SCROLL_INDEX += 1
+
+    print("((menuHeight // textHeight) - invNum) * (-1)  = " + str(((menuHeight // textHeight) - invNum) * (-1)))
+
+    # scroll buttons only visible when inventory exceeds localInventorySurf's height
+    #  if there are more items in the inventory then we can see
+    if invNum > boxBody // textHeight:
+        scrollUp.visibleWhenDisabled = True
+        scrollDown.visibleWhenDisabled = True
+        # if we are at the top of the list
+        if INV_SCROLL_INDEX == 0:
+            # grey-out the scroll up button
+            scrollUp.disabled = True
+            print("scrollUp.disabled = " + str(scrollUp.disabled))
+            # enable the scroll down button
+            scrollDown.disabled = False
+            scrollDown.box_colorDefault = constants.COLOR_BUTTON
+            scrollDown.box_mouseOverColor = constants.COLOR_BUTTON
+        elif INV_SCROLL_INDEX >= ((menuHeight // textHeight) - invNum) * (-1):
+            # enable the scroll up button
+            scrollUp.disabled = False
+            scrollUp.box_colorDefault = constants.COLOR_BUTTON
+            scrollUp.box_mouseOverColor = constants.COLOR_BUTTON
+            # grey-out the scroll down button
+            scrollDown.disabled = True
+        else:
+            scrollUp.disabled = False
+            scrollDown.disabled = False
+            scrollUp.box_colorDefault = constants.COLOR_BUTTON
+            scrollUp.box_mouseOverColor = constants.COLOR_BUTTON
+            scrollDown.box_colorDefault = constants.COLOR_BUTTON
+            scrollDown.box_mouseOverColor = constants.COLOR_BUTTON
+    else:
+        # make all the scroll buttons invisible and disabled
+        scrollUp.disabled = True
+        scrollUp.visibleWhenDisabled = False
+        scrollDown.disabled = True
+        scrollDown.visibleWhenDisabled = False
+
+        # scrollUp.box_colorDefault = constants.COLOR_FRAME
+        # scrollUp.box_mouseOverColor = constants.COLOR_FRAME
+        # scrollDown.box_colorDefault = constants.COLOR_FRAME
+        # scrollDown.box_mouseOverColor = constants.COLOR_FRAME
+
+
+
     # blit our menu onto the main window and position it (center it)
-    boxSurf.blit(localInventorySurf, (menuX, menuY))
+    inventoryWindow.blit(localInventorySurf, (0, currentInvY))
+    boxSurf.blit(inventoryWindow, (menuX, menuY))
     scrollUp.draw()
     scrollDown.draw()
     FRAME_INV.surface.blit(boxSurf, (boxX, boxY))
@@ -2582,6 +2657,7 @@ class ui_Button:
                  text_colorDefault = None,
                  text_clickColor = None,
                  disabled = False,
+                 visibleWhenDisabled = True,
                  pointlist = None,
                  polyWidth = 0):
 
@@ -2607,7 +2683,10 @@ class ui_Button:
         self.text_mouseOverColor = text_mouseOverColor
         self.text_colorDefault = text_colorDefault
         self.text_clickColor = text_clickColor
+
+        # disabled behavior
         self.disabled = disabled
+        self.visibleWhenDisabled = visibleWhenDisabled
 
         # polygonal button features
         self.pointlist = pointlist
@@ -2645,11 +2724,14 @@ class ui_Button:
 
     def update(self, playerInput):
         buttonPressed = False
-        if self.mouseInSurface:
-            for event in playerInput:
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        buttonPressed = True
+        if self.disabled == False:
+            if self.mouseInSurface:
+                for event in playerInput:
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if event.button == 1:
+                            buttonPressed = True
+        else:
+            buttonPressed = False
 
         return buttonPressed
 
@@ -2665,8 +2747,9 @@ class ui_Button:
                     self.text_currentColor = self.text_colorDefault
                     self.polyWidth = self.polyWidthConst
             else:
-                self.box_currentColor = constants.COLOR_LIGHT_GREY
-                self.text_currentColor = constants.COLOR_WHITE
+                if self.visibleWhenDisabled:
+                    self.box_currentColor = constants.COLOR_LIGHT_GREY
+                    self.text_currentColor = constants.COLOR_WHITE
 
             if self.pointlist == None:
                 pygame.draw.rect(self.destSurface, self.box_currentColor, self.rect)
@@ -4201,7 +4284,7 @@ def gen_snail(T_coords):
 def gameInit():
     # this function sets up the main window and pygame
 
-    global SURFACE_MAIN, SURFACE_MAP
+    global SURFACE_MAIN, SURFACE_MAP, GAME_LOOP_ITER, INV_SCROLL_INDEX
     global FRAME_MAP, BOX_MAP, FRAME_CONSOLE, FRAME_INV, FRAME_STATUS
     global CLOCK, FOV_CALC, FOV_MAP, ENEMY, ASSETS, PREF, CAMERA, RANDOM_ENGINE
 
@@ -4276,6 +4359,12 @@ def gameInit():
     # start the clock
     CLOCK = pygame.time.Clock()
     FOV_CALC = True
+
+    # this does nothing right now
+    GAME_LOOP_ITER = 0
+
+    # initializes what item we are scrolled to in the inventory window
+    INV_SCROLL_INDEX = 0
 
 def gameStart(new=True):
     if not new:
@@ -4486,6 +4575,9 @@ def gameMessage(gameMsg, msgColor=constants.COLOR_GREY):
     GAME.msgHistory.append((gameMsg, msgColor))
 
 def gameLoop():
+
+    global GAME_LOOP_ITER
+
     # now for the game loop, each iteration of which is a turn. If we were real-time, it would be a frame
     gameQuit = False
 
@@ -4494,6 +4586,8 @@ def gameLoop():
 
     # the Game Loop
     while not gameQuit:
+
+        GAME_LOOP_ITER += 1
 
         # the loop constantly listens for key strokes
         playerAction = gameHandleKeys()
@@ -4530,6 +4624,7 @@ def gameLoop():
 
     pygame.mixer.music.load(ASSETS.musicMain)
     pygame.mixer.music.play(-1)
+
 
 
 if __name__ == '__main__':
