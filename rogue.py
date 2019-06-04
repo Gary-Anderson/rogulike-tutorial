@@ -1081,9 +1081,11 @@ class com_Item:
         GAME.currentObj.append(self.owner)
         self.owner.animationInit()
         self.container.inventory.remove(self.owner)
+        if self.owner.equipment and self.owner.equipment.equipped:
+            self.owner.equipment.toggleEquip()
         self.owner.x = newX
         self.owner.y = newY
-        gameMessage('Item dropped')
+        gameMessage(self.owner.displayName + ' dropped')
 
     # TODO way to use the item
     def use(self):
