@@ -1087,7 +1087,6 @@ class com_Item:
         self.owner.y = newY
         gameMessage(self.owner.displayName + ' dropped')
 
-    # TODO way to use the item
     def use(self):
 
         if self.owner.equipment:
@@ -1123,8 +1122,8 @@ class com_Equipment:
         if not self.equipped:
             for item in equippedItems:
                 if item.equipment.slot and (item.equipment.slot == self.slot):
-                    gameMessage("That slot is full")
-                    return
+                    item.equipment.equipped = False
+                    gameMessage(item.displayName + " is unequipped")
 
         self.equipped = True
         gameMessage(self.owner.nameObject + " is equipped")
