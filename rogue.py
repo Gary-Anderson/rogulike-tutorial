@@ -2039,7 +2039,7 @@ def drawInventory():
                          T_coordsCenter = (boxWidth - (scrollDim),
                                           boxHeaderMargin  - (scrollDim)),
                          Xoffset = (FRAME_INV.x + boxX),
-                         Yoffset = (FRAME_INV.y + boxY),
+                         Yoffset = (FRAME_INV.y + boxY + 4),
                          box_mouseOverColor = constants.COLOR_FRAME,
                          box_colorDefault = constants.COLOR_FRAME,
                          text_mouseOverColor = constants.COLOR_FRAME,
@@ -4679,7 +4679,7 @@ def gameMessage(gameMsg, msgColor=constants.COLOR_GREY):
 
 def gameLoop():
 
-    global GAME_LOOP_ITER
+    global GAME_LOOP_ITER, IS_DROPPING
 
     # now for the game loop, each iteration of which is a turn. If we were real-time, it would be a frame
     gameQuit = False
@@ -4724,6 +4724,9 @@ def gameLoop():
 
         if PLAYER.state == 'STATUS_DEAD' or PLAYER.state == 'STATUS_VICTORY':
             gameQuit = True
+
+        if playerAction != 'no action' and IS_DROPPING:
+            IS_DROPPING = False
 
     pygame.mixer.music.load(ASSETS.musicMain)
     pygame.mixer.music.play(-1)
