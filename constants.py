@@ -63,6 +63,8 @@ COLOR_SWITCH = COLOR_DARK_RED
 COLOR_DROPPING_TEXT = COLOR_WHITE
 COLOR_DROPPING_HIGHLIGHT = COLOR_DARK_RED
 COLOR_EQUIPPED = COLOR_GREEN
+COLOR_BORDER1 = COLOR_WHITE
+COLOR_BORDER2 = COLOR_BLACK
 
 
 # FONTS ##
@@ -71,6 +73,7 @@ FONT_MESSAGE_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 12)
 FONT_CURSOR_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', CELL_HEIGHT)
 FONT_TITLE_TEXT = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 24)
 FONT_INV_TITLE = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 18)
+FONT_INV_INFO = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 10)
 
 # FOV SETTINGS
 FOV_ALGO = libtcod.FOV_BASIC

@@ -1975,10 +1975,12 @@ def drawInventory():
 
     # font...
     menuFont = constants.FONT_DEBUG_MESSAGE
-    textHeight = helperTextHeight(menuFont)
+    textHeight = helperTextHeight(menuFont) # 13 if font size is 10
     titleFont = constants.FONT_INV_TITLE
     titleHeight = helperTextHeight(titleFont)
     menuTextColor = constants.COLOR_WHITE
+    infoFont = constants.FONT_INV_INFO
+    infoTextHeight = helperTextHeight(infoFont)
 
     # dimensions of inventory frame
     frameWidth = FRAME_INV.width
@@ -1986,21 +1988,27 @@ def drawInventory():
 
     # margins
     frameBorder = FRAME_INV.border
-    boxBody = (frameHeight * .3) - ((frameHeight * .3) % textHeight)
     boxHeaderMargin = 32
-    boxFooterMargin = 32
+    boxFooterMargin = 16
+    boxBody = (frameHeight * .3) - ((frameHeight * .3) % textHeight)
     boxLeftMargin = 0
     boxRightMargin = 0
 
     # dimensions of box surface
     boxWidth = frameWidth - (frameBorder * 2)
-    boxHeight = boxBody + boxHeaderMargin + boxFooterMargin
+    boxHeight = boxHeaderMargin + boxBody + boxFooterMargin
     boxX = frameBorder
     boxY = frameBorder
 
+    # dimensions of the textWindow
+    textWindowMargin = 1
+    textWindowWidth = frameWidth - (frameBorder * 2) - (textWindowMargin * 4)
+    textWindowHeight = boxBody * .5
+    textWindowHeight -= (textWindowHeight % ((textWindowHeight // infoTextHeight) * infoTextHeight))
+
     # dimensions of inventory window surface
     menuWidth = boxWidth - boxRightMargin - boxLeftMargin
-    menuHeight = boxBody
+    menuHeight = boxBody * .75
 
     # placement of inventory surface in box surface
     menuX = 0 + boxLeftMargin
@@ -2010,11 +2018,15 @@ def drawInventory():
     boxSurf = pygame.Surface((boxWidth, boxHeight))
     inventoryWindow = pygame.Surface((menuWidth, menuHeight))
     localInventorySurf = pygame.Surface((menuWidth, (invNum * textHeight)))
+    textWindowSurf = pygame.Surface((textWindowWidth, textWindowHeight))
+    boxSurf.fill(constants.COLOR_PINK)
+    textWindowSurf.fill(constants.COLOR_CYAN)
+    pygame.draw.rect(textWindowSurf, constants.COLOR_BORDER2, (0, 0, textWindowWidth, textWindowHeight), 1)
 
     # inventory title placement
     titleX = 0
     titleY = ((boxHeaderMargin - titleHeight) // 2)
-    drawText(boxSurf, "Inventory:", (titleX, titleY), constants.COLOR_WHITE, font = titleFont)
+    drawText(boxSurf, "Inventory:", (titleX, titleY), constants.COLOR_BORDER2, font = titleFont)
 
     #############
     ## buttons ##
@@ -2028,7 +2040,7 @@ def drawInventory():
                            buttonText = 'Drop',
                            size = (dropDimX, dropDimY),
                            T_coordsCenter = ( dropDimX // 2,
-                                              (boxHeaderMargin + boxBody) + dropDimY - 5),
+                                            ( boxHeaderMargin + menuHeight) + dropDimY - 5),
                            Xoffset = (FRAME_INV.x + boxX),
                            Yoffset = (FRAME_INV.y + boxY),
                            box_colorDefault = constants.COLOR_BUTTON,
@@ -2056,7 +2068,7 @@ def drawInventory():
                            buttonText = '',
                            size = (scrollDim,scrollDim),
                            T_coordsCenter = (boxWidth - (scrollDim),
-                                            (boxHeaderMargin + boxBody) + (scrollDim) - 4),
+                                            (boxHeaderMargin + menuHeight) + (scrollDim) - 4),
                            Xoffset = (FRAME_INV.x + boxX),
                            Yoffset = (FRAME_INV.y + boxY),
                            box_mouseOverColor = constants.COLOR_FRAME,
@@ -2068,6 +2080,9 @@ def drawInventory():
                            pointlist = [],
                            polyWidth = 1)
 
+    # placement of textWindow in the box surface
+    textWindowX = menuX + (textWindowMargin * 2)
+    textWindowY = (boxHeaderMargin + menuHeight) + dropDimY + (textWindowMargin * 2)
 
     ###################################
     ## pointlist for polygon drawing ##
@@ -2075,14 +2090,14 @@ def drawInventory():
 
     # scrollUp's x and y offset
     Xoff = (boxWidth - scrollDim - 4)
-    Yoff = (boxHeaderMargin - scrollDim)
+    Yoff = (boxHeaderMargin - scrollDim - 1)
 
     # scrollUp's pointlist makes its triangle shape
     scrollUpArrowPointlist = [ (Xoff + scrollDim // 2 , 0         + Yoff),
                                (Xoff + scrollDim          , scrollDim + Yoff),
                                (Xoff + 0                  , scrollDim + Yoff)]
     # scroll down's Y offset
-    Yoff = (boxHeaderMargin + boxBody)
+    Yoff = (boxHeaderMargin + menuHeight)
 
     # scrollDown's pointlist makes its triangle shape
     scrollDownArrowPointlist = [ (Xoff + 0              , 0         + Yoff),
@@ -2280,6 +2295,7 @@ def drawInventory():
     # blit our menu onto the main window and position it (center it)
     inventoryWindow.blit(localInventorySurf, (0, currentInvY))
     boxSurf.blit(inventoryWindow, (menuX, menuY))
+    boxSurf.blit(textWindowSurf, (textWindowX, textWindowY))
     scrollUp.draw()
     scrollDown.draw()
     dropButton.draw()
