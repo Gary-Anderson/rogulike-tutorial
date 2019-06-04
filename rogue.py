@@ -1126,6 +1126,10 @@ class com_Equipment:
                     gameMessage(item.displayName + " is unequipped")
 
         self.equipped = True
+        PLAYER.container.inventory.remove(self.owner)
+        PLAYER.container.inventory.insert(0, self.owner)
+
+
         gameMessage(self.owner.nameObject + " is equipped")
 
     def unequip(self):
