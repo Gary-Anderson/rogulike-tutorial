@@ -2375,6 +2375,15 @@ def drawInventory():
                 # increment what line we are on
                 i += 1
 
+                # if this is the last word and it needs a new line
+                if iter == len(itemInfo):
+                    # print the line to the window
+                    drawText(infoWindowSurf, line,
+                            (textStartX, (textStartY + (i * infoTextHeight))),
+                            constants.COLOR_TEXT_INV_INFO,
+                            font=constants.FONT_INV_INFO,
+                            backColor=constants.COLOR_BLACK)
+
         # when we get to the end, print whats left
 
         # if this word were added to the line, would it fit in the window?
