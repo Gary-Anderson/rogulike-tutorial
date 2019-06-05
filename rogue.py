@@ -1959,13 +1959,15 @@ def drawGUI():
                            emptyColor = constants.COLOR_DARK_BLUE)
     magicBar.draw(magicBar.T_coords)
 
-
+## XYZ
 def drawInventory():
 
     # FRAME_INV is the GUI object that holds everything on the right part of the screen
     # box refers to the surface that contains all the inventory stuff
-    # menu is the inventory list
+    # inventoryWindow is the inventory list
 
+    # INV_SCROLL_INDEX represents how many items we are scrolled down in the inventory
+    # IS_DROPPING is a boolean representing whether the drop button is switched on
     global INV_SCROLL_INDEX, IS_DROPPING
 
     # generate a list of whats in the players inventory
@@ -1974,59 +1976,59 @@ def drawInventory():
     invNum = len(printList)
 
     # font...
-    menuFont = constants.FONT_DEBUG_MESSAGE
-    textHeight = helperTextHeight(menuFont) # 13 if font size is 10
+    inventoryFont = constants.FONT_DEBUG_MESSAGE
+    inventoryTextHeight = helperTextHeight(inventoryFont) # 13 if font size is 10
     titleFont = constants.FONT_INV_TITLE
     titleHeight = helperTextHeight(titleFont)
-    menuTextColor = constants.COLOR_WHITE
+    inventoryTextColor = constants.COLOR_WHITE
     infoFont = constants.FONT_INV_INFO
     infoTextHeight = helperTextHeight(infoFont)
 
     # dimensions of inventory frame
     frameWidth = FRAME_INV.width
     frameHeight = FRAME_INV.height
-
-    # margins
     frameBorder = FRAME_INV.border
-    boxHeaderMargin = 32
-    boxFooterMargin = 16
-    boxBody = (frameHeight * .3) - ((frameHeight * .3) % textHeight)
-    boxLeftMargin = 0
-    boxRightMargin = 0
 
     # dimensions of box surface
     boxWidth = frameWidth - (frameBorder * 2)
-    boxHeight = boxHeaderMargin + boxBody + boxFooterMargin
+    boxHeight = FRAME_INV.height // 2
     boxX = frameBorder
     boxY = frameBorder
 
-    # dimensions of the textWindow
-    textWindowMargin = 1
-    textWindowWidth = frameWidth - (frameBorder * 2) - (textWindowMargin * 4)
-    textWindowHeight = boxBody * .5
-    textWindowHeight -= (textWindowHeight % ((textWindowHeight // infoTextHeight) * infoTextHeight))
+    # margins
+    boxHeaderMargin = 32
+    boxFooterMargin = 16
+    boxBody = boxHeight - boxHeaderMargin
+    boxLeftMargin = 0
+    boxRightMargin = 0
+
+    # dimensions of the infoWindow
+    infoWindowMargin = 1
+    infoWindowWidth = frameWidth - (frameBorder * 2) - (infoWindowMargin * 4)
+    infoWindowHeight = infoTextHeight * 6
+    infoWindowHeight -= (infoWindowHeight % ((infoWindowHeight // infoTextHeight) * infoTextHeight))
 
     # dimensions of inventory window surface
-    menuWidth = boxWidth - boxRightMargin - boxLeftMargin
-    menuHeight = boxBody * .75
+    inventoryWindowWidth = boxWidth - boxRightMargin - boxLeftMargin
+    inventoryWindowHeight = inventoryTextHeight * 10
 
     # placement of inventory surface in box surface
-    menuX = 0 + boxLeftMargin
-    menuY = 0 + boxHeaderMargin
+    inventoryWindowX = 0 + boxLeftMargin
+    inventoryWindowY = 0 + boxHeaderMargin
 
     # Surface to draw onto
     boxSurf = pygame.Surface((boxWidth, boxHeight))
-    inventoryWindow = pygame.Surface((menuWidth, menuHeight))
-    localInventorySurf = pygame.Surface((menuWidth, (invNum * textHeight)))
-    textWindowSurf = pygame.Surface((textWindowWidth, textWindowHeight))
-    boxSurf.fill(constants.COLOR_PINK)
-    textWindowSurf.fill(constants.COLOR_CYAN)
-    pygame.draw.rect(textWindowSurf, constants.COLOR_BORDER2, (0, 0, textWindowWidth, textWindowHeight), 1)
+    inventoryWindow = pygame.Surface((inventoryWindowWidth, inventoryWindowHeight))
+    localInventorySurf = pygame.Surface((inventoryWindowWidth, (invNum * inventoryTextHeight)))
+    infoWindowSurf = pygame.Surface((infoWindowWidth, infoWindowHeight))
+    # boxSurf.fill(constants.COLOR_PINK)
+    # infoWindowSurf.fill(constants.COLOR_CYAN)
+    pygame.draw.rect(infoWindowSurf, constants.COLOR_BORDER2, (0, 0, infoWindowWidth, infoWindowHeight), 1)
 
     # inventory title placement
     titleX = 0
     titleY = ((boxHeaderMargin - titleHeight) // 2)
-    drawText(boxSurf, "Inventory:", (titleX, titleY), constants.COLOR_BORDER2, font = titleFont)
+    drawText(boxSurf, "Inventory:", (titleX, titleY), constants.COLOR_TITLE, font = titleFont)
 
     #############
     ## buttons ##
@@ -2040,7 +2042,7 @@ def drawInventory():
                            buttonText = 'Drop',
                            size = (dropDimX, dropDimY),
                            T_coordsCenter = ( dropDimX // 2,
-                                            ( boxHeaderMargin + menuHeight) + dropDimY - 5),
+                                            ( boxHeaderMargin + inventoryWindowHeight) + dropDimY - 5),
                            Xoffset = (FRAME_INV.x + boxX),
                            Yoffset = (FRAME_INV.y + boxY),
                            box_colorDefault = constants.COLOR_BUTTON,
@@ -2068,7 +2070,7 @@ def drawInventory():
                            buttonText = '',
                            size = (scrollDim,scrollDim),
                            T_coordsCenter = (boxWidth - (scrollDim),
-                                            (boxHeaderMargin + menuHeight) + (scrollDim) - 4),
+                                            (boxHeaderMargin + inventoryWindowHeight) + (scrollDim) - 4),
                            Xoffset = (FRAME_INV.x + boxX),
                            Yoffset = (FRAME_INV.y + boxY),
                            box_mouseOverColor = constants.COLOR_FRAME,
@@ -2080,9 +2082,9 @@ def drawInventory():
                            pointlist = [],
                            polyWidth = 1)
 
-    # placement of textWindow in the box surface
-    textWindowX = menuX + (textWindowMargin * 2)
-    textWindowY = (boxHeaderMargin + menuHeight) + dropDimY + (textWindowMargin * 2)
+    # placement of infoWindow in the box surface
+    infoWindowX = inventoryWindowX + (infoWindowMargin * 2)
+    infoWindowY = (boxHeaderMargin + inventoryWindowHeight) + dropDimY + (infoWindowMargin * 2)
 
     ###################################
     ## pointlist for polygon drawing ##
@@ -2093,11 +2095,11 @@ def drawInventory():
     Yoff = (boxHeaderMargin - scrollDim - 1)
 
     # scrollUp's pointlist makes its triangle shape
-    scrollUpArrowPointlist = [ (Xoff + scrollDim // 2 , 0         + Yoff),
+    scrollUpArrowPointlist = [ (Xoff + scrollDim // 2     , 0         + Yoff),
                                (Xoff + scrollDim          , scrollDim + Yoff),
                                (Xoff + 0                  , scrollDim + Yoff)]
     # scroll down's Y offset
-    Yoff = (boxHeaderMargin + menuHeight)
+    Yoff = (boxHeaderMargin + inventoryWindowHeight)
 
     # scrollDown's pointlist makes its triangle shape
     scrollDownArrowPointlist = [ (Xoff + 0              , 0         + Yoff),
@@ -2129,7 +2131,7 @@ def drawInventory():
     else:
         dropButton.box_currentColor = constants.COLOR_BUTTON
 
-    # Clear the menu
+    # Clear the inventoryWindow
     localInventorySurf.fill(constants.COLOR_MENU)
 
     #########################
@@ -2138,15 +2140,15 @@ def drawInventory():
 
     # get mouse x, y
     mouseX, mouseY = pygame.mouse.get_pos()
-    mouseX_rel = (mouseX - FRAME_INV.x) - boxX - menuX
-    mouseY_rel = (mouseY - FRAME_INV.y) - boxY - menuY
+    mouseX_rel = (mouseX - FRAME_INV.x) - boxX - inventoryWindowX
+    mouseY_rel = (mouseY - FRAME_INV.y) - boxY - inventoryWindowY
 
     mouseInventory = (mouseX_rel >= 0 and
                    mouseY_rel >= 0 and
-                   mouseX_rel <= menuWidth and
-                   mouseY_rel <= menuHeight)
+                   mouseX_rel <= inventoryWindowWidth and
+                   mouseY_rel <= inventoryWindowHeight)
 
-    mouseLineSelect = (mouseY_rel // textHeight) + INV_SCROLL_INDEX
+    mouseLineSelect = (mouseY_rel // inventoryTextHeight) + INV_SCROLL_INDEX
 
     # iterate over the events list
     for event in MASTER_EVENTS:
@@ -2178,21 +2180,21 @@ def drawInventory():
                         drawText(localInventorySurf,
                                  obj.displayName,
                                  font=constants.FONT_MESSAGE_TEXT,
-                                 T_coords=(0, (0 + (line * textHeight))),
+                                 T_coords=(0, (0 + (line * inventoryTextHeight))),
                                  textColor=constants.COLOR_EQUIPPED,
                                  backColor=constants.COLOR_DROPPING_HIGHLIGHT)
                     else:
                         drawText(localInventorySurf,
                                  obj.displayName,
                                  font=constants.FONT_MESSAGE_TEXT,
-                                 T_coords=(0, (0 + (line * textHeight))),
-                                 textColor=menuTextColor,
+                                 T_coords=(0, (0 + (line * inventoryTextHeight))),
+                                 textColor=inventoryTextColor,
                                  backColor=constants.COLOR_DROPPING_HIGHLIGHT)
                 else:
                     drawText(localInventorySurf,
                              obj.displayName,
                              font=constants.FONT_MESSAGE_TEXT,
-                             T_coords=(0, (0 + (line * textHeight))),
+                             T_coords=(0, (0 + (line * inventoryTextHeight))),
                              textColor=constants.COLOR_DROPPING_TEXT,
                              backColor=constants.COLOR_DROPPING_HIGHLIGHT)
             else:
@@ -2201,22 +2203,22 @@ def drawInventory():
                         drawText(localInventorySurf,
                                  obj.displayName,
                                  font=constants.FONT_MESSAGE_TEXT,
-                                 T_coords=(0, (0 + (line * textHeight))),
+                                 T_coords=(0, (0 + (line * inventoryTextHeight))),
                                  textColor=constants.COLOR_EQUIPPED,
                                  backColor=constants.COLOR_GREY)
                     else:
                         drawText(localInventorySurf,
                                  obj.displayName,
                                  font=constants.FONT_MESSAGE_TEXT,
-                                 T_coords=(0, (0 + (line * textHeight))),
-                                 textColor=menuTextColor,
+                                 T_coords=(0, (0 + (line * inventoryTextHeight))),
+                                 textColor=inventoryTextColor,
                                  backColor=constants.COLOR_GREY)
                 else:
                     drawText(localInventorySurf,
                              obj.displayName,
                              font=constants.FONT_MESSAGE_TEXT,
-                             T_coords=(0, (0 + (line * textHeight))),
-                             textColor=menuTextColor,
+                             T_coords=(0, (0 + (line * inventoryTextHeight))),
+                             textColor=inventoryTextColor,
                              backColor=constants.COLOR_GREY)
         else:
             if obj.equipment:
@@ -2224,28 +2226,28 @@ def drawInventory():
                     drawText(localInventorySurf,
                              obj.displayName,
                              font=constants.FONT_MESSAGE_TEXT,
-                             T_coords=(0, (0 + (line * textHeight))),
+                             T_coords=(0, (0 + (line * inventoryTextHeight))),
                              textColor=constants.COLOR_EQUIPPED)
                 else:
                     drawText(localInventorySurf,
                              obj.displayName,
                              font=constants.FONT_MESSAGE_TEXT,
-                             T_coords=(0, (0 + (line * textHeight))),
-                             textColor=menuTextColor)
+                             T_coords=(0, (0 + (line * inventoryTextHeight))),
+                             textColor=inventoryTextColor)
             else:
                 drawText(localInventorySurf,
                          obj.displayName,
                          font=constants.FONT_MESSAGE_TEXT,
-                         T_coords=(0, (0 + (line * textHeight))),
-                         textColor=menuTextColor)
+                         T_coords=(0, (0 + (line * inventoryTextHeight))),
+                         textColor=inventoryTextColor)
         line += 1
 
-    ####################
-    ## menu scrolling ##
-    ####################
+    ###############################
+    ## inventoryWindow scrolling ##
+    ###############################
 
     #Current Y coord of localInventorySurf
-    currentInvY = (INV_SCROLL_INDEX * (-1)) * textHeight
+    currentInvY = (INV_SCROLL_INDEX * (-1)) * inventoryTextHeight
 
     # how many items in the player's inventory
     invNum = len(printList)
@@ -2254,13 +2256,14 @@ def drawInventory():
     # if the scroll buttons are pressed, INV_SCROLL_INDEX is incremented
     if scrollUpPressed and INV_SCROLL_INDEX != 0:
         INV_SCROLL_INDEX -= 1
-    if scrollDownPressed and INV_SCROLL_INDEX != ((menuHeight // textHeight) - invNum) * (-1):
+    if scrollDownPressed and INV_SCROLL_INDEX != ((inventoryWindowHeight // inventoryTextHeight) - invNum) * (-1):
         INV_SCROLL_INDEX += 1
 
 
     # scroll buttons only visible when inventory exceeds localInventorySurf's height
     #  if there are more items in the inventory then we can see
-    if invNum > boxBody // textHeight:
+
+    if invNum > inventoryWindowHeight // inventoryTextHeight:
         scrollUp.visibleWhenDisabled = True
         scrollDown.visibleWhenDisabled = True
         # if we are at the top of the list
@@ -2271,7 +2274,7 @@ def drawInventory():
             scrollDown.disabled = False
             scrollDown.box_colorDefault = constants.COLOR_BUTTON
             scrollDown.box_mouseOverColor = constants.COLOR_BUTTON
-        elif INV_SCROLL_INDEX >= ((menuHeight // textHeight) - invNum) * (-1):
+        elif INV_SCROLL_INDEX >= ((inventoryWindowHeight // inventoryTextHeight) - invNum) * (-1):
             # enable the scroll up button
             scrollUp.disabled = False
             scrollUp.box_colorDefault = constants.COLOR_BUTTON
@@ -2292,13 +2295,18 @@ def drawInventory():
         scrollDown.disabled = True
         scrollDown.visibleWhenDisabled = False
 
-    # blit our menu onto the main window and position it (center it)
+    #############
+    ## drawing ##
+    #############
+
+    # blit our inventoryWindow onto the main window and position it (center it)
     inventoryWindow.blit(localInventorySurf, (0, currentInvY))
-    boxSurf.blit(inventoryWindow, (menuX, menuY))
-    boxSurf.blit(textWindowSurf, (textWindowX, textWindowY))
     scrollUp.draw()
     scrollDown.draw()
     dropButton.draw()
+    boxSurf.blit(inventoryWindow, (inventoryWindowX, inventoryWindowY))
+    boxSurf.blit(infoWindowSurf, (infoWindowX, infoWindowY))
+
     FRAME_INV.surface.blit(boxSurf, (boxX, boxY))
 
 
@@ -3383,99 +3391,6 @@ def menu_pause():
         CLOCK.tick(constants.GAME_FPS)
         pygame.display.flip()
 
-def menu_inventory():
-
-    # dimensions of menu and main window
-    windowWidth = FRAME_INV.width
-    windowHeight = FRAME_INV.height
-
-    menuWidth = FRAME_INV.width - (FRAME_INV.border * 2)
-    menuHeight = FRAME_INV.height - (FRAME_INV.border * 2)
-    menuX = (windowWidth // 2) - (menuWidth // 2)
-    menuY = (windowHeight // 2) - (menuHeight // 2)
-
-    # font...
-    menuFont = constants.FONT_DEBUG_MESSAGE
-    textHeight = helperTextHeight(menuFont)
-    menuTextColor = constants.COLOR_WHITE
-
-    # Surface to draw onto
-    localInventorySurf = pygame.Surface((menuWidth, menuHeight))
-
-    # Clear the menu
-    localInventorySurf.fill(constants.COLOR_MENU)
-
-    # generate a list of whats in the players inventory
-    printList = [obj.displayName for obj in PLAYER.container.inventory]
-
-    # generate a list of events (inputs)
-    eventsList = pygame.event.get()
-
-    # get mouse x, y
-    mouseX, mouseY = pygame.mouse.get_pos()
-    mouseX_rel = (mouseX - FRAME_INV.x) - FRAME_INV.border
-    mouseY_rel = (mouseY - FRAME_INV.y) - FRAME_INV.border
-    mouseInMenu = (mouseX_rel >= 0 and
-                   mouseY_rel >= 0 and
-                   mouseX_rel <= FRAME_INV.width and
-                   mouseY_rel <= FRAME_INV.height)
-    mouseLineSelect = mouseY_rel // textHeight
-
-    # iterate over the events list
-    for event in eventsList:
-        result = 'menu open'
-        if event.type == pygame.KEYDOWN:
-
-            if event.key == pygame.K_ESCAPE:
-                result = 'canceled'
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-
-                if (mouseInMenu and
-                        mouseLineSelect <= len(printList) - 1):
-
-                    result = PLAYER.container.inventory[mouseLineSelect].item.use()
-
-
-        if result == 'canceled' or not result:
-            return 'no action'
-        elif result == 'menu open':
-            pass
-        else:
-            return 'result'
-
-    # iterate and draw the inventory list
-    line = 0
-    for name in printList:
-        if line == mouseLineSelect and mouseInMenu:
-            drawText(localInventorySurf,
-                     name,
-                     font=constants.FONT_MESSAGE_TEXT,
-                     T_coords=(0, (0 + (line * textHeight))),
-                     textColor=menuTextColor,
-                     backColor=constants.COLOR_GREY)
-        else:
-            drawText(localInventorySurf,
-                     name,
-                     font=constants.FONT_MESSAGE_TEXT,
-                     T_coords=(0, (0 + (line * textHeight))),
-                     textColor=menuTextColor)
-        line += 1
-
-    '''
-    This code is boilerplate menu code.
-    drawGame ensures the animations continue
-    - THEN -
-    SURFACE_MAIN.blit puts our menu up on the screen
-    - THEN -
-    CLOCK.tick prevents the animations from backlogging
-    - THEN -
-    display.update
-    '''
-
-    # blit our menu onto the main window and position it (center it)
-    FRAME_INV.surface.blit(localInventorySurf,
-                      (menuX, menuY))
 
 def menu_magic():
 
