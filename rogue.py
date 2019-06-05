@@ -90,7 +90,8 @@ class obj_Actor:
                  spellBook=None,
                  equipment=None,
                  stairs = None,
-                 exitPortal = None):
+                 exitPortal = None,
+                 info = 'no info available'):
 
         self.x = x  # map address
         self.y = y  # map address
@@ -139,6 +140,8 @@ class obj_Actor:
         self.exitPortal = exitPortal
         if self.exitPortal:
             self.exitPortal.owner = self
+
+        self.info = info
 
     @property
     def relX(self):
@@ -1060,14 +1063,12 @@ class com_Item:
                  weight = 0,
                  volume = 0,
                  useFunc = None,
-                 value = None,
-                 info = 'no info available'):
+                 value = None):
 
         self.weight = weight
         self.volume = volume
         self.useFunc = useFunc
         self.value = value
-        self.info = info
 
     # pick up an item
     def pickUp(self, actor):
@@ -2311,8 +2312,7 @@ def drawInventory():
 
     if (mouseInventory and
         mouseLineSelect <= len(printList) - 1):
-        itemInfo = PLAYER.container.inventory[mouseLineSelect].item.info
-        print(itemInfo)
+        itemInfo = PLAYER.container.inventory[mouseLineSelect].info
     else:
         itemInfo = ''
 
