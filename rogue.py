@@ -1056,12 +1056,18 @@ class com_Container:
 
 
 class com_Item:
-    def __init__(self, weight=0, volume=0,
-                 useFunc=None, value=None):
+    def __init__(self,
+                 weight = 0,
+                 volume = 0,
+                 useFunc = None,
+                 value = None,
+                 info = 'no info available'):
+
         self.weight = weight
         self.volume = volume
-        self.value = value
         self.useFunc = useFunc
+        self.value = value
+        self.info = info
 
     # pick up an item
     def pickUp(self, actor):
@@ -1964,7 +1970,7 @@ def drawInventory():
 
     # FRAME_INV is the GUI object that holds everything on the right part of the screen
     # box refers to the surface that contains all the inventory stuff
-    # inventoryWindow is the inventory list 
+    # inventoryWindow is the inventory list
 
     # INV_SCROLL_INDEX represents how many items we are scrolled down in the inventory
     # IS_DROPPING is a boolean representing whether the drop button is switched on
@@ -1993,7 +1999,7 @@ def drawInventory():
     boxWidth = frameWidth - (frameBorder * 2)
     boxHeight = FRAME_INV.height // 2
     boxX = frameBorder
-    boxY = frameBorder
+    boxY = FRAME_INV.height // 2 - (frameBorder)
 
     # margins
     boxHeaderMargin = 32
@@ -2148,7 +2154,7 @@ def drawInventory():
                    mouseX_rel <= inventoryWindowWidth and
                    mouseY_rel <= inventoryWindowHeight)
 
-    mouseLineSelect = (mouseY_rel // inventoryTextHeight) + INV_SCROLL_INDEX
+    mouseLineSelect = int((mouseY_rel // inventoryTextHeight) + INV_SCROLL_INDEX)
 
     # iterate over the events list
     for event in MASTER_EVENTS:
@@ -2294,6 +2300,28 @@ def drawInventory():
         scrollUp.visibleWhenDisabled = False
         scrollDown.disabled = True
         scrollDown.visibleWhenDisabled = False
+
+    #################
+    ## info window ##
+    #################
+
+    textStartX = infoWindowMargin * 2
+    textStartY = infoWindowMargin
+    i = 0
+
+    if (mouseInventory and
+        mouseLineSelect <= len(printList) - 1):
+        itemInfo = PLAYER.container.inventory[mouseLineSelect].item.info
+        print(itemInfo)
+    else:
+        itemInfo = ''
+
+
+    drawText(infoWindowSurf, itemInfo,
+             (textStartX, (textStartY + (i * infoTextHeight))),
+             constants.COLOR_TEXT_INV_INFO,
+             font=constants.FONT_INV_INFO,
+             backColor=constants.COLOR_BLACK)
 
     #############
     ## drawing ##
