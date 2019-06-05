@@ -3853,7 +3853,8 @@ def gen_weapon(T_coords):
                           name,
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SWORD",
-                          equipment = equipmentCom)
+                          equipment = equipmentCom,
+                          info = "Increase your attack by " + str(ranBonus) + "!")
     return returnObj
 
 def gen_armor_shield(T_coords):
@@ -3865,7 +3866,8 @@ def gen_armor_shield(T_coords):
                           name,
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SHIELD",
-                          equipment = equipmentCom)
+                          equipment = equipmentCom,
+                          info = "Protects the wielder with + " + str(ranBonus) + " def")
     return returnObj
 
 def gen_scroll_lightning(T_coords):
@@ -3881,7 +3883,8 @@ def gen_scroll_lightning(T_coords):
                              nameObject='Lightning Scroll',
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_01",
-                             item=item_com)
+                             item=item_com,
+                             info = "Shock enemies in a line for " + str(damage) + ", " + str(maxRange) + " tiles away")
 
     return returnObject
 
@@ -3899,7 +3902,8 @@ def gen_scroll_fireball(T_coords):
                              nameObject='Fireball Scroll',
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_02",
-                             item=item_com)
+                             item=item_com,
+                             info = "Burn enemies around target for " + str(damage) + ", " + str(maxRange) + " tiles away")
 
     return returnObject
 
@@ -3915,7 +3919,8 @@ def gen_scroll_confusion(T_coords):
                              nameObject='Confusion Scroll',
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_03",
-                             item=item_com)
+                             item=item_com,
+                             info = "Enemy wanders around confused for " + str(numTurns) + " turns")
 
     return returnObject
 
@@ -3931,7 +3936,8 @@ def gen_potion_health_minor(T_coords):
                              nameObject='Minor Heal Potion',
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_HEALTH_POTION",
-                             item=item_com)
+                             item=item_com,
+                             info = "Heal HP by " + str(healVal) + " points")
 
     return returnObject
 
@@ -3947,7 +3953,8 @@ def gen_potion_mana_minor(T_coords):
                              nameObject='Minor Mana Potion',
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_MANA_POTION",
-                             item=item_com)
+                             item=item_com,
+                             info = "Heal MP by " + str(healVal) + " points")
 
     return returnObject
 
