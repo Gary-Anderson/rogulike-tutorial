@@ -1964,7 +1964,7 @@ def drawInventory():
 
     # FRAME_INV is the GUI object that holds everything on the right part of the screen
     # box refers to the surface that contains all the inventory stuff
-    # inventoryWindow is the inventory list
+    # inventoryWindow is the inventory list 
 
     # INV_SCROLL_INDEX represents how many items we are scrolled down in the inventory
     # IS_DROPPING is a boolean representing whether the drop button is switched on
