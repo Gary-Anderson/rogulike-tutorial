@@ -2308,20 +2308,95 @@ def drawInventory():
 
     textStartX = infoWindowMargin * 2
     textStartY = infoWindowMargin
-    i = 0
 
     if (mouseInventory and
         mouseLineSelect <= len(printList) - 1):
-        itemInfo = PLAYER.container.inventory[mouseLineSelect].info
+        itemInfo = PLAYER.container.inventory[mouseLineSelect].info + ' '
     else:
         itemInfo = ''
 
+    word = ''
+    line = ''
+    lastLineWidth = 0
+    iter = 0
+    i = 0
 
-    drawText(infoWindowSurf, itemInfo,
-             (textStartX, (textStartY + (i * infoTextHeight))),
-             constants.COLOR_TEXT_INV_INFO,
-             font=constants.FONT_INV_INFO,
-             backColor=constants.COLOR_BLACK)
+    # go through every letter of itemInfo
+    for letter in itemInfo:
+        iter += 1
+
+        # letters seperated by spaces are 'words'
+        if letter != ' ':
+            # if the letter is not a space, add it to the word
+            word += letter
+
+        # when we hit a space, see if we can add it to the line
+        else:
+            # add a space to the end of the word
+            word += ' '
+            # get width of word and line in pixels
+            wordWidth = helperTextWidth(infoFont, word)
+            lineWidth = helperTextWidth(infoFont, line)
+
+            # if this word were added to the line, would it fit in the window?
+            if wordWidth + lineWidth < (infoWindowWidth - (infoWindowMargin * 2)):
+                # if it does, add the word to the line followed by a space
+                line += word
+                # empty 'word' for next iter
+                word = ''
+
+                # if this is the last word and it fits in the window
+                if iter == len(itemInfo):
+                    # print the line to the window
+                    drawText(infoWindowSurf, line,
+                            (textStartX, (textStartY + (i * infoTextHeight))),
+                            constants.COLOR_TEXT_INV_INFO,
+                            font=constants.FONT_INV_INFO,
+                            backColor=constants.COLOR_BLACK)
+
+            # our line cant fit the next word
+            else:
+
+                # print the line to the window
+                drawText(infoWindowSurf, line,
+                        (textStartX, (textStartY + (i * infoTextHeight))),
+                        constants.COLOR_TEXT_INV_INFO,
+                        font=constants.FONT_INV_INFO,
+                        backColor=constants.COLOR_BLACK)
+
+                # save the width of the line for the last word
+                lastLineWidth = helperTextWidth(infoFont, line)
+                # empty line
+                line = ''
+                # put our word on a new line
+                line += word
+                #empty word
+                word = ''
+                # increment what line we are on
+                i += 1
+
+        # when we get to the end, print whats left
+
+        # if this word were added to the line, would it fit in the window?
+        # if wordWidth + lastLineWidth < infoWindowWidth - (infoWindowMargin * 2):
+        #     # print it at the end of the last line
+        #     drawText(infoWindowSurf, word,
+        #             (textStartX + lastLineWidth, (textStartY + (i * infoTextHeight))),
+        #             constants.COLOR_TEXT_INV_INFO,
+        #             font=constants.FONT_INV_INFO,
+        #             backColor=constants.COLOR_BLACK)
+        #
+        # # our line cant fit the next word
+        # else:
+        #     i += 1
+        #     # print the line to the window
+        #     drawText(infoWindowSurf, word,
+        #             (textStartX, (textStartY + (i * infoTextHeight))),
+        #             constants.COLOR_TEXT_INV_INFO,
+        #             font=constants.FONT_INV_INFO,
+        #             backColor=constants.COLOR_BLACK)
+
+
 
     #############
     ## drawing ##
@@ -2528,8 +2603,8 @@ def helperTextObjects(incomingText, helperFont=constants.FONT_DEBUG_MESSAGE, inc
 # these two functions help with aligning text
 
 
-def helperTextWidth(font):
-    fontObj = font.render('A', False, (0, 0, 0))
+def helperTextWidth(font, text = 'A'):
+    fontObj = font.render(text, False, (0, 0, 0))
     fontRect = fontObj.get_rect()
 
     return fontRect.width
@@ -3867,7 +3942,7 @@ def gen_armor_shield(T_coords):
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SHIELD",
                           equipment = equipmentCom,
-                          info = "Protects the wielder with + " + str(ranBonus) + " def")
+                          info = "Protects the wielder with +" + str(ranBonus) + " def!")
     return returnObj
 
 def gen_scroll_lightning(T_coords):
