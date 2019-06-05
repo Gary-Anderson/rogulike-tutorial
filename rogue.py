@@ -3942,7 +3942,7 @@ def gen_armor_shield(T_coords):
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SHIELD",
                           equipment = equipmentCom,
-                          info = "Protects the wielder with +" + str(ranBonus) + " def!")
+                          info = "Protects the wielder by +" + str(ranBonus) + " def!")
     return returnObj
 
 def gen_scroll_lightning(T_coords):
@@ -3959,7 +3959,8 @@ def gen_scroll_lightning(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_01",
                              item=item_com,
-                             info = "Shock enemies in a line for " + str(damage) + ", " + str(maxRange) + " tiles away")
+                             info = "Electrocute all enemies in a line " + str(maxRange) +
+                                    " tiles long from the player for " + str(damage) + " damage!")
 
     return returnObject
 
@@ -3978,7 +3979,9 @@ def gen_scroll_fireball(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_02",
                              item=item_com,
-                             info = "Burn enemies around target for " + str(damage) + ", " + str(maxRange) + " tiles away")
+                             info = "Hurl a fireball up to " + str(maxRange) +
+                                    " tiles away. Fireball explodes, damaging everything for " + str(damage) +
+                                    " points in a radius of " + str(radius) + " tile(s)!")
 
     return returnObject
 
@@ -3995,7 +3998,7 @@ def gen_scroll_confusion(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_03",
                              item=item_com,
-                             info = "Enemy wanders around confused for " + str(numTurns) + " turns")
+                             info = "Enemy wanders around confused for " + str(numTurns) + " turns!")
 
     return returnObject
 
@@ -4012,7 +4015,7 @@ def gen_potion_health_minor(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_HEALTH_POTION",
                              item=item_com,
-                             info = "Heal HP by " + str(healVal) + " points")
+                             info = "Heal HP by " + str(healVal) + " points!")
 
     return returnObject
 
@@ -4029,7 +4032,7 @@ def gen_potion_mana_minor(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_MANA_POTION",
                              item=item_com,
-                             info = "Heal MP by " + str(healVal) + " points")
+                             info = "Heal MP by " + str(healVal) + " points!")
 
     return returnObject
 
