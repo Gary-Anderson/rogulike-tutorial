@@ -1103,9 +1103,7 @@ class com_Item:
         if self.useFunc:
             result = self.useFunc(self.container.owner, self.value)
             gameMessage(str(result))
-            print(str(result))
             if result != 'canceled':
-                gameMessage('Item used')
                 self.container.inventory.remove(self.owner)
 
 class com_Equipment:
@@ -1370,12 +1368,12 @@ class ai_chase:
                                     if not leadScent:
                                         #then this obj is our leadScent
                                         leadScent = obj
-                                        gameMessage(self.owner.displayName + 'has the scent: ' + leadScent.nameObject)
+
                                     # unless there is a stronger scent...
                                     elif obj.scentStrength > leadScent.scentStrength:
                                         # then this obj is our leadScent
                                         leadScent = obj
-                                        gameMessage(self.owner.displayName + 'has the scent: ' + leadScent.nameObject)
+
 
             # if there is no leadScent, lower alert status
             if not leadScent:
@@ -1384,7 +1382,7 @@ class ai_chase:
             # if there is a leadScent, track it (move towards it)
             else:
                 self.owner.moveTowards(leadScent)
-                gameMessage(self.owner.displayName + " is following the scent!")
+
 
 #             dddddddd
 #             d::::::d                                            tttt         hhhhhhh
@@ -2028,8 +2026,7 @@ def drawInventory():
     inventoryWindow = pygame.Surface((inventoryWindowWidth, inventoryWindowHeight))
     localInventorySurf = pygame.Surface((inventoryWindowWidth, (invNum * inventoryTextHeight)))
     infoWindowSurf = pygame.Surface((infoWindowWidth, infoWindowHeight))
-    # boxSurf.fill(constants.COLOR_PINK)
-    # infoWindowSurf.fill(constants.COLOR_CYAN)
+
     pygame.draw.rect(infoWindowSurf, constants.COLOR_BORDER2, (0, 0, infoWindowWidth, infoWindowHeight), 1)
 
     # inventory title placement
@@ -2384,34 +2381,13 @@ def drawInventory():
                             font=constants.FONT_INV_INFO,
                             backColor=constants.COLOR_BLACK)
 
-        # when we get to the end, print whats left
-
-        # if this word were added to the line, would it fit in the window?
-        # if wordWidth + lastLineWidth < infoWindowWidth - (infoWindowMargin * 2):
-        #     # print it at the end of the last line
-        #     drawText(infoWindowSurf, word,
-        #             (textStartX + lastLineWidth, (textStartY + (i * infoTextHeight))),
-        #             constants.COLOR_TEXT_INV_INFO,
-        #             font=constants.FONT_INV_INFO,
-        #             backColor=constants.COLOR_BLACK)
-        #
-        # # our line cant fit the next word
-        # else:
-        #     i += 1
-        #     # print the line to the window
-        #     drawText(infoWindowSurf, word,
-        #             (textStartX, (textStartY + (i * infoTextHeight))),
-        #             constants.COLOR_TEXT_INV_INFO,
-        #             font=constants.FONT_INV_INFO,
-        #             backColor=constants.COLOR_BLACK)
-
-
 
     #############
     ## drawing ##
     #############
 
     # blit our inventoryWindow onto the main window and position it (center it)
+    inventoryWindow.fill(constants.COLOR_MENU)
     inventoryWindow.blit(localInventorySurf, (0, currentInvY))
     scrollUp.draw()
     scrollDown.draw()
