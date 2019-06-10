@@ -1964,7 +1964,6 @@ def drawGUI():
                            emptyColor = constants.COLOR_DARK_BLUE)
     magicBar.draw(magicBar.T_coords)
 
-## XYZ
 def drawInventory():
 
     # FRAME_INV is the GUI object that holds everything on the right part of the screen
@@ -2303,83 +2302,144 @@ def drawInventory():
     ## info window ##
     #################
 
+    # margins
     textStartX = infoWindowMargin * 2
     textStartY = infoWindowMargin
+    lineMaxWidth = (infoWindowWidth - (infoWindowMargin * 2))
 
+    # get item info
     if (mouseInventory and
         mouseLineSelect <= len(printList) - 1):
         itemInfo = PLAYER.container.inventory[mouseLineSelect].info + ' '
     else:
         itemInfo = ''
 
+    # word wrap vars
     word = ''
-    line = ''
     lastLineWidth = 0
     iter = 0
     i = 0
+    isTag = False
+    tag = ''
+    textColor = constants.COLOR_TEXT_INV_INFO
+    textColorIndex = { 'white'      : constants.COLOR_TEXT_WHITE,
+                       'pink'       : constants.COLOR_TEXT_PINK,
+                       'red'        : constants.COLOR_TEXT_RED,
+                       'drkRed'     : constants.COLOR_TEXT_DARK_RED,
+                       'orange'     : constants.COLOR_TEXT_ORANGE,
+                       'yellow'     : constants.COLOR_TEXT_YELLOW,
+                       'liGreen'    : constants.COLOR_TEXT_LIGHT_GREEN,
+                       'green'      : constants.COLOR_TEXT_GREEN,
+                       'drkGreen'   : constants.COLOR_TEXT_DARK_GREEN,
+                       'cyan'       : constants.COLOR_TEXT_CYAN,
+                       'liBlue'     : constants.COLOR_TEXT_LIGHT_BLUE,
+                       'blue'       : constants.COLOR_TEXT_BLUE,
+                       'drkBlue'    : constants.COLOR_TEXT_DARK_BLUE,
+                       'purple'     : constants.COLOR_TEXT_PURPLE,
+                       'liGrey'     : constants.COLOR_TEXT_LIGHT_GREY,
+                       'grey'       : constants.COLOR_TEXT_GREY,
+                       'drkGrey'    : constants.COLOR_TEXT_DARK_GREY }
+
 
     # go through every letter of itemInfo
     for letter in itemInfo:
+
+        # starts new lines after the margin
+        if lastLineWidth == 0:
+            lastLineWidth = textStartX
+
+        ##TESTING
+        if iter == 0:
+            print("########################")
         iter += 1
 
+        # if a tag is starting...
+        if letter == '<':
+            print('< found')
+
+            isTag = True
+
+
+            print("lastLineWidth = " + str(lastLineWidth))
+
+            word = ''
+
+
+        # end the tag and assign the color from the dictionary
+        elif letter == '>':
+            isTag = False
+            textColor = textColorIndex[tag]
+            print('> found')
+            print('color = ' + str(textColor))
+            tag = ''
+
+        # get what the tag is
+        elif isTag:
+            tag += letter
+            print('tag = ' + tag)
+
+
         # letters seperated by spaces are 'words'
-        if letter != ' ':
+        elif letter != ' ' and isTag == False:
+
+            print("letter = " + letter)
+
             # if the letter is not a space, add it to the word
             word += letter
+            print("word = " + word)
+
 
         # when we hit a space, see if we can add it to the line
         else:
+
             # add a space to the end of the word
             word += ' '
-            # get width of word and line in pixels
-            wordWidth = helperTextWidth(infoFont, word)
-            lineWidth = helperTextWidth(infoFont, line)
 
-            # if this word were added to the line, would it fit in the window?
-            if wordWidth + lineWidth < (infoWindowWidth - (infoWindowMargin * 2)):
-                # if it does, add the word to the line followed by a space
-                line += word
-                # empty 'word' for next iter
+            # get width of word in pixels
+            wordWidth = helperTextWidth(infoFont, word)
+
+            if lastLineWidth + wordWidth < lineMaxWidth:
+
+                print("lastLineWidth + wordWidth = " + str(lastLineWidth + wordWidth))
+                print('lastLineMaxWidth = ' + str(lineMaxWidth))
+
+                # print on same line
+                drawText(infoWindowSurf, word,
+                        (lastLineWidth, (textStartY + (i * infoTextHeight))),
+                        textColor,
+                        font=constants.FONT_INV_INFO,
+                        backColor=constants.COLOR_BLACK)
+
+                print("printed '" + word + "' at x = " + str(lastLineWidth) + " on line " + str(i))
+
+                lastLineWidth += wordWidth
+
+                print("lastLineWidth = " + str(lastLineWidth))
                 word = ''
 
-                # if this is the last word and it fits in the window
-                if iter == len(itemInfo):
-                    # print the line to the window
-                    drawText(infoWindowSurf, line,
-                            (textStartX, (textStartY + (i * infoTextHeight))),
-                            constants.COLOR_TEXT_INV_INFO,
-                            font=constants.FONT_INV_INFO,
-                            backColor=constants.COLOR_BLACK)
-
-            # our line cant fit the next word
+                # reset color
+                textColor = constants.COLOR_TEXT_INV_INFO
             else:
 
-                # print the line to the window
-                drawText(infoWindowSurf, line,
-                        (textStartX, (textStartY + (i * infoTextHeight))),
+                # new line
+                lastLineWidth = textStartX
+                i += 1
+
+                #print word to new line
+                drawText(infoWindowSurf, word,
+                        (lastLineWidth, (textStartY + (i * infoTextHeight))),
                         constants.COLOR_TEXT_INV_INFO,
                         font=constants.FONT_INV_INFO,
                         backColor=constants.COLOR_BLACK)
 
-                # save the width of the line for the last word
-                lastLineWidth = helperTextWidth(infoFont, line)
-                # empty line
-                line = ''
-                # put our word on a new line
-                line += word
-                #empty word
-                word = ''
-                # increment what line we are on
-                i += 1
+                print("printed '" + word + "' at x = " + str(lastLineWidth) + " on line " + str(i))
 
-                # if this is the last word and it needs a new line
-                if iter == len(itemInfo):
-                    # print the line to the window
-                    drawText(infoWindowSurf, line,
-                            (textStartX, (textStartY + (i * infoTextHeight))),
-                            constants.COLOR_TEXT_INV_INFO,
-                            font=constants.FONT_INV_INFO,
-                            backColor=constants.COLOR_BLACK)
+                lastLineWidth += wordWidth
+
+                word = ''
+
+                # reset color
+                textColor = constants.COLOR_TEXT_INV_INFO
 
 
     #############
@@ -3914,7 +3974,7 @@ def gen_weapon(T_coords):
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SWORD",
                           equipment = equipmentCom,
-                          info = "Increase your attack by " + str(ranBonus) + "!")
+                          info = "Increase your attack, <liGreen>+" + str(ranBonus) + " damage!")
     return returnObj
 
 def gen_armor_shield(T_coords):
@@ -3927,7 +3987,7 @@ def gen_armor_shield(T_coords):
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SHIELD",
                           equipment = equipmentCom,
-                          info = "Protects the wielder by +" + str(ranBonus) + " def!")
+                          info = "Protects the wielder, <liGreen>+" + str(ranBonus) + " def!")
     return returnObj
 
 def gen_scroll_lightning(T_coords):
@@ -3944,8 +4004,8 @@ def gen_scroll_lightning(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_01",
                              item=item_com,
-                             info = "Electrocute all enemies in a line " + str(maxRange) +
-                                    " tiles long from the player for " + str(damage) + " damage!")
+                             info = "Electrocute all enemies in a line <yellow>" + str(maxRange) +
+                                    " tiles long from the player for <red>" + str(damage) + " damage!")
 
     return returnObject
 
@@ -3964,9 +4024,9 @@ def gen_scroll_fireball(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_02",
                              item=item_com,
-                             info = "Hurl a fireball up to " + str(maxRange) +
-                                    " tiles away. Fireball explodes, damaging everything for " + str(damage) +
-                                    " points in a radius of " + str(radius) + " tile(s)!")
+                             info = "Hurl a fireball up to <yellow>" + str(maxRange) +
+                                    " tiles away. Fireball explodes, damaging everything for <red>" + str(damage) +
+                                    " points in a radius of <liBlue>" + str(radius) + " tile(s)!")
 
     return returnObject
 
@@ -3983,7 +4043,7 @@ def gen_scroll_confusion(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_03",
                              item=item_com,
-                             info = "Enemy wanders around confused for " + str(numTurns) + " turns!")
+                             info = "Enemy wanders around confused for <white>" + str(numTurns) + " turns!")
 
     return returnObject
 
@@ -4000,7 +4060,7 @@ def gen_potion_health_minor(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_HEALTH_POTION",
                              item=item_com,
-                             info = "Heal HP by " + str(healVal) + " points!")
+                             info = "Heal HP by <green>" + str(healVal) + " points!")
 
     return returnObject
 
@@ -4017,7 +4077,7 @@ def gen_potion_mana_minor(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_MANA_POTION",
                              item=item_com,
-                             info = "Heal MP by " + str(healVal) + " points!")
+                             info = "Heal MP by <cyan>" + str(healVal) + " points!")
 
     return returnObject
 
