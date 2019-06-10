@@ -2338,7 +2338,12 @@ def drawInventory():
                        'purple'     : constants.COLOR_TEXT_PURPLE,
                        'liGrey'     : constants.COLOR_TEXT_LIGHT_GREY,
                        'grey'       : constants.COLOR_TEXT_GREY,
-                       'drkGrey'    : constants.COLOR_TEXT_DARK_GREY }
+                       'drkGrey'    : constants.COLOR_TEXT_DARK_GREY,
+                       'dmgHP'      : constants.COLOR_DAMAGE_HP,
+                       'dmgMP'      : constants.COLOR_DAMAGE_MP,
+                       'healHP'      : constants.COLOR_HEAL_HP,
+                       'helpMP'      : constants.COLOR_HEAL_MP,
+                       'stats'      : constants.COLOR_STATS,}
 
 
     # go through every letter of itemInfo
@@ -3974,7 +3979,7 @@ def gen_weapon(T_coords):
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SWORD",
                           equipment = equipmentCom,
-                          info = "Increase your attack, <liGreen>+" + str(ranBonus) + " damage!")
+                          info = "Increase your attack, <stats>+" + str(ranBonus) + " damage!")
     return returnObj
 
 def gen_armor_shield(T_coords):
@@ -3987,7 +3992,7 @@ def gen_armor_shield(T_coords):
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SHIELD",
                           equipment = equipmentCom,
-                          info = "Protects the wielder, <liGreen>+" + str(ranBonus) + " def!")
+                          info = "Protects the wielder, <stats>+" + str(ranBonus) + " def!")
     return returnObj
 
 def gen_scroll_lightning(T_coords):
@@ -4004,8 +4009,8 @@ def gen_scroll_lightning(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_01",
                              item=item_com,
-                             info = "Electrocute all enemies in a line <yellow>" + str(maxRange) +
-                                    " tiles long from the player for <red>" + str(damage) + " damage!")
+                             info = "Electrocute all enemies in a line <stats>" + str(maxRange) +
+                                    " tiles long from the player for <stats>" + str(damage) + " damage!")
 
     return returnObject
 
@@ -4024,9 +4029,9 @@ def gen_scroll_fireball(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_02",
                              item=item_com,
-                             info = "Hurl a fireball up to <yellow>" + str(maxRange) +
-                                    " tiles away. Fireball explodes, damaging everything for <red>" + str(damage) +
-                                    " points in a radius of <liBlue>" + str(radius) + " tile(s)!")
+                             info = "Hurl a fireball up to <stats>" + str(maxRange) +
+                                    " tiles away. Fireball explodes, damaging everything for <stats>" + str(damage) +
+                                    " points in a radius of <stats>" + str(radius) + " tile(s)!")
 
     return returnObject
 
@@ -4043,7 +4048,7 @@ def gen_scroll_confusion(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_SCROLL_03",
                              item=item_com,
-                             info = "Enemy wanders around confused for <white>" + str(numTurns) + " turns!")
+                             info = "Enemy wanders around confused for <stats>" + str(numTurns) + " turns!")
 
     return returnObject
 
@@ -4060,7 +4065,7 @@ def gen_potion_health_minor(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_HEALTH_POTION",
                              item=item_com,
-                             info = "Heal HP by <green>" + str(healVal) + " points!")
+                             info = "Heal HP by <healHP>" + str(healVal) + " points!")
 
     return returnObject
 
@@ -4077,7 +4082,7 @@ def gen_potion_mana_minor(T_coords):
                              depth = constants.DEPTH_ITEM,
                              animationKey= "S_MANA_POTION",
                              item=item_com,
-                             info = "Heal MP by <cyan>" + str(healVal) + " points!")
+                             info = "Heal MP by <healMP>" + str(healVal) + " points!")
 
     return returnObject
 
