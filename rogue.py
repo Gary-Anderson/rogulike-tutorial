@@ -1914,6 +1914,9 @@ def drawGUI():
     # blit PLAYER inventory
     SURFACE_MAIN.blit(FRAME_INV.surface, (FRAME_MAP.width, 0))
 
+    # blit FRAME_STATUS
+    SURFACE_MAIN.blit(FRAME_STATUS.surface, (FRAME_MAP.width, FRAME_MAP.height))
+
 def drawCharGUI():
     # FRAME_INV is the GUI object that holds everything on the right part of the screen
     # box refers to the surface that contains all the character info
@@ -2034,10 +2037,6 @@ def drawCharGUI():
     # char sprite surface
     charBoxSurf = pygame.Surface((equipmentBoxDim, equipmentBoxDim))
 
-    ##TESTING
-    weaponBoxSurf.fill(constants.COLOR_RED)
-    shieldBoxSurf.fill(constants.COLOR_YELLOW)
-    charBoxSurf.fill(constants.COLOR_GREEN)
 
     #################
     ## STATUS BARS ##   show the HP and MP bars for the character
