@@ -2093,8 +2093,8 @@ def drawCharGUI():
 
     # draw the current/ max HP under the bar
     drawText(boxSurf,
-             str(PLAYER.creature.currentHP) + ' // ' + str(PLAYER.creature.maxHP),
-             (HPcurrentX, HPcurrentY + 4),
+             str(PLAYER.creature.currentHP) + ' / ' + str(PLAYER.creature.maxHP),
+             (HPcurrentX + 8, HPcurrentY + 4),
              constants.COLOR_STATS,
              HPMPcurrentFont)
 
@@ -2109,7 +2109,16 @@ def drawCharGUI():
                            fillColor = constants.COLOR_HEAL_MP,
                            emptyColor = constants.COLOR_DAMAGE_MP)
 
+    # current/ max MP read out
+    MPcurrentX = statusBarX
+    MPcurrentY = (MPY + statusBarHeight)
 
+    # draw the current/ max HP under the bar
+    drawText(boxSurf,
+             str(PLAYER.creature.currentMP) + ' / ' + str(PLAYER.creature.maxMP),
+             (MPcurrentX + 8, MPcurrentY + 8),
+             constants.COLOR_STATS,
+             HPMPcurrentFont)
 
     #############
     ## DRAWING ##  get it all on the screen

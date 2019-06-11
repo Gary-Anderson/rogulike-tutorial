@@ -106,7 +106,7 @@ FONT_TITLE_NAME_TEXT = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 20)
 FONT_TITLE_RACE_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 12)
 FONT_INV_TITLE = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 18)
 FONT_INV_INFO = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 10)
-FONT_HPMP_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 12)
+FONT_HPMP_TEXT = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 12)
 
 # FOV SETTINGS
 FOV_ALGO = libtcod.FOV_BASIC
