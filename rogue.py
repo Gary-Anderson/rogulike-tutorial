@@ -2002,13 +2002,11 @@ def drawCharGUI():
     ## HEADER ## the title of the box will be the characters name and race
     ############
 
-
-
     # get height and font of character text so we can center it
     nameFont = constants.FONT_TITLE_NAME_TEXT
     nameHeight = helperTextHeight(nameFont)
     nameX = (boxWidth // 2)
-    nameY = (nameHeight // 2)
+    nameY = (nameHeight // 2) + 10
 
     # get height and font of race text so we can center it
     raceFont = constants.FONT_TITLE_RACE_TEXT
@@ -2016,7 +2014,7 @@ def drawCharGUI():
     raceY = (nameY + nameHeight)
 
     # get the total height of these texts for further drawing
-    headerHeight = raceY + raceHeight + 5
+    headerHeight = raceY + raceHeight
 
     # write the char's name as the header
     drawText(boxSurf,
@@ -2054,41 +2052,58 @@ def drawCharGUI():
         if item.equipment.slot == 'left_hand':
             shield = item
 
+    # get our weapon and shield sprite
     weaponSprite = ASSETS.animationDict['None']
     shieldSprite = ASSETS.animationDict['None']
 
+    # be sure we have something equipped
     if weapon:
         weaponSprite = ASSETS.animationDict[weapon.animationKey]
 
     if shield:
         shieldSprite = ASSETS.animationDict[shield.animationKey]
 
+    # get our char sprite
+    charSprite = ASSETS.animationDict[PLAYER.animationKey]
 
 
-    # x and y of our equiment boxes
+
+    # x and y of our equiment and char boxes
     shieldBoxX = (boxCenterX // 2) -  (equipmentBoxDim // 2)
     weaponBoxX = (boxCenterX + (boxCenterX // 2)) - (equipmentBoxDim // 2)
+    charBoxX = boxCenterX - (equipmentBoxDim // 2)
     equipmentBoxY = headerHeight
 
     # equipment boxes surfaces
     weaponBoxSurf = pygame.Surface((equipmentBoxDim, equipmentBoxDim))
     shieldBoxSurf = pygame.Surface((equipmentBoxDim, equipmentBoxDim))
+    # char sprite surface
+    charBoxSurf = pygame.Surface((equipmentBoxDim, equipmentBoxDim))
 
     ##TESTING
     weaponBoxSurf.fill(constants.COLOR_RED)
     shieldBoxSurf.fill(constants.COLOR_YELLOW)
+    charBoxSurf.fill(constants.COLOR_GREEN)
 
 
 
 
 
-    # draw the equipment boxes onto the boxSurf
+    # draw the equipment sprites onto the equipmentBoxSurfs
     if weapon:
         weaponBoxSurf.blit(weaponSprite, (spriteX, spriteY))
     if shield:
         shieldBoxSurf.blit(shieldSprite, (spriteX, spriteY))
+
+    # draw the char sprite onto the charBoxSurf
+    charBoxSurf.blit(charSprite[0], (spriteX, spriteY))
+
+    # draw the equipment boxes onto the boxSurf
     boxSurf.blit(weaponBoxSurf, (weaponBoxX, equipmentBoxY))
     boxSurf.blit(shieldBoxSurf, (shieldBoxX, equipmentBoxY))
+
+    # draw the charBoxSurf onto the boxSurf
+    boxSurf.blit(charBoxSurf, (charBoxX, equipmentBoxY))
 
     #draw the boxSurf onto the FRAME_INV
     FRAME_INV.surface.blit(boxSurf, ( boxX, boxY))
