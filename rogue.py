@@ -674,7 +674,10 @@ class obj_Assets:
         # GUI
         self.S_UP_ARROW_LARGE = self.gui.getImage('c', 7, 16, 16, (32, 32))[0]
         self.S_UP_ARROW_SMALL = self.gui.getImage('d', 7, 16, 16, (32, 32))[0]
+        self.BLACK_WINDOW_BOX_1_SINGLE = self.gui.getImage('q', 8, 16, 16, (48, 48))[0]
+        self.BLACK_WINDOW_BOX_2_SINGLE = self.gui.getImage('q', 11, 16, 16, (48, 48))[0]
         self.BLACK_WINDOW_BOX_3_SINGLE = self.gui.getImage('q', 14, 16, 16, (48, 48))[0]
+        self.BLACK_WINDOW_BOX_4_SINGLE = self.gui.getImage('q', 17, 16, 16, (48, 48))[0]
 
         self.animationDict = {
 
@@ -727,7 +730,10 @@ class obj_Assets:
             # GUI
             "S_UP_ARROW_LARGE" : self.S_UP_ARROW_LARGE,
             "S_UP_ARROW_SMALL" : self.S_UP_ARROW_SMALL,
+            "black window box 1 single" : self.BLACK_WINDOW_BOX_1_SINGLE,
+            "black window box 2 single" : self.BLACK_WINDOW_BOX_2_SINGLE,
             "black window box 3 single" : self.BLACK_WINDOW_BOX_3_SINGLE,
+            "black window box 4 single" : self.BLACK_WINDOW_BOX_4_SINGLE,
 
             # SPECIAL
             "S_STAIRS_DOWN" : self.S_STAIRS_DOWN,
@@ -1976,8 +1982,11 @@ def drawCharGUI():
     ## EQUIPPED ##  two boxes show what weapon and sheild are equipped
     ##############  along with the character's sprite
 
-    # equipment bix sprite
-    ASSETS.animationDict['black window box 3 single']
+    # equipment box sprite
+    equipmentBoxSprite = ASSETS.animationDict['black window box 2 single']
+
+    # char box sprite
+    charBoxSprite = ASSETS.animationDict['black window box 1 single']
 
     # dimensions of the equipment boxes
     equipmentBoxDim = 48
@@ -2092,11 +2101,18 @@ def drawCharGUI():
     #############
 
 
+    # blit the GUI sprite onto the equipment boxes
+    weaponBoxSurf.blit(equipmentBoxSprite, (0, 0))
+    shieldBoxSurf.blit(equipmentBoxSprite, (0, 0))
+
     # draw the equipment sprites onto the equipmentBoxSurfs
     if weapon:
         weaponBoxSurf.blit(weaponSprite, (spriteX, spriteY))
     if shield:
         shieldBoxSurf.blit(shieldSprite, (spriteX, spriteY))
+
+    # dram the charBox sprite onthe the charBoxSurf
+    charBoxSurf.blit(charBoxSprite, (0, 0))
 
     # draw the char sprite onto the charBoxSurf
     charBoxSurf.blit(charSprite[0], (spriteX, spriteY))
