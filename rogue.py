@@ -2044,17 +2044,22 @@ def drawCharGUI():
 
     # font for HP/ MP
     HPMPfont = constants.FONT_DEBUG_MESSAGE
+    HPMPcurrentFont = constants.FONT_HPMP_TEXT
 
     # width of 'HP:' ('MP:' is the same)
     HPMPwidth = helperTextWidth(HPMPfont, 'HP: ')
     HPMPheight = helperTextWidth(HPMPfont)
+
+    # current/ max HP height
+    HPMPcurrentHeight = helperTextWidth(HPMPcurrentFont)
 
     # where in the box the status bars starts
     statusBarY = headerHeight + equipmentBoxDim + 10
     HPX = frameBorder
     HPY = statusBarY + 2
     MPX = frameBorder
-    MPY = HPY + HPMPheight + 4
+    MPY = (HPY + HPMPcurrentHeight + HPMPheight * 2) + 10
+
 
     # draw 'HP:'
     drawText(boxSurf,
@@ -2082,10 +2087,21 @@ def drawCharGUI():
                            statusBarWidth,
                            statusBarHeight)
 
+    # current/ max HP read out
+    HPcurrentX = statusBarX
+    HPcurrentY = (HPbarY + statusBarHeight)
+
+    # draw the current/ max HP under the bar
+    drawText(boxSurf,
+             str(PLAYER.creature.currentHP) + ' // ' + str(PLAYER.creature.maxHP),
+             (HPcurrentX, HPcurrentY + 4),
+             constants.COLOR_STATS,
+             HPMPcurrentFont)
+
     # MP bar
-    MPbarY = statusBarY + int(HPMPheight * 2)
+    MPbarY = statusBarY + HPMPcurrentHeight + int(HPMPheight * 2)
     magicBar = ui_FillBar(boxSurf,
-                           (statusBarX, MPbarY),
+                           (statusBarX, MPY + 4),
                            PLAYER.creature.currentMP,
                            PLAYER.creature.maxMP,
                            statusBarWidth,
