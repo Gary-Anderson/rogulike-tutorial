@@ -393,7 +393,10 @@ class obj_Spritesheet:
         self.tileDict = {'a': 1, 'b': 2, 'c': 3, 'd': 4,
                          'e': 5, 'f': 6, 'g': 7, 'h': 8,
                          'i': 9, 'j': 10, 'k': 11, 'l': 12,
-                         'm': 13, 'n': 14, 'o': 15, 'p': 16, '0': 0}
+                         'm': 13, 'n': 14, 'o': 15, 'p': 16,
+                         'q': 17, 'r': 18, 's': 19, 't': 20,
+                         'u': 21, 'v': 22, 'w': 23, 'x': 24,
+                         'y': 25, 'z': 26, '0': 0}
     # self.S_TITLE = self.title.getImage('0', 0, 16, 16, (32, 32))[0]
     def getImage(self, column, row, width=constants.CELL_WIDTH, height=constants.CELL_HEIGHT,
                  T_scale=None):
@@ -671,6 +674,7 @@ class obj_Assets:
         # GUI
         self.S_UP_ARROW_LARGE = self.gui.getImage('c', 7, 16, 16, (32, 32))[0]
         self.S_UP_ARROW_SMALL = self.gui.getImage('d', 7, 16, 16, (32, 32))[0]
+        self.BLACK_WINDOW_BOX_3_SINGLE = self.gui.getImage('q', 14, 16, 16, (48, 48))[0]
 
         self.animationDict = {
 
@@ -723,6 +727,7 @@ class obj_Assets:
             # GUI
             "S_UP_ARROW_LARGE" : self.S_UP_ARROW_LARGE,
             "S_UP_ARROW_SMALL" : self.S_UP_ARROW_SMALL,
+            "black window box 3 single" : self.BLACK_WINDOW_BOX_3_SINGLE,
 
             # SPECIAL
             "S_STAIRS_DOWN" : self.S_STAIRS_DOWN,
@@ -1971,8 +1976,8 @@ def drawCharGUI():
     ## EQUIPPED ##  two boxes show what weapon and sheild are equipped
     ##############  along with the character's sprite
 
-    # # equipment bix sprite
-    # ASSESTS.animationDictionary['black window box 3 single']
+    # equipment bix sprite
+    ASSETS.animationDict['black window box 3 single']
 
     # dimensions of the equipment boxes
     equipmentBoxDim = 48
