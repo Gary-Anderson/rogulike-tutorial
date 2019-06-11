@@ -2042,6 +2042,32 @@ def drawCharGUI():
     ## STATUS BARS ##   show the HP and MP bars for the character
     #################
 
+    # dimensions of the surface we will put all these status bars on
+    statusSurfWidth     = int(boxWidth)
+    statusSurfHeight    = int(boxHeight * .3)
+
+    # statusSurf is the surface that holds all these GUI elements
+    statusSurf = pygame.Surface((statusSurfWidth, statusSurfHeight))
+
+    # the x and y for our statusSurf
+    statusSurfX = frameBorder
+    statusSurfY = headerHeight + equipmentBoxDim + 10
+
+    # bar surface dimensions
+    barSurfWidth = statusSurfWidth
+    barSurfHeight = statusSurfHeight * .4
+
+
+    # surfaces for our HP and MP bars
+    HPsurf = pygame.Surface(( barSurfWidth, barSurfHeight))
+    MPsurf = pygame.Surface(( barSurfWidth, barSurfHeight))
+    HPsurfY = 5
+
+    # ###TEST###
+    # statusSurf.fill(constants.COLOR_GREEN)
+    # HPsurf.fill(constants.COLOR_PINK)
+    # MPsurf.fill(constants.COLOR_PURPLE)
+
     # font for HP/ MP
     HPMPfont = constants.FONT_DEBUG_MESSAGE
     HPMPcurrentFont = constants.FONT_HPMP_TEXT
@@ -2053,70 +2079,66 @@ def drawCharGUI():
     # current/ max HP height
     HPMPcurrentHeight = helperTextWidth(HPMPcurrentFont)
 
-    # where in the box the status bars starts
-    statusBarY = headerHeight + equipmentBoxDim + 10
-    HPX = frameBorder
-    HPY = statusBarY + 2
-    MPX = frameBorder
-    MPY = (HPY + HPMPcurrentHeight + HPMPheight * 2) + 10
+    # status bar dimensions
+    statusBarWidth = barSurfWidth - (HPMPwidth * 2)
+    statusBarHeight = 8
 
+    # where in the box the status bars starts
+    textX = 2
+    textY = 2
+    statusBarX = HPMPwidth + 4
+    statusBarY = 4
+
+    # current/ max HP read out
+    currentMaxX = statusBarX
+    currentMaxY = (statusBarY + statusBarHeight) + 2
+
+
+    # HP BOX #
 
     # draw 'HP:'
-    drawText(boxSurf,
+    drawText(HPsurf,
              'HP:',
-             (HPX, HPY),
+             (textX, textY),
              constants.COLOR_STATS, HPMPfont)
 
     # draw 'MP:'
-    drawText(boxSurf,
+    drawText(MPsurf,
              'MP:',
-             (MPX, MPY),
+             (textX, textY),
              constants.COLOR_STATS, HPMPfont)
 
-    # status bar dimensions
-    statusBarWidth = boxWidth - (HPMPwidth * 2)
-    statusBarHeight = 8
-    statusBarX = HPMPwidth + 4
+
 
     # HP bar
-    HPbarY = statusBarY + (statusBarHeight // 2)
-    healthBar = ui_FillBar(boxSurf,
-                           (statusBarX, HPbarY),
+    healthBar = ui_FillBar(HPsurf,
+                           (statusBarX, statusBarY),
                            PLAYER.creature.currentHP,
                            PLAYER.creature.maxHP,
                            statusBarWidth,
                            statusBarHeight)
 
-    # current/ max HP read out
-    HPcurrentX = statusBarX
-    HPcurrentY = (HPbarY + statusBarHeight)
-
     # draw the current/ max HP under the bar
-    drawText(boxSurf,
+    drawText(HPsurf,
              str(PLAYER.creature.currentHP) + ' / ' + str(PLAYER.creature.maxHP),
-             (HPcurrentX + 8, HPcurrentY + 4),
+             (currentMaxX, currentMaxY),
              constants.COLOR_STATS,
              HPMPcurrentFont)
 
     # MP bar
-    MPbarY = statusBarY + HPMPcurrentHeight + int(HPMPheight * 2)
-    magicBar = ui_FillBar(boxSurf,
-                           (statusBarX, MPY + 4),
-                           PLAYER.creature.currentMP,
-                           PLAYER.creature.maxMP,
-                           statusBarWidth,
-                           statusBarHeight,
-                           fillColor = constants.COLOR_HEAL_MP,
-                           emptyColor = constants.COLOR_DAMAGE_MP)
-
-    # current/ max MP read out
-    MPcurrentX = statusBarX
-    MPcurrentY = (MPY + statusBarHeight)
+    magicBar = ui_FillBar(MPsurf,
+                         (statusBarX, statusBarY),
+                         PLAYER.creature.currentMP,
+                         PLAYER.creature.maxMP,
+                         statusBarWidth,
+                         statusBarHeight,
+                         fillColor = constants.COLOR_HEAL_MP,
+                         emptyColor = constants.COLOR_DAMAGE_MP)
 
     # draw the current/ max HP under the bar
-    drawText(boxSurf,
+    drawText(MPsurf,
              str(PLAYER.creature.currentMP) + ' / ' + str(PLAYER.creature.maxMP),
-             (MPcurrentX + 8, MPcurrentY + 8),
+             (currentMaxX, currentMaxY),
              constants.COLOR_STATS,
              HPMPcurrentFont)
 
@@ -2148,11 +2170,16 @@ def drawCharGUI():
     # draw the charBoxSurf onto the boxSurf
     boxSurf.blit(charBoxSurf, (charBoxX, equipmentBoxY))
 
-    # draw the HP bar onto the boxSurf
+    # draw the HP and MP bars onto the boxSurf
     healthBar.draw(healthBar.T_coords)
-
-    # draw the MP bar onto the boxSurf
     magicBar.draw(magicBar.T_coords)
+
+    # blit the HP and MP surfaces onto the status surface
+    statusSurf.blit(HPsurf, ( 0, HPsurfY))
+    statusSurf.blit(MPsurf, ( 0, HPsurfY + barSurfHeight + 5))
+
+    # blit the statusSurf onto the boxSurf
+    boxSurf.blit(statusSurf, (statusSurfX, statusSurfY))
 
     #draw the boxSurf onto the FRAME_INV
     FRAME_INV.surface.blit(boxSurf, ( boxX, boxY))
