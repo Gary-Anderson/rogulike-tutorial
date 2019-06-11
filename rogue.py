@@ -1903,67 +1903,6 @@ def drawGUI():
     # blit PLAYER inventory
     SURFACE_MAIN.blit(FRAME_INV.surface, (FRAME_MAP.width, 0))
 
-    ################
-    ## STATUS BOX ##
-    ################
-
-    # drawText(displaySurf, textToDisplay, T_coords, textColor, font=constants.FONT_DEBUG_MESSAGE,
-    #              backColor=None, centered=False):
-    nameFont = constants.FONT_MESSAGE_TEXT
-    statusFont = constants.FONT_DEBUG_MESSAGE
-
-    nameHeight = helperTextHeight(nameFont)
-    HPwidth = (helperTextWidth(statusFont)) * 3
-
-
-    x, y = FRAME_STATUS.topleft
-
-    drawText(FRAME_STATUS.surface,
-             PLAYER.displayName,
-             (x + FRAME_STATUS.border, y),
-             constants.COLOR_WHITE, nameFont)
-
-    drawText(FRAME_STATUS.surface,
-             'HP:',
-             ((FRAME_STATUS.width * .125) - FRAME_STATUS.border, nameHeight + FRAME_STATUS.border + 2),
-             constants.COLOR_WHITE, statusFont)
-
-    drawText(FRAME_STATUS.surface,
-             'MP:',
-             ((FRAME_STATUS.width * .125) - FRAME_STATUS.border, nameHeight + (FRAME_STATUS.border * 3) + 2),
-             constants.COLOR_WHITE, statusFont)
-
-
-    #blit PLAYER status
-
-    # HP bar
-    SURFACE_MAIN.blit(FRAME_STATUS.surface, (FRAME_MAP.width, FRAME_MAP.height))
-
-    HPfillBarWidth = (FRAME_STATUS.width - (FRAME_STATUS.border * 4)) - HPwidth
-    HPfillBarHeight = 8
-    healthBar = ui_FillBar(FRAME_STATUS.surface,
-                           (HPwidth + ((FRAME_STATUS.width * .125) - FRAME_STATUS.border), nameHeight + FRAME_STATUS.border + 5),
-                           PLAYER.creature.currentHP,
-                           PLAYER.creature.maxHP,
-                           HPfillBarWidth,
-                           HPfillBarHeight)
-    healthBar.draw(healthBar.T_coords)
-
-    # MP bar
-    SURFACE_MAIN.blit(FRAME_STATUS.surface, (FRAME_MAP.width, FRAME_MAP.height))
-
-    MPfillBarWidth = (FRAME_STATUS.width - (FRAME_STATUS.border * 4)) - HPwidth
-    MPfillBarHeight = 8
-    magicBar = ui_FillBar(FRAME_STATUS.surface,
-                           (HPwidth + ((FRAME_STATUS.width * .125) - FRAME_STATUS.border), nameHeight + (FRAME_STATUS.border * 3) + 5),
-                           PLAYER.creature.currentMP,
-                           PLAYER.creature.maxMP,
-                           MPfillBarWidth,
-                           MPfillBarHeight,
-                           fillColor = constants.COLOR_CYAN,
-                           emptyColor = constants.COLOR_DARK_BLUE)
-    magicBar.draw(magicBar.T_coords)
-
 def drawCharGUI():
     # FRAME_INV is the GUI object that holds everything on the right part of the screen
     # box refers to the surface that contains all the character info
@@ -1992,10 +1931,6 @@ def drawCharGUI():
 
     # boxSurf hold all the character GUI
     boxSurf = pygame.Surface((boxWidth, boxHeight))
-
-    ##TEST
-    boxSurf.fill(constants.COLOR_CYAN)
-
 
 
     ############
@@ -2030,9 +1965,14 @@ def drawCharGUI():
              constants.COLOR_WHITE,
              raceFont, centered = True)
 
+
+
     ##############
     ## EQUIPPED ##  two boxes show what weapon and sheild are equipped
-    ##############
+    ##############  along with the character's sprite
+
+    # # equipment bix sprite
+    # ASSESTS.animationDictionary['black window box 3 single']
 
     # dimensions of the equipment boxes
     equipmentBoxDim = 48
@@ -2085,8 +2025,66 @@ def drawCharGUI():
     shieldBoxSurf.fill(constants.COLOR_YELLOW)
     charBoxSurf.fill(constants.COLOR_GREEN)
 
+    #################
+    ## STATUS BARS ##   show the HP and MP bars for the character
+    #################
+
+    # font for HP/ MP
+    HPMPfont = constants.FONT_DEBUG_MESSAGE
+
+    # width of 'HP:' ('MP:' is the same)
+    HPMPwidth = helperTextWidth(HPMPfont, 'HP: ')
+    HPMPheight = helperTextWidth(HPMPfont)
+
+    # where in the box the status bars starts
+    statusBarY = headerHeight + equipmentBoxDim + 10
+    HPX = frameBorder
+    HPY = statusBarY + 2
+    MPX = frameBorder
+    MPY = HPY + HPMPheight + 4
+
+    # draw 'HP:'
+    drawText(boxSurf,
+             'HP:',
+             (HPX, HPY),
+             constants.COLOR_STATS, HPMPfont)
+
+    # draw 'MP:'
+    drawText(boxSurf,
+             'MP:',
+             (MPX, MPY),
+             constants.COLOR_STATS, HPMPfont)
+
+    # status bar dimensions
+    statusBarWidth = boxWidth - (HPMPwidth * 2)
+    statusBarHeight = 8
+    statusBarX = HPMPwidth + 4
+
+    # HP bar
+    HPbarY = statusBarY + (statusBarHeight // 2)
+    healthBar = ui_FillBar(boxSurf,
+                           (statusBarX, HPbarY),
+                           PLAYER.creature.currentHP,
+                           PLAYER.creature.maxHP,
+                           statusBarWidth,
+                           statusBarHeight)
+
+    # MP bar
+    MPbarY = statusBarY + int(HPMPheight * 2)
+    magicBar = ui_FillBar(boxSurf,
+                           (statusBarX, MPbarY),
+                           PLAYER.creature.currentMP,
+                           PLAYER.creature.maxMP,
+                           statusBarWidth,
+                           statusBarHeight,
+                           fillColor = constants.COLOR_HEAL_MP,
+                           emptyColor = constants.COLOR_DAMAGE_MP)
 
 
+
+    #############
+    ## DRAWING ##  get it all on the screen
+    #############
 
 
     # draw the equipment sprites onto the equipmentBoxSurfs
@@ -2104,6 +2102,12 @@ def drawCharGUI():
 
     # draw the charBoxSurf onto the boxSurf
     boxSurf.blit(charBoxSurf, (charBoxX, equipmentBoxY))
+
+    # draw the HP bar onto the boxSurf
+    healthBar.draw(healthBar.T_coords)
+
+    # draw the MP bar onto the boxSurf
+    magicBar.draw(magicBar.T_coords)
 
     #draw the boxSurf onto the FRAME_INV
     FRAME_INV.surface.blit(boxSurf, ( boxX, boxY))
@@ -2169,8 +2173,6 @@ def drawInventory():
     inventoryWindow = pygame.Surface((inventoryWindowWidth, inventoryWindowHeight))
     localInventorySurf = pygame.Surface((inventoryWindowWidth, (invNum * inventoryTextHeight)))
     infoWindowSurf = pygame.Surface((infoWindowWidth, infoWindowHeight))
-
-    boxSurf.fill(constants.COLOR_PINK)
 
     pygame.draw.rect(infoWindowSurf, constants.COLOR_BORDER2, (0, 0, infoWindowWidth, infoWindowHeight), 1)
 
