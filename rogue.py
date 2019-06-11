@@ -1964,6 +1964,135 @@ def drawGUI():
                            emptyColor = constants.COLOR_DARK_BLUE)
     magicBar.draw(magicBar.T_coords)
 
+def drawCharGUI():
+    # FRAME_INV is the GUI object that holds everything on the right part of the screen
+    # box refers to the surface that contains all the character info
+
+    # dimensions of inventory frame
+    frameWidth = FRAME_INV.width
+    frameHeight = FRAME_INV.height
+    frameBorder = FRAME_INV.border
+
+    # dimensions of our box surface
+    boxWidth = int(frameWidth - (frameBorder * 2))
+    boxHeight = int(frameHeight // 2 - (frameBorder * 2) )
+    boxCenterX = boxWidth // 2
+    boxCenterY = boxHeight // 2
+
+    # margins
+    boxHeaderMargin = 32
+    boxFooterMargin = 16
+    boxBody = boxHeight - boxHeaderMargin
+    boxLeftMargin = 0
+    boxRightMargin = 0
+
+    # box X, Y
+    boxX = frameBorder
+    boxY = frameBorder
+
+    # boxSurf hold all the character GUI
+    boxSurf = pygame.Surface((boxWidth, boxHeight))
+
+    ##TEST
+    boxSurf.fill(constants.COLOR_CYAN)
+
+
+
+    ############
+    ## HEADER ## the title of the box will be the characters name and race
+    ############
+
+
+
+    # get height and font of character text so we can center it
+    nameFont = constants.FONT_TITLE_NAME_TEXT
+    nameHeight = helperTextHeight(nameFont)
+    nameX = (boxWidth // 2)
+    nameY = (nameHeight // 2)
+
+    # get height and font of race text so we can center it
+    raceFont = constants.FONT_TITLE_RACE_TEXT
+    raceHeight = helperTextHeight(nameFont)
+    raceY = (nameY + nameHeight)
+
+    # get the total height of these texts for further drawing
+    headerHeight = raceY + raceHeight + 5
+
+    # write the char's name as the header
+    drawText(boxSurf,
+             PLAYER.creature.nameInstance,
+             ( nameX, nameY),
+             constants.COLOR_WHITE,
+             nameFont, centered = True)
+
+    # write the char's race as the sub-header
+    drawText(boxSurf,
+             'the ' + PLAYER.nameObject,
+             ( nameX, raceY),
+             constants.COLOR_WHITE,
+             raceFont, centered = True)
+
+    ##############
+    ## EQUIPPED ##  two boxes show what weapon and sheild are equipped
+    ##############
+
+    # dimensions of the equipment boxes
+    equipmentBoxDim = 48
+    # x and y of the sprite within the equipment box
+    spriteX = 8
+    spriteY = 8
+
+    # get our equipment list
+    equippedItems = PLAYER.container.equippedItems
+
+    # what are our weapons
+    weapon = None
+    shield = None
+    for item in equippedItems:
+        if item.equipment.slot == 'right_hand':
+            weapon = item
+        if item.equipment.slot == 'left_hand':
+            shield = item
+
+    weaponSprite = ASSETS.animationDict['None']
+    shieldSprite = ASSETS.animationDict['None']
+
+    if weapon:
+        weaponSprite = ASSETS.animationDict[weapon.animationKey]
+
+    if shield:
+        shieldSprite = ASSETS.animationDict[shield.animationKey]
+
+
+
+    # x and y of our equiment boxes
+    weaponBoxX = (boxCenterX // 2) -  (equipmentBoxDim // 2)
+    shieldBoxX = (boxCenterX + (boxCenterX // 2)) - (equipmentBoxDim // 2)
+    equipmentBoxY = headerHeight
+
+    # equipment boxes surfaces
+    weaponBoxSurf = pygame.Surface((equipmentBoxDim, equipmentBoxDim))
+    shieldBoxSurf = pygame.Surface((equipmentBoxDim, equipmentBoxDim))
+
+    ##TESTING
+    weaponBoxSurf.fill(constants.COLOR_RED)
+    shieldBoxSurf.fill(constants.COLOR_YELLOW)
+
+
+
+
+
+    # draw the equipment boxes onto the boxSurf
+    if weapon:
+        weaponBoxSurf.blit(weaponSprite, (spriteX, spriteY))
+    if shield:
+        shieldBoxSurf.blit(shieldSprite, (spriteX, spriteY))
+    boxSurf.blit(weaponBoxSurf, (weaponBoxX, equipmentBoxY))
+    boxSurf.blit(shieldBoxSurf, (shieldBoxX, equipmentBoxY))
+
+    #draw the boxSurf onto the FRAME_INV
+    FRAME_INV.surface.blit(boxSurf, ( boxX, boxY))
+
 def drawInventory():
 
     # FRAME_INV is the GUI object that holds everything on the right part of the screen
@@ -2025,6 +2154,8 @@ def drawInventory():
     inventoryWindow = pygame.Surface((inventoryWindowWidth, inventoryWindowHeight))
     localInventorySurf = pygame.Surface((inventoryWindowWidth, (invNum * inventoryTextHeight)))
     infoWindowSurf = pygame.Surface((infoWindowWidth, infoWindowHeight))
+
+    boxSurf.fill(constants.COLOR_PINK)
 
     pygame.draw.rect(infoWindowSurf, constants.COLOR_BORDER2, (0, 0, infoWindowWidth, infoWindowHeight), 1)
 
@@ -2342,7 +2473,7 @@ def drawInventory():
                        'dmgHP'      : constants.COLOR_DAMAGE_HP,
                        'dmgMP'      : constants.COLOR_DAMAGE_MP,
                        'healHP'      : constants.COLOR_HEAL_HP,
-                       'helpMP'      : constants.COLOR_HEAL_MP,
+                       'healMP'      : constants.COLOR_HEAL_MP,
                        'stats'      : constants.COLOR_STATS,}
 
 
@@ -2353,46 +2484,39 @@ def drawInventory():
         if lastLineWidth == 0:
             lastLineWidth = textStartX
 
-        ##TESTING
-        if iter == 0:
-            print("########################")
-        iter += 1
-
         # if a tag is starting...
         if letter == '<':
-            print('< found')
 
+            # toggle isTag to true
             isTag = True
 
-
-            print("lastLineWidth = " + str(lastLineWidth))
-
+            # clear word
             word = ''
 
 
         # end the tag and assign the color from the dictionary
         elif letter == '>':
+
+            # tag is over, toggle isTag off
             isTag = False
+
+            # look up our tag in the color dictionary and assign textColor
             textColor = textColorIndex[tag]
-            print('> found')
-            print('color = ' + str(textColor))
+
+            # reset tag
             tag = ''
 
         # get what the tag is
         elif isTag:
-            tag += letter
-            print('tag = ' + tag)
 
+            # letter will spell out our tag
+            tag += letter
 
         # letters seperated by spaces are 'words'
         elif letter != ' ' and isTag == False:
 
-            print("letter = " + letter)
-
             # if the letter is not a space, add it to the word
             word += letter
-            print("word = " + word)
-
 
         # when we hit a space, see if we can add it to the line
         else:
@@ -2403,10 +2527,8 @@ def drawInventory():
             # get width of word in pixels
             wordWidth = helperTextWidth(infoFont, word)
 
+            # does this word fit on the line?
             if lastLineWidth + wordWidth < lineMaxWidth:
-
-                print("lastLineWidth + wordWidth = " + str(lastLineWidth + wordWidth))
-                print('lastLineMaxWidth = ' + str(lineMaxWidth))
 
                 # print on same line
                 drawText(infoWindowSurf, word,
@@ -2415,20 +2537,23 @@ def drawInventory():
                         font=constants.FONT_INV_INFO,
                         backColor=constants.COLOR_BLACK)
 
-                print("printed '" + word + "' at x = " + str(lastLineWidth) + " on line " + str(i))
-
+                # remember how far across the text window we are
                 lastLineWidth += wordWidth
 
-                print("lastLineWidth = " + str(lastLineWidth))
+                # reset word
                 word = ''
 
                 # reset color
                 textColor = constants.COLOR_TEXT_INV_INFO
+
+            # word doesn't fit on the line
             else:
 
-                # new line
-                lastLineWidth = textStartX
+                # start a new line
                 i += 1
+
+                # start at the beginning of the window
+                lastLineWidth = textStartX
 
                 #print word to new line
                 drawText(infoWindowSurf, word,
@@ -2437,10 +2562,10 @@ def drawInventory():
                         font=constants.FONT_INV_INFO,
                         backColor=constants.COLOR_BLACK)
 
-                print("printed '" + word + "' at x = " + str(lastLineWidth) + " on line " + str(i))
-
+                # remembe how far across the text window we are
                 lastLineWidth += wordWidth
 
+                # reset word
                 word = ''
 
                 # reset color
@@ -2482,6 +2607,9 @@ def drawGame():
 
     # update Inventory window
     drawInventory()
+
+    # update character GUI
+    drawCharGUI()
 
 
     drawDebug()

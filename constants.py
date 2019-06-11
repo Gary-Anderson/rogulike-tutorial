@@ -97,15 +97,13 @@ COLOR_DAMAGE_MP = COLOR_TEXT_DARK_CYAN
 COLOR_HEAL_MP = COLOR_TEXT_CYAN
 COLOR_STATS = COLOR_TEXT_WHITE
 
-
-
-
-
 # FONTS ##
 FONT_DEBUG_MESSAGE = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 10)
 FONT_MESSAGE_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 12)
 FONT_CURSOR_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', CELL_HEIGHT)
 FONT_TITLE_TEXT = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 24)
+FONT_TITLE_NAME_TEXT = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 20)
+FONT_TITLE_RACE_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 12)
 FONT_INV_TITLE = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 18)
 FONT_INV_INFO = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 10)
 
