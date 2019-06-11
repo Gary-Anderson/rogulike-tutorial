@@ -2066,8 +2066,8 @@ def drawCharGUI():
 
 
     # x and y of our equiment boxes
-    weaponBoxX = (boxCenterX // 2) -  (equipmentBoxDim // 2)
-    shieldBoxX = (boxCenterX + (boxCenterX // 2)) - (equipmentBoxDim // 2)
+    shieldBoxX = (boxCenterX // 2) -  (equipmentBoxDim // 2)
+    weaponBoxX = (boxCenterX + (boxCenterX // 2)) - (equipmentBoxDim // 2)
     equipmentBoxY = headerHeight
 
     # equipment boxes surfaces
