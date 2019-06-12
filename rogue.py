@@ -1675,7 +1675,7 @@ def mapPlaceObjects(roomList):
         if i == 0:
             x = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
             y = libtcod.random_get_int(0, room.ULy + 1, room.LRy - 1)
-            gen_item((x, y))
+            gen_item((x, y), True)
         else:
             x = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
             y = libtcod.random_get_int(0, room.ULy + 1, room.LRy - 1)
@@ -4282,26 +4282,49 @@ def gen_wincon(T_coords):
 ###########
 
 # master generators
-def gen_item(T_coords):
-    randNum = libtcod.random_get_int(0, 1, 10)
+def gen_item(T_coords, mustGen = False):
 
-    if randNum == 1:
-        newItem = gen_scroll(T_coords)
-        GAME.currentObj.append(newItem)
-    elif randNum == 2:
-        newItem = gen_weapon(T_coords)
-        GAME.currentObj.append(newItem)
-    elif randNum == 3:
-        newItem = gen_armor_shield(T_coords)
-        GAME.currentObj.append(newItem)
-    elif randNum == 4:
-        coin = libtcod.random_get_int(0, 0, 1)
-        if coin == 0:
-            newItem = gen_potion_health_minor(T_coords)
+    newItem = None
+
+    if mustGen:
+        while newItem == None:
+            randNum = libtcod.random_get_int(0, 1, 10)
+            if randNum == 1:
+                newItem = gen_scroll(T_coords)
+                GAME.currentObj.append(newItem)
+            elif randNum == 2:
+                newItem = gen_weapon(T_coords)
+                GAME.currentObj.append(newItem)
+            elif randNum == 3:
+                newItem = gen_armor_shield(T_coords)
+                GAME.currentObj.append(newItem)
+            elif randNum == 4:
+                coin = libtcod.random_get_int(0, 0, 1)
+                if coin == 0:
+                    newItem = gen_potion_health_minor(T_coords)
+                    GAME.currentObj.append(newItem)
+                else:
+                    newItem = gen_potion_mana_minor(T_coords)
+                    GAME.currentObj.append(newItem)
+    else:
+        randNum = libtcod.random_get_int(0, 1, 10)
+        if randNum == 1:
+            newItem = gen_scroll(T_coords)
             GAME.currentObj.append(newItem)
-        else:
-            newItem = gen_potion_mana_minor(T_coords)
+        elif randNum == 2:
+            newItem = gen_weapon(T_coords)
             GAME.currentObj.append(newItem)
+        elif randNum == 3:
+            newItem = gen_armor_shield(T_coords)
+            GAME.currentObj.append(newItem)
+        elif randNum == 4:
+            coin = libtcod.random_get_int(0, 0, 1)
+            if coin == 0:
+                newItem = gen_potion_health_minor(T_coords)
+                GAME.currentObj.append(newItem)
+            else:
+                newItem = gen_potion_mana_minor(T_coords)
+                GAME.currentObj.append(newItem)
 
 def gen_scroll(T_coords):
     randNum = libtcod.random_get_int(0, 1, 3)
@@ -4327,10 +4350,13 @@ def gen_weapon(T_coords):
         extraBonus = 0
 
     # bonus appropriate for the dungeon level
-    ranBonus = libtcod.random_get_int(0, 1, CURRENT_DUNGEON_LEVEL + extraBonus)
+    ranBonus = libtcod.random_get_int(0, 1, CURRENT_DUNGEON_LEVEL)
+
+    # actual total bonus
+    totalBonus = ranBonus + extraBonus
 
     # name with bonus
-    name = '+' + str(ranBonus) + ' Sword'
+    name = '+' + str(totalBonus) + ' Sword'
 
     # equipment component
     equipmentCom = com_Equipment(attackBonus=ranBonus, slot = "right_hand")
@@ -4341,7 +4367,7 @@ def gen_weapon(T_coords):
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SWORD",
                           equipment = equipmentCom,
-                          info = "Increase your attack, <stats>+" + str(ranBonus) + " damage!")
+                          info = "Increase your attack, <stats>+" + str(totalBonus) + " damage!")
     return returnObj
 
 def gen_armor_shield(T_coords):
@@ -4359,8 +4385,11 @@ def gen_armor_shield(T_coords):
     # bonus appropriate for the dungeon level
     ranBonus = libtcod.random_get_int(0, 1, int(CURRENT_DUNGEON_LEVEL // 2))
 
+    # actual total bonus
+    totalBonus = ranBonus + extraBonus
+
     # name with bonus
-    name = '+' + str(ranBonus) + ' Shield'
+    name = '+' + str(totalBonus) + ' Shield'
 
     # equipment component
     equipmentCom = com_Equipment(defenseBonus=ranBonus, slot = "left_hand")
@@ -4371,7 +4400,7 @@ def gen_armor_shield(T_coords):
                           depth = constants.DEPTH_ITEM,
                           animationKey = "S_SHIELD",
                           equipment = equipmentCom,
-                          info = "Protects the wielder, <stats>+" + str(ranBonus) + " def!")
+                          info = "Protects the wielder, <stats>+" + str(totalBonus) + " def!")
     return returnObj
 
 def gen_scroll_lightning(T_coords):
