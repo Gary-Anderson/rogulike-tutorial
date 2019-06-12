@@ -579,6 +579,8 @@ class obj_Assets:
         self.decor = obj_Spritesheet(constants.PATH + "data/graphics/Objects/Decor.png")
         #equipment
         self.shortWep = obj_Spritesheet(constants.PATH + "data/graphics/Items/ShortWep.png")
+        self.mediumWep = obj_Spritesheet(constants.PATH + "data/graphics/Items/MedWep.png")
+        self.longWep = obj_Spritesheet(constants.PATH + "data/graphics/Items/LongWep.png")
         self.shield = obj_Spritesheet(constants.PATH + "data/graphics/Items/Shield.png")
         #items
         self.scroll = obj_Spritesheet(constants.PATH + "data/graphics/Items/Scroll.png")
@@ -678,6 +680,8 @@ class obj_Assets:
         self.BLACK_WINDOW_BOX_2_SINGLE = self.gui.getImage('q', 11, 16, 16, (48, 48))[0]
         self.BLACK_WINDOW_BOX_3_SINGLE = self.gui.getImage('q', 14, 16, 16, (48, 48))[0]
         self.BLACK_WINDOW_BOX_4_SINGLE = self.gui.getImage('q', 17, 16, 16, (48, 48))[0]
+        self.ATTACK_ICON = self.mediumWep.getImage('a', 1, 16, 16, (16, 16))[0]
+        self.DEFENSE_ICON = self.shield.getImage('a', 1, 16, 16, (16, 16))[0]
 
         self.animationDict = {
 
@@ -734,6 +738,8 @@ class obj_Assets:
             "black window box 2 single" : self.BLACK_WINDOW_BOX_2_SINGLE,
             "black window box 3 single" : self.BLACK_WINDOW_BOX_3_SINGLE,
             "black window box 4 single" : self.BLACK_WINDOW_BOX_4_SINGLE,
+            "ATTACK_ICON" : self.ATTACK_ICON,
+            "DEFENSE_ICON" : self.DEFENSE_ICON,
 
             # SPECIAL
             "S_STAIRS_DOWN" : self.S_STAIRS_DOWN,
@@ -1948,7 +1954,7 @@ def drawCharGUI():
     boxSurf = pygame.Surface((boxWidth, boxHeight))
 
     ##TESTING##
-    boxSurf.fill(constants.COLOR_LIGHT_BLUE)
+    # boxSurf.fill(constants.COLOR_LIGHT_BLUE)
 
 
     ############
@@ -2068,9 +2074,9 @@ def drawCharGUI():
     HPsurfY = 5
 
     ###TEST###
-    statusSurf.fill(constants.COLOR_GREEN)
-    HPsurf.fill(constants.COLOR_PINK)
-    MPsurf.fill(constants.COLOR_PURPLE)
+    # statusSurf.fill(constants.COLOR_GREEN)
+    # HPsurf.fill(constants.COLOR_PINK)
+    # MPsurf.fill(constants.COLOR_PURPLE)
 
     # font for HP/ MP
     HPMPfont = constants.FONT_DEBUG_MESSAGE
@@ -2168,23 +2174,49 @@ def drawCharGUI():
     attributeSurfWidth = int(statsSurfWidth // 2) - 2
     attributeSurfHeight = statsSurfHeight - 2
 
-    # surfaces that hold out attack and defense stats
-    attackSurf = pygame.Surface((attributeSurfWidth, attributeSurfHeight))
-    defenseSurf = pygame.Surface((attributeSurfWidth, attributeSurfHeight))
+    # surfaces that hold out attack and defense stats and status effects
+    ATKDEFSurf = pygame.Surface((attributeSurfWidth, attributeSurfHeight))
+    effectSurf = pygame.Surface((attributeSurfWidth, attributeSurfHeight))
 
     ###TESTING###
-    attackSurf.fill(constants.COLOR_CYAN)
-    defenseSurf.fill(constants.COLOR_ORANGE)
+    # ATKDEFSurf.fill(constants.COLOR_CYAN)
+    # effectSurf.fill(constants.COLOR_ORANGE)
 
     # X and Y for our attack and defense surfs
-    attackSurfX = 1
-    attackSurfY = 1
-    defenseSurfX = 1 + attributeSurfWidth + 1 + 1
-    defenseSurfY = 1
+    ATKDEFSurfX = 1
+    ATKDEFSurfY = 1
+    # all the ones represent 1 pixel margins
+    effectSurfX = 1 + attributeSurfWidth + 1 + 1
+    effectSurfY = 1
 
+    # sprites for our stats icons
+    attackIcon = ASSETS.animationDict["ATTACK_ICON"]
+    defenseIcon = ASSETS.animationDict["DEFENSE_ICON"]
+
+    # text for stats
+    attackText = ':' + str(PLAYER.creature.power)
+    defenseText = ':' + str(PLAYER.creature.defense)
+
+    # blit out attack and def icons onto the surf
+    ATKDEFSurf.blit(attackIcon, (0, 0))
+    ATKDEFSurf.blit(defenseIcon, (0, 16))
+
+    # draw the text for our stats
+    drawText(ATKDEFSurf,
+             attackText,
+             ( 16, 4),
+             constants.COLOR_ATTRIBUTE,
+             constants.FONT_ATTRIBUTE_TEXT)
+
+    # draw the text for our stats
+    drawText(ATKDEFSurf,
+             defenseText,
+             ( 16, 20),
+             constants.COLOR_ATTRIBUTE,
+             constants.FONT_ATTRIBUTE_TEXT)
 
     ###TESTING###
-    statsSurf.fill(constants.COLOR_YELLOW)
+    # statsSurf.fill(constants.COLOR_YELLOW)
 
 
     #############
@@ -2228,8 +2260,8 @@ def drawCharGUI():
     boxSurf.blit(statusSurf, (statusSurfX, statusSurfY))
 
     # blit the attribute surfs onto the statsSurf
-    statsSurf.blit(attackSurf, (attackSurfX, attackSurfY))
-    statsSurf.blit(defenseSurf, (defenseSurfX, defenseSurfY))
+    statsSurf.blit(ATKDEFSurf, (ATKDEFSurfX, ATKDEFSurfY))
+    statsSurf.blit(effectSurf, (effectSurfX, effectSurfY))
 
     # blit the stats surface onto the boxSurf
     boxSurf.blit(statsSurf, ( statsSurfX, statsSurfY))

@@ -68,6 +68,7 @@ COLOR_EQUIPPED = COLOR_GREEN
 COLOR_BORDER1 = COLOR_WHITE
 COLOR_BORDER2 = COLOR_LIGHT_GREY
 COLOR_TITLE = COLOR_WHITE
+COLOR_ATTRIBUTE = COLOR_WHITE
 
 # text colors
 
@@ -107,6 +108,7 @@ FONT_TITLE_RACE_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 12)
 FONT_INV_TITLE = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 18)
 FONT_INV_INFO = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 10)
 FONT_HPMP_TEXT = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 12)
+FONT_ATTRIBUTE_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 8)
 
 # FOV SETTINGS
 FOV_ALGO = libtcod.FOV_BASIC
