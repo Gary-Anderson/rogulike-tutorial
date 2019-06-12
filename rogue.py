@@ -1908,6 +1908,7 @@ def drawGUI():
     FRAME_MAP.surface.blit(BOX_MAP, (FRAME_MAP.border, FRAME_MAP.border))
     BOX_MAP.blit(SURFACE_MAP, (0, 0), CAMERA.rectangle)
 
+
     # blit PLAYER stats
     SURFACE_MAIN.blit(FRAME_CONSOLE.surface, (0,FRAME_MAP.height))
 
@@ -2676,6 +2677,35 @@ def drawInventory():
 
     FRAME_INV.surface.blit(boxSurf, (boxX, boxY))
 
+def drawCurrentDungeonMessage():
+
+    # this prints what dungeon level the player is currently on
+    # onto the upper-right corner of the BOX_MAP
+
+    # the message that the player will see
+    dungeonText = 'Dungeon Level: ' + str(CURRENT_DUNGEON_LEVEL)
+    dungeonTextFont = constants.FONT_MESSAGE_TEXT
+
+    # width of that text
+    dungeonTextWidth = helperTextWidth(dungeonTextFont, dungeonText)
+    dungeonTextHeight = helperTextHeight(dungeonTextFont)
+
+    # dungeonLevelSurf
+    dungeonLevelSurf = pygame.Surface((dungeonTextWidth, dungeonTextHeight))
+
+    # clear the dungeonLevel Surf
+    dungeonLevelSurf.fill(constants.COLOR_MAP_FOG)
+
+    # draw the dungeon level on the upper-right of the map
+    drawText(dungeonLevelSurf,
+             dungeonText,
+             (0, 0),
+             constants.COLOR_WHITE,
+             dungeonTextFont)
+
+    # blit the dungeon message surface onto the box_map
+    FRAME_MAP.surface.blit(dungeonLevelSurf, ((FRAME_MAP.width) - (dungeonTextWidth + FRAME_MAP.border), FRAME_MAP.border))
+
 
 def drawGame():
 
@@ -2686,6 +2716,8 @@ def drawGame():
 
     # draw map
     drawMap(GAME.currentMap)
+
+    drawCurrentDungeonMessage()
 
     # draw actors
     for obj in sorted(GAME.currentObj, key = lambda obj: obj.depth, reverse = True):
@@ -2700,8 +2732,10 @@ def drawGame():
     # update character GUI
     drawCharGUI()
 
-
+    # draw the frame rate
     drawDebug()
+
+    # draw the messages console
     drawMessages()
 
     # update the display
@@ -4698,7 +4732,7 @@ def gen_snail(T_coords):
 def gameInit():
     # this function sets up the main window and pygame
 
-    global SURFACE_MAIN, SURFACE_MAP, GAME_LOOP_ITER
+    global SURFACE_MAIN, SURFACE_MAP, CURRENT_DUNGEON_LEVEL, GAME_LOOP_ITER
     global FRAME_MAP, BOX_MAP, FRAME_CONSOLE, FRAME_INV, FRAME_STATUS
     global CLOCK, FOV_CALC, FOV_MAP, ENEMY, ASSETS, PREF, CAMERA, RANDOM_ENGINE
     global INV_SCROLL_INDEX, IS_DROPPING
@@ -4723,6 +4757,10 @@ def gameInit():
     # sets up our map surface and camera
     SURFACE_MAP = pygame.Surface((constants.MAP_WIDTH * constants.CELL_WIDTH,
                                             constants.MAP_HEIGHT * constants.CELL_HEIGHT))
+
+    # what dungeon level we are on
+    CURRENT_DUNGEON_LEVEL = 1
+
     #################
     ## GUI GLOBALS ##
     #################
@@ -4757,7 +4795,6 @@ def gameInit():
 
     # The GUI surface the map sits in
     BOX_MAP = pygame.Surface((FRAME_MAP.width - (FRAME_MAP.border * 2), FRAME_MAP.height - (FRAME_MAP.border * 2)))
-
 
 
     CAMERA = obj_Camera()
@@ -4994,7 +5031,7 @@ def gameMessage(gameMsg, msgColor=constants.COLOR_GREY):
 
 def gameLoop():
 
-    global GAME_LOOP_ITER, IS_DROPPING
+    global GAME_LOOP_ITER, IS_DROPPING, CURRENT_DUNGEON_LEVEL
 
     # now for the game loop, each iteration of which is a turn. If we were real-time, it would be a frame
     gameQuit = False
@@ -5002,10 +5039,15 @@ def gameLoop():
     # 'no action' means we are afk
     playerAction = 'no action'
 
+
     # the Game Loop
     while not gameQuit:
 
+        # increment the number of loops
         GAME_LOOP_ITER += 1
+
+        # what dungeon level we are on
+        CURRENT_DUNGEON_LEVEL = len(GAME.previousMaps) + 1
 
         # the loop constantly listens for key strokes
         playerAction = gameHandleKeys()
