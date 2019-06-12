@@ -1947,6 +1947,9 @@ def drawCharGUI():
     # boxSurf hold all the character GUI
     boxSurf = pygame.Surface((boxWidth, boxHeight))
 
+    ##TESTING##
+    boxSurf.fill(constants.COLOR_LIGHT_BLUE)
+
 
     ############
     ## HEADER ## the title of the box will be the characters name and race
@@ -2044,14 +2047,14 @@ def drawCharGUI():
     #################
 
     # dimensions of the surface we will put all these status bars on
-    statusSurfWidth     = int(boxWidth)
+    statusSurfWidth     = int(boxWidth * .9)
     statusSurfHeight    = int(boxHeight * .3)
 
     # statusSurf is the surface that holds all these GUI elements
     statusSurf = pygame.Surface((statusSurfWidth, statusSurfHeight))
 
     # the x and y for our statusSurf
-    statusSurfX = frameBorder
+    statusSurfX = (boxWidth - statusSurfWidth) // 2
     statusSurfY = headerHeight + equipmentBoxDim + 10
 
     # bar surface dimensions
@@ -2064,10 +2067,10 @@ def drawCharGUI():
     MPsurf = pygame.Surface(( barSurfWidth, barSurfHeight))
     HPsurfY = 5
 
-    # ###TEST###
-    # statusSurf.fill(constants.COLOR_GREEN)
-    # HPsurf.fill(constants.COLOR_PINK)
-    # MPsurf.fill(constants.COLOR_PURPLE)
+    ###TEST###
+    statusSurf.fill(constants.COLOR_GREEN)
+    HPsurf.fill(constants.COLOR_PINK)
+    MPsurf.fill(constants.COLOR_PURPLE)
 
     # font for HP/ MP
     HPMPfont = constants.FONT_DEBUG_MESSAGE
@@ -2143,9 +2146,51 @@ def drawCharGUI():
              constants.COLOR_STATS,
              HPMPcurrentFont)
 
+    ###########
+    ## STATS ##  this is where the attack and def stats are drawn
+    ###########
+
+    # margin above statsSurf
+    topMargin = 8
+
+    # dimensions for our statsSurf
+    statsSurfWidth = int(boxWidth * .9)
+    statsSurfHeight = (boxHeight - (statusSurfY + statusSurfHeight)) - (topMargin * 2)
+
+    # surface that holds all the stats
+    statsSurf = pygame.Surface((statsSurfWidth, statsSurfHeight))
+
+    # X and Y of our statsSurf
+    statsSurfX = (boxWidth - statusSurfWidth) // 2
+    statsSurfY = (statusSurfY + statusSurfHeight) + topMargin
+
+    # dimensions for our attack and defense surfs
+    attributeSurfWidth = int(statsSurfWidth // 2) - 2
+    attributeSurfHeight = statsSurfHeight - 2
+
+    # surfaces that hold out attack and defense stats
+    attackSurf = pygame.Surface((attributeSurfWidth, attributeSurfHeight))
+    defenseSurf = pygame.Surface((attributeSurfWidth, attributeSurfHeight))
+
+    ###TESTING###
+    attackSurf.fill(constants.COLOR_CYAN)
+    defenseSurf.fill(constants.COLOR_ORANGE)
+
+    # X and Y for our attack and defense surfs
+    attackSurfX = 1
+    attackSurfY = 1
+    defenseSurfX = 1 + attributeSurfWidth + 1 + 1
+    defenseSurfY = 1
+
+
+    ###TESTING###
+    statsSurf.fill(constants.COLOR_YELLOW)
+
+
     #############
     ## DRAWING ##  get it all on the screen
     #############
+
 
 
     # blit the GUI sprite onto the equipment boxes
@@ -2181,6 +2226,15 @@ def drawCharGUI():
 
     # blit the statusSurf onto the boxSurf
     boxSurf.blit(statusSurf, (statusSurfX, statusSurfY))
+
+    # blit the attribute surfs onto the statsSurf
+    statsSurf.blit(attackSurf, (attackSurfX, attackSurfY))
+    statsSurf.blit(defenseSurf, (defenseSurfX, defenseSurfY))
+
+    # blit the stats surface onto the boxSurf
+    boxSurf.blit(statsSurf, ( statsSurfX, statsSurfY))
+
+
 
     #draw the boxSurf onto the FRAME_INV
     FRAME_INV.surface.blit(boxSurf, ( boxX, boxY))
