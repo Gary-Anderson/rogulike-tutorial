@@ -4294,6 +4294,14 @@ def gen_item(T_coords):
     elif randNum == 3:
         newItem = gen_armor_shield(T_coords)
         GAME.currentObj.append(newItem)
+    elif randNum == 4:
+        coin = libtcod.random_get_int(0, 0, 1)
+        if coin == 0:
+            newItem = gen_potion_health_minor(T_coords)
+            GAME.currentObj.append(newItem)
+        else:
+            newItem = gen_potion_mana_minor(T_coords)
+            GAME.currentObj.append(newItem)
 
 def gen_scroll(T_coords):
     randNum = libtcod.random_get_int(0, 1, 3)
@@ -4307,10 +4315,27 @@ def gen_scroll(T_coords):
 # specific
 
 def gen_weapon(T_coords):
+
+    # where in the room the item will generate
     x, y = T_coords
-    ranBonus = libtcod.random_get_int(0, 1, 3)
+
+    # a 1:5 chance of a bonus beyond current level
+    extraBonus = libtcod.random_get_int(0, 1, 20)
+    if extraBonus == 10:
+        extraBonus = 1
+    else:
+        extraBonus = 0
+
+    # bonus appropriate for the dungeon level
+    ranBonus = libtcod.random_get_int(0, 1, CURRENT_DUNGEON_LEVEL + extraBonus)
+
+    # name with bonus
     name = '+' + str(ranBonus) + ' Sword'
+
+    # equipment component
     equipmentCom = com_Equipment(attackBonus=ranBonus, slot = "right_hand")
+
+    # generate the actual item
     returnObj = obj_Actor(x, y,
                           name,
                           depth = constants.DEPTH_ITEM,
@@ -4320,10 +4345,27 @@ def gen_weapon(T_coords):
     return returnObj
 
 def gen_armor_shield(T_coords):
+
+    # where in the room the item will generate
     x, y = T_coords
-    ranBonus = libtcod.random_get_int(0, 1, 3)
+
+    # a 1:5 chance of a bonus beyond current level
+    extraBonus = libtcod.random_get_int(0, 1, 20)
+    if extraBonus == 10:
+        extraBonus = 1
+    else:
+        extraBonus = 0
+
+    # bonus appropriate for the dungeon level
+    ranBonus = libtcod.random_get_int(0, 1, int(CURRENT_DUNGEON_LEVEL // 2))
+
+    # name with bonus
     name = '+' + str(ranBonus) + ' Shield'
+
+    # equipment component
     equipmentCom = com_Equipment(defenseBonus=ranBonus, slot = "left_hand")
+
+    # generate the actual item
     returnObj = obj_Actor(x, y,
                           name,
                           depth = constants.DEPTH_ITEM,
