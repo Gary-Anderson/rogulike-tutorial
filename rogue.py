@@ -623,8 +623,13 @@ class obj_Assets:
         # undead
         self.A_DEATH_CRACK = self.undead.getAnimation('g', 5, 16, 16, 2, (32, 32))
 
-        # animals
-        self.A_SQUIREL = self.rodent.getAnimation('a', 1, 16, 16, 2, (32, 32))
+        # rodent
+        self.A_MOUSE = self.rodent.getAnimation('a', 2, 16, 16, 2, (32, 32))
+        self.A_RAT = self.rodent.getAnimation('c', 2, 16, 16, 2, (32, 32))
+        self.A_GIANT_RAT = self.rodent.getAnimation('e', 2, 16, 16, 2, (32, 32))
+        self.A_UNDEAD_RAT = self.rodent.getAnimation('g', 2, 16, 16, 2, (32, 32))
+        self.A_POISON_RAT = self.rodent.getAnimation('a', 3, 16, 16, 2, (32, 32))
+        self.A_HUNTER_RAT = self.rodent.getAnimation('c', 3, 16, 16, 2, (32, 32))
 
         # plants
         self.A_FERNOID = self.plant.getAnimation('a', 6, 16, 16, 2, (32, 32))
@@ -695,8 +700,15 @@ class obj_Assets:
             "A_SNAKE_COBRA_01" : self.A_SNAKE_COBRA_01,
             "A_SNAKE_COBRA_02" : self.A_SNAKE_COBRA_02,
             "A_SNAKE_COBRA_03" : self.A_SNAKE_COBRA_03,
+            #humanoids
             "A_ALCHEMIST" : self.A_ALCHEMIST,
-            "A_SQUIREL" : self.A_SQUIREL,
+            # rodent
+            "A_MOUSE" : self.A_MOUSE,
+            "A_RAT" : self.A_RAT,
+            "A_GIANT_RAT" : self.A_GIANT_RAT,
+            "A_UNDEAD_RAT" : self.A_UNDEAD_RAT,
+            "A_POISON_RAT" : self.A_POISON_RAT,
+            "A_HUNTER_RAT" : self.A_HUNTER_RAT,
             # insect
             "A_SPIDER_TARANTULA" : self.A_SPIDER_TARANTULA,
             "A_SPIDER_TARANTULA_GIANT_ZOMBIE" : self.A_SPIDER_TARANTULA_GIANT_ZOMBIE,
@@ -4384,6 +4396,7 @@ def gen_armor_shield(T_coords):
 
     # bonus appropriate for the dungeon level
     ranBonus = libtcod.random_get_int(0, 1, int(CURRENT_DUNGEON_LEVEL // 2))
+    if ranBonus < 1: ranBonus = 1
 
     # actual total bonus
     totalBonus = ranBonus + extraBonus
@@ -4505,13 +4518,14 @@ def gen_enemy(T_coords):
     4 : gen_spider_tarantula_giant_zombie(T_coords),
     5 : gen_snail(T_coords),
     6 : gen_fernoid(T_coords),
-    7 : gen_death_crack(T_coords)
+    7 : gen_death_crack(T_coords),
+    8 : gen_rodent(T_coords)
     }
 
     bestiaryLen = len(enemyDict)
     randNum = libtcod.random_get_int(0, 1, 100)
 
-    currentLevel = len(GAME.previousMaps) + 1
+    currentLevel = CURRENT_DUNGEON_LEVEL
 
     success = False
     i = 0
@@ -4685,6 +4699,180 @@ def gen_spider_tarantula(T_coords):
 
     return spider
 
+#############
+## RODENTS ##
+#############
+
+def gen_rodent(T_coords):
+    # generate an appropriate rodent for the current dungeon level
+
+    # what our alog spits out, before we confirm it
+    potentialMob = None
+
+    # our confirmed mob
+    mob = None
+
+    # dict of all rodents
+    rodentDict = { 1 : gen_mouse(T_coords),
+                   2 : gen_rat(T_coords),
+                   3 : gen_giant_rat(T_coords),
+                   4 : gen_undead_rat(T_coords),
+                   5 : gen_poison_rat(T_coords),
+                   6 : gen_hunter_rat(T_coords) }
+
+    #iterator
+    i = len(rodentDict)
+
+    # loop through rodents untill we get an appropriate one
+    while True:
+        # gen a mob from highest level to lowest
+        potentialMob = rodentDict[i]
+
+        # if that mobs level is == or +1 the current dungeon level, keep it
+        if potentialMob.creature.dungeonLevel - CURRENT_DUNGEON_LEVEL < 2:
+            # use the mob
+            return potentialMob
+        # else, check the next lowest level mob
+        else:
+            i -= 1
+        # if we have run out of mobs
+        if i == 0:
+            gameMessage('failed to gen rodent')
+            # fail
+            return
+
+def gen_mouse(T_coords):
+    x, y = T_coords
+
+    maxHealth = libtcod.random_get_int(0, 4, 5)
+    baseAttack = libtcod.random_get_int(0, 2, 3)
+    creatureName = libtcod.namegen_generate("Celtic male")
+    creatureCom = com_Creature(creatureName,
+                                faction = 'rodent',
+                                baseAtk=baseAttack,
+                                maxHP = maxHealth,
+                                deathFunc=death_Mob,
+                                dungeonLevel=1)
+    aiCom = ai_chase()
+    rat = obj_Actor(x, y, "rat",
+                               depth = constants.DEPTH_CREATURE,
+                               animationKey = "A_MOUSE",
+                               animationSpeed=2,
+                               creature=creatureCom,
+                               ai=aiCom)
+
+    return rat
+
+def gen_rat(T_coords):
+    x, y = T_coords
+
+    maxHealth = libtcod.random_get_int(0, 5, 7)
+    baseAttack = libtcod.random_get_int(0, 4, 6)
+    creatureName = libtcod.namegen_generate("Celtic male")
+    creatureCom = com_Creature(creatureName,
+                                faction = 'rodent',
+                                baseAtk=baseAttack,
+                                maxHP = maxHealth,
+                                deathFunc=death_Mob,
+                                dungeonLevel=3)
+    aiCom = ai_chase()
+    rat = obj_Actor(x, y, "rat",
+                               depth = constants.DEPTH_CREATURE,
+                               animationKey = "A_RAT",
+                               animationSpeed=2,
+                               creature=creatureCom,
+                               ai=aiCom)
+
+    return rat
+
+def gen_giant_rat(T_coords):
+    x, y = T_coords
+
+    maxHealth = libtcod.random_get_int(0, 12, 16)
+    baseAttack = libtcod.random_get_int(0, 5, 7)
+    creatureName = libtcod.namegen_generate("Celtic male")
+    creatureCom = com_Creature(creatureName,
+                                faction = 'rodent',
+                                baseAtk=baseAttack,
+                                maxHP = maxHealth,
+                                deathFunc=death_Mob,
+                                dungeonLevel=5)
+    aiCom = ai_chase()
+    rat = obj_Actor(x, y, "giant rat",
+                               depth = constants.DEPTH_CREATURE,
+                               animationKey = "A_GIANT_RAT",
+                               animationSpeed=2,
+                               creature=creatureCom,
+                               ai=aiCom)
+
+    return rat
+
+def gen_undead_rat(T_coords):
+    x, y = T_coords
+
+    maxHealth = libtcod.random_get_int(0, 16, 20)
+    baseAttack = libtcod.random_get_int(0, 8, 10)
+    creatureName = libtcod.namegen_generate("Celtic male")
+    creatureCom = com_Creature(creatureName,
+                                faction = 'rodent',
+                                baseAtk=baseAttack,
+                                maxHP = maxHealth,
+                                deathFunc=death_Mob,
+                                dungeonLevel=7)
+    aiCom = ai_chase()
+    rat = obj_Actor(x, y, "undead rat",
+                               depth = constants.DEPTH_CREATURE,
+                               animationKey = "A_UNDEAD_RAT",
+                               animationSpeed=2,
+                               creature=creatureCom,
+                               ai=aiCom)
+
+    return rat
+
+def gen_poison_rat(T_coords):
+    x, y = T_coords
+
+    maxHealth = libtcod.random_get_int(0, 15, 17)
+    baseAttack = libtcod.random_get_int(0, 6, 7)
+    creatureName = libtcod.namegen_generate("Celtic male")
+    creatureCom = com_Creature(creatureName,
+                                faction = 'rodent',
+                                baseAtk=baseAttack,
+                                maxHP = maxHealth,
+                                deathFunc=death_Mob,
+                                dungeonLevel=9)
+    aiCom = ai_chase()
+    rat = obj_Actor(x, y, "poison rat",
+                               depth = constants.DEPTH_CREATURE,
+                               animationKey = "A_POISON_RAT",
+                               animationSpeed=2,
+                               creature=creatureCom,
+                               ai=aiCom)
+
+    return rat
+
+def gen_hunter_rat(T_coords):
+    x, y = T_coords
+
+    maxHealth = libtcod.random_get_int(0, 20, 25)
+    baseAttack = libtcod.random_get_int(0, 10, 10)
+    creatureName = libtcod.namegen_generate("Celtic male")
+    creatureCom = com_Creature(creatureName,
+                                faction = 'rodent',
+                                baseAtk=baseAttack,
+                                maxHP = maxHealth,
+                                deathFunc=death_Mob,
+                                dungeonLevel=9)
+    aiCom = ai_chase()
+    rat = obj_Actor(x, y, "hunter rat",
+                               depth = constants.DEPTH_CREATURE,
+                               animationKey = "A_HUNTER_RAT",
+                               animationSpeed=2,
+                               creature=creatureCom,
+                               ai=aiCom)
+
+    return rat
+
 def gen_fernoid(T_coords):
     x, y = T_coords
 
@@ -4696,7 +4884,7 @@ def gen_fernoid(T_coords):
                                 baseAtk=baseAttack,
                                 maxHP = maxHealth,
                                 deathFunc=death_Mob,
-                                dungeonLevel=1)
+                                dungeonLevel=3)
     aiCom = ai_chase()
     fernoid = obj_Actor(x, y, "fernoid",
                                depth = constants.DEPTH_CREATURE,
