@@ -1663,10 +1663,15 @@ def mapPlaceObjects(roomList):
     topLevel = (len(GAME.previousMaps) == 0)
     bottomLevel = (currentLevel == constants.MAP_NUM_LEVELS)
 
+    # list of mobs generated this floor
+    mobList = []
 
+    # iterator for what floor we are on
     i = 0
+
     for room in roomList:
 
+        # our first and last room
         firstRoom = (room == roomList[0])
         lastRoom = (room == roomList[-1])
 
@@ -1691,10 +1696,34 @@ def mapPlaceObjects(roomList):
         else:
             x = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
             y = libtcod.random_get_int(0, room.ULy + 1, room.LRy - 1)
-            gen_enemy((x, y))
+
+            # get the mob
+            mob = gen_enemy((x, y))
+
+
+            # populate the map with the mob if it gen'd
+            if mob != 'gen fail':
+                GAME.currentObj.append(mob)
+
+            # add the mobs name to the mob list
+            if mob != 'gen fail': mobList.append(mob.nameObject)
+
+            # if this is the last room, print the list (for testing)
+            if lastRoom:
+                print(str(len(mobList)) + " mobs gen'd in " + str(len(roomList)) + " rooms for dungeon level: " + str(CURRENT_DUNGEON_LEVEL))
+                print("-------------------------------------")
+                print()
+                for monster in mobList:
+                    print(monster)
+
+            # generate (x, y) for new item
             x = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
             y = libtcod.random_get_int(0, room.ULy + 1, room.LRy - 1)
+
+            # gen an new item
             gen_item((x, y))
+
+        # increment what room we are on
         i += 1
 
 def mapCreateRoom(map, incomingRoom):
@@ -3138,7 +3167,7 @@ def cast_lightning(caster,
 
 
 def cast_fireball(caster,
-                  T_damage_radius_maxRange=(5, 1, 5),
+                  T_damage_radius_maxRange=(6, 1, 5),
                   cost = -100):
 
     # check if enough MP
@@ -4529,7 +4558,7 @@ def gen_enemy(T_coords):
 
     success = False
     i = 0
-    while not success:
+    while True:
 
         if randNum <= 80:
             randMob = libtcod.random_get_int(0, 1, bestiaryLen)
@@ -4538,47 +4567,131 @@ def gen_enemy(T_coords):
 
             if potentialEnemy.creature.dungeonLevel - currentLevel <= 1:
                 newEnemy = potentialEnemy
-                GAME.currentObj.append(newEnemy)
-                success = True
+                return newEnemy
         i += 1
 
         if i > 1000:
             gameMessage("Failed to gen mob")
-            success = True
+            return 'gen fail'
 
+############
+## SNAKES ##
+############
 
 def gen_snake(T_coords):
-    randNum = libtcod.random_get_int(0, 1, 100)
-    if randNum <= 25:
-        snake = gen_snake_anaconda(T_coords)
-    elif randNum >= 26 and randNum <= 75:
-        snake = gen_snake_green(T_coords)
-    else:
-        snake = gen_snake_cobra(T_coords)
-    return snake
+    # generate an appropriate snake for the current dungeon level
 
-def gen_snake_anaconda(T_coords):
-    ranNum = libtcod.random_get_int(0, 1, 100)
+    # what our alog spits out, before we confirm it
+    potentialMob = None
 
-    if ranNum <= 25:
+    # our confirmed mob
+    mob = None
+
+    # dict of all snakes
+    snakeDict = { 1 : gen_snake_neonates(T_coords),
+                   2 : gen_snake_snakelet(T_coords),
+                   3 : gen_snake_adult(T_coords) }
+
+    #iterator
+    i = len(snakeDict)
+
+    # loop through rodents untill we get an appropriate one
+    while True:
+        # gen a mob from highest level to lowest
+        potentialMob = snakeDict[i]
+
+        # if that mobs level is == or +1 the current dungeon level, keep it
+        if potentialMob.creature.dungeonLevel - CURRENT_DUNGEON_LEVEL < 2:
+            # use the mob
+            return potentialMob
+        # else, check the next lowest level mob
+        else:
+            i -= 1
+        # if we have run out of mobs
+        if i == 0:
+            gameMessage('failed to gen snake')
+            # fail
+            return
+
+def gen_snake_neonates(T_coords):
+    # choose what kind of snakelet
+    ranNum = libtcod.random_get_int(0, 1, 3)
+
+    # anaconda
+    if ranNum == 1:
         x, y = T_coords
-        maxHealth = libtcod.random_get_int(0 , 3, 5)
-        baseAttack = libtcod.random_get_int(0 , 1, 1)
-        nutrition = libtcod.random_get_int(0, 1, 2)
+        maxHealth = libtcod.random_get_int(0 , 4, 5)
+        baseAttack = libtcod.random_get_int(0 , 1, 2)
+        nutrition = libtcod.random_get_int(0, 2, 4)
+        creatureName = libtcod.namegen_generate("Celtic female")
+        creatureCom = com_Creature(creatureName,
+                                    baseAtk=baseAttack,
+                                    maxHP = maxHealth,
+                                    deathFunc=death_Snake,
+                                    dungeonLevel=1)
+        aiCom = ai_chase()
+        neonates = obj_Actor(x, y, "neonates anaconda",
+                                   depth = constants.DEPTH_CREATURE,
+                                   animationKey = "A_SNAKE_ANACONDA_02",
+                                   animationSpeed=2,
+                                   creature=creatureCom,
+                                   ai=aiCom)
+
+
+        return neonates
+
+    # cobra
+    elif ranNum == 2:
+        x, y = T_coords
+        maxHealth = libtcod.random_get_int(0 , 3, 4)
+        baseAttack = libtcod.random_get_int(0 , 3, 3)
+        nutrition = libtcod.random_get_int(0, 2, 3)
+        creatureName = libtcod.namegen_generate("Celtic female")
+        creatureCom = com_Creature(creatureName,
+                                    baseAtk=baseAttack,
+                                    maxHP = maxHealth,
+                                    deathFunc=death_Snake,
+                                    dungeonLevel=1)
+        aiCom = ai_chase()
+        neonates = obj_Actor(x, y, "neonates cobra",
+                                   depth = constants.DEPTH_CREATURE,
+                                   animationKey = "A_SNAKE_COBRA_02",
+                                   animationSpeed=2,
+                                   creature=creatureCom,
+                                   ai=aiCom)
+
+
+        return neonates
+
+    #green snake
+    else:
+        x, y = T_coords
+        maxHealth = libtcod.random_get_int(0 , 4, 4)
+        baseAttack = libtcod.random_get_int(0 , 2, 3)
         creatureName = libtcod.namegen_generate("Celtic female")
         creatureCom = com_Creature(creatureName,
                                     faction = 'neonates',
                                     baseAtk=baseAttack,
                                     maxHP = maxHealth,
-                                    deathFunc=death_Snake)
+                                    deathFunc=death_Snake,
+                                    dungeonLevel = 1)
         aiCom = ai_chase()
-        snake_anaconda = obj_Actor(x, y, "neonates anaconda",
+        neonates = obj_Actor(x, y, "green neonates",
                                    depth = constants.DEPTH_CREATURE,
-                                   animationKey = "A_SNAKE_ANACONDA_01",
+                                   animationKey = "A_SNAKE_GREEN_01",
                                    animationSpeed=2,
                                    creature=creatureCom,
                                    ai=aiCom)
-    elif ranNum >= 26 and ranNum <= 75:
+
+
+        return neonates
+
+def gen_snake_snakelet(T_coords):
+    # choose what kind of snakelet
+    ranNum = libtcod.random_get_int(0, 1, 3)
+
+    # anaconda
+    if ranNum == 1:
         x, y = T_coords
         maxHealth = libtcod.random_get_int(0 , 7, 10)
         baseAttack = libtcod.random_get_int(0 , 3, 4)
@@ -4590,13 +4703,69 @@ def gen_snake_anaconda(T_coords):
                                     deathFunc=death_Snake,
                                     dungeonLevel=2)
         aiCom = ai_chase()
-        snake_anaconda = obj_Actor(x, y, "snakelet anaconda",
+        snakelet = obj_Actor(x, y, "snakelet anaconda",
                                    depth = constants.DEPTH_CREATURE,
                                    animationKey = "A_SNAKE_ANACONDA_02",
                                    animationSpeed=2,
                                    creature=creatureCom,
                                    ai=aiCom)
+
+
+        return snakelet
+
+    # cobra
+    elif ranNum == 2:
+        x, y = T_coords
+        maxHealth = libtcod.random_get_int(0 , 5, 8)
+        baseAttack = libtcod.random_get_int(0 , 3, 5)
+        nutrition = libtcod.random_get_int(0, 2, 3)
+        creatureName = libtcod.namegen_generate("Celtic female")
+        creatureCom = com_Creature(creatureName,
+                                    baseAtk=baseAttack,
+                                    maxHP = maxHealth,
+                                    deathFunc=death_Snake,
+                                    dungeonLevel=2)
+        aiCom = ai_chase()
+        snakelet = obj_Actor(x, y, "snakelet cobra",
+                                   depth = constants.DEPTH_CREATURE,
+                                   animationKey = "A_SNAKE_COBRA_02",
+                                   animationSpeed=2,
+                                   creature=creatureCom,
+                                   ai=aiCom)
+
+
+        return snakelet
+
+    #green snake
     else:
+        x, y = T_coords
+        maxHealth = libtcod.random_get_int(0 , 4, 5)
+        baseAttack = libtcod.random_get_int(0 , 2, 3)
+        creatureName = libtcod.namegen_generate("Celtic female")
+        creatureCom = com_Creature(creatureName,
+                                    faction = 'snakelet',
+                                    baseAtk=baseAttack,
+                                    maxHP = maxHealth,
+                                    deathFunc=death_Snake,
+                                    dungeonLevel = 2)
+        aiCom = ai_chase()
+        snakelet = obj_Actor(x, y, "green snakelet",
+                                   depth = constants.DEPTH_CREATURE,
+                                   animationKey = "A_SNAKE_GREEN_01",
+                                   animationSpeed=2,
+                                   creature=creatureCom,
+                                   ai=aiCom)
+
+
+
+        return snakelet
+
+def gen_snake_adult(T_coords):
+    # choose what kind of snakelet
+    ranNum = libtcod.random_get_int(0, 1, 3)
+
+    # anaconda
+    if ranNum == 1:
         x, y = T_coords
         maxHealth = libtcod.random_get_int(0 , 10, 15)
         baseAttack = libtcod.random_get_int(0 , 4, 5)
@@ -4608,55 +4777,16 @@ def gen_snake_anaconda(T_coords):
                                     deathFunc=death_Snake,
                                     dungeonLevel=4)
         aiCom = ai_chase()
-        snake_anaconda = obj_Actor(x, y, "anaconda",
+        snake = obj_Actor(x, y, "anaconda",
                                    depth = constants.DEPTH_CREATURE,
                                    animationKey = "A_SNAKE_ANACONDA_03",
                                    animationSpeed=2,
                                    creature=creatureCom,
                                    ai=aiCom)
+        return snake
 
-    return snake_anaconda
-
-def gen_snake_cobra(T_coords):
-    ranNum = libtcod.random_get_int(0, 1, 100)
-
-    if ranNum <= 25:
-        x, y = T_coords
-        maxHealth = libtcod.random_get_int(0 , 1, 3)
-        baseAttack = libtcod.random_get_int(0 , 2, 3)
-        nutrition = libtcod.random_get_int(0, 1, 1)
-        creatureName = libtcod.namegen_generate("Celtic female")
-        creatureCom = com_Creature(creatureName,
-                                    faction = 'neonates',
-                                    baseAtk=baseAttack,
-                                    maxHP = maxHealth,
-                                    deathFunc=death_Snake)
-        aiCom = ai_chase()
-        snake_cobra = obj_Actor(x, y, "neonates cobra",
-                                   depth = constants.DEPTH_CREATURE,
-                                   animationKey = "A_SNAKE_COBRA_01",
-                                   animationSpeed=2,
-                                   creature=creatureCom,
-                                   ai=aiCom)
-    elif ranNum >= 26 and ranNum <= 75:
-        x, y = T_coords
-        maxHealth = libtcod.random_get_int(0 , 5, 8)
-        baseAttack = libtcod.random_get_int(0 , 3, 5)
-        nutrition = libtcod.random_get_int(0, 2, 3)
-        creatureName = libtcod.namegen_generate("Celtic female")
-        creatureCom = com_Creature(creatureName,
-                                    baseAtk=baseAttack,
-                                    maxHP = maxHealth,
-                                    deathFunc=death_Snake,
-                                    dungeonLevel=3)
-        aiCom = ai_chase()
-        snake_cobra = obj_Actor(x, y, "snakelet cobra",
-                                   depth = constants.DEPTH_CREATURE,
-                                   animationKey = "A_SNAKE_COBRA_02",
-                                   animationSpeed=2,
-                                   creature=creatureCom,
-                                   ai=aiCom)
-    else:
+    # cobra
+    elif ranNum == 2:
         x, y = T_coords
         maxHealth = libtcod.random_get_int(0 , 8, 11)
         baseAttack = libtcod.random_get_int(0 , 4, 7)
@@ -4668,36 +4798,36 @@ def gen_snake_cobra(T_coords):
                                     deathFunc=death_Snake,
                                     dungeonLevel=5)
         aiCom = ai_chase()
-        snake_cobra = obj_Actor(x, y, "cobra",
+        snake = obj_Actor(x, y, "cobra",
                                    depth = constants.DEPTH_CREATURE,
                                    animationKey = "A_SNAKE_COBRA_03",
                                    animationSpeed=2,
                                    creature=creatureCom,
                                    ai=aiCom)
+        return snake
 
-    return snake_cobra
+    #green snake
+    else:
+        x, y = T_coords
+        maxHealth = libtcod.random_get_int(0 , 6, 9)
+        baseAttack = libtcod.random_get_int(0 , 3, 4)
+        nutrition = libtcod.random_get_int(0, 2, 3)
+        creatureName = libtcod.namegen_generate("Celtic female")
+        creatureCom = com_Creature(creatureName,
+                                    baseAtk=baseAttack,
+                                    maxHP = maxHealth,
+                                    deathFunc=death_Snake,
+                                    dungeonLevel=4)
+        aiCom = ai_chase()
+        snake = obj_Actor(x, y, "green snake",
+                                   depth = constants.DEPTH_CREATURE,
+                                   animationKey = "A_SNAKE_GREEN_02",
+                                   animationSpeed=2,
+                                   creature=creatureCom,
+                                   ai=aiCom)
 
-def gen_spider_tarantula(T_coords):
-    x, y = T_coords
+        return snake
 
-    maxHealth = libtcod.random_get_int(0, 4, 5)
-    baseAttack = libtcod.random_get_int(0, 6, 8)
-    creatureName = libtcod.namegen_generate("Celtic female")
-    creatureCom = com_Creature(creatureName,
-                                faction = 'tarantula',
-                                baseAtk=baseAttack,
-                                maxHP = maxHealth,
-                                deathFunc=death_Mob,
-                                dungeonLevel=3)
-    aiCom = ai_chase()
-    spider = obj_Actor(x, y, "tarantula",
-                               depth = constants.DEPTH_CREATURE,
-                               animationKey = "A_SPIDER_TARANTULA",
-                               animationSpeed=2,
-                               creature=creatureCom,
-                               ai=aiCom)
-
-    return spider
 
 #############
 ## RODENTS ##
@@ -4782,6 +4912,7 @@ def gen_rat(T_coords):
                                animationSpeed=2,
                                creature=creatureCom,
                                ai=aiCom)
+
 
     return rat
 
@@ -4873,6 +5004,54 @@ def gen_hunter_rat(T_coords):
 
     return rat
 
+#############
+## SPIDERS ##
+#############
+
+def gen_spider_tarantula(T_coords):
+    x, y = T_coords
+
+    maxHealth = libtcod.random_get_int(0, 4, 5)
+    baseAttack = libtcod.random_get_int(0, 6, 8)
+    creatureName = libtcod.namegen_generate("Celtic female")
+    creatureCom = com_Creature(creatureName,
+                                faction = 'tarantula',
+                                baseAtk=baseAttack,
+                                maxHP = maxHealth,
+                                deathFunc=death_Mob,
+                                dungeonLevel=3)
+    aiCom = ai_chase()
+    spider = obj_Actor(x, y, "tarantula",
+                               depth = constants.DEPTH_CREATURE,
+                               animationKey = "A_SPIDER_TARANTULA",
+                               animationSpeed=2,
+                               creature=creatureCom,
+                               ai=aiCom)
+
+    return spider
+
+def gen_spider_tarantula_giant_zombie(T_coords):
+    x, y = T_coords
+
+    maxHealth = libtcod.random_get_int(0, 5, 6)
+    baseAttack = libtcod.random_get_int(0, 8, 10)
+    creatureName = libtcod.namegen_generate("Celtic female")
+    creatureCom = com_Creature(creatureName,
+                                faction = 'tarantula zombie',
+                                baseAtk=baseAttack,
+                                maxHP = maxHealth,
+                                deathFunc=death_Mob,
+                                dungeonLevel=5)
+    aiCom = ai_chase()
+    spider = obj_Actor(x, y, "giant zombie tarantula",
+                               depth = constants.DEPTH_CREATURE,
+                               animationKey = "A_SPIDER_TARANTULA_GIANT_ZOMBIE",
+                               animationSpeed=2,
+                               creature=creatureCom,
+                               ai=aiCom)
+
+    return spider
+
 def gen_fernoid(T_coords):
     x, y = T_coords
 
@@ -4916,70 +5095,6 @@ def gen_death_crack(T_coords):
                                ai=aiCom)
 
     return shade
-
-def gen_spider_tarantula_giant_zombie(T_coords):
-    x, y = T_coords
-
-    maxHealth = libtcod.random_get_int(0, 5, 6)
-    baseAttack = libtcod.random_get_int(0, 8, 10)
-    creatureName = libtcod.namegen_generate("Celtic female")
-    creatureCom = com_Creature(creatureName,
-                                faction = 'tarantula zombie',
-                                baseAtk=baseAttack,
-                                maxHP = maxHealth,
-                                deathFunc=death_Mob,
-                                dungeonLevel=5)
-    aiCom = ai_chase()
-    spider = obj_Actor(x, y, "giant zombie tarantula",
-                               depth = constants.DEPTH_CREATURE,
-                               animationKey = "A_SPIDER_TARANTULA_GIANT_ZOMBIE",
-                               animationSpeed=2,
-                               creature=creatureCom,
-                               ai=aiCom)
-
-    return spider
-
-def gen_snake_green(T_coords):
-    ranNum = libtcod.random_get_int(0, 1, 100)
-
-    if ranNum <= 75:
-        x, y = T_coords
-        maxHealth = libtcod.random_get_int(0 , 4, 5)
-        baseAttack = libtcod.random_get_int(0 , 2, 3)
-        creatureName = libtcod.namegen_generate("Celtic female")
-        creatureCom = com_Creature(creatureName,
-                                    faction = 'snakelet',
-                                    baseAtk=baseAttack,
-                                    maxHP = maxHealth,
-                                    deathFunc=death_Snake)
-        aiCom = ai_chase()
-        snake_green = obj_Actor(x, y, "green snakelet",
-                                   depth = constants.DEPTH_CREATURE,
-                                   animationKey = "A_SNAKE_GREEN_01",
-                                   animationSpeed=2,
-                                   creature=creatureCom,
-                                   ai=aiCom)
-
-    else:
-        x, y = T_coords
-        maxHealth = libtcod.random_get_int(0 , 6, 9)
-        baseAttack = libtcod.random_get_int(0 , 3, 4)
-        nutrition = libtcod.random_get_int(0, 2, 3)
-        creatureName = libtcod.namegen_generate("Celtic female")
-        creatureCom = com_Creature(creatureName,
-                                    baseAtk=baseAttack,
-                                    maxHP = maxHealth,
-                                    deathFunc=death_Snake,
-                                    dungeonLevel=2)
-        aiCom = ai_chase()
-        snake_green = obj_Actor(x, y, "green snake",
-                                   depth = constants.DEPTH_CREATURE,
-                                   animationKey = "A_SNAKE_GREEN_02",
-                                   animationSpeed=2,
-                                   creature=creatureCom,
-                                   ai=aiCom)
-
-    return snake_green
 
 def gen_alchemist(T_coords):
 
@@ -5348,7 +5463,8 @@ def gameHandleKeys():
 
             # map testing
             if event.key == pygame.K_4:
-                GAME.transitionNextMap()
+                if CURRENT_DUNGEON_LEVEL < constants.MAP_NUM_LEVELS:
+                    GAME.transitionNextMap()
             if event.key == pygame.K_5:
                 GAME.transitionPreviousMap()
 
