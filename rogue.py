@@ -587,6 +587,7 @@ class obj_Assets:
         self.tool = obj_Spritesheet(constants.PATH + "data/graphics/Items/Tool.png")
         self.amulet = obj_Spritesheet(constants.PATH + "data/graphics/Items/Amulet.png")
         self.potion = obj_Spritesheet(constants.PATH + "data/graphics/Items/Potion.png")
+        self.book = obj_Spritesheet(constants.PATH + "data/graphics/Items/Book.png")
         # GUI
         self.gui = obj_Spritesheet(constants.PATH + "data/graphics/GUI/GUI.png")
 
@@ -679,6 +680,11 @@ class obj_Assets:
         # health potion
         self.S_HEALTH_POTION = self.potion.getImage('a', 1, 16, 16, (32, 32))[0]
 
+        #books
+        self.S_BOOK_FIREBALL = self.book.getImage('b', 2, 16, 16, (32, 32))[0]
+        self.S_BOOK_LIGHTNING = self.book.getImage('g', 1, 16, 16, (32, 32))[0]
+        self.S_BOOK_CONFUSION = self.book.getImage('h', 8, 16, 16, (32, 32))[0]
+
 
         # SPECIAL
         self.S_STAIRS_DOWN = self.tile.getImage('h', 4, 16, 16, (32, 32))[0]
@@ -746,8 +752,15 @@ class obj_Assets:
             "S_SCROLL_03" : self.S_SCROLL_03,
             #wincon amulet
             "A_WINCON" : self.A_WINCON,
+
+            # potions
             "S_MANA_POTION" : self.S_MANA_POTION,
             "S_HEALTH_POTION" : self.S_HEALTH_POTION,
+
+            #books
+            "S_BOOK_FIREBALL" : self.S_BOOK_FIREBALL,
+            "S_BOOK_LIGHTNING" : self.S_BOOK_LIGHTNING,
+            "S_BOOK_CONFUSION" : self.S_BOOK_CONFUSION,
 
             # decor
             "S_ALTER_1" : self.S_ALTER_1,
@@ -4340,6 +4353,7 @@ def gen_magicAlter(T_coords):
                            animationKey = 'S_ALTER_2',
                            depth = constants.DEPTH_DECOR)
     GAME.currentObj.append(magicAlter)
+    gen_book(T_coords)
 
 def gen_itemAlter(T_coords):
     x, y = T_coords
@@ -4411,6 +4425,23 @@ def gen_item(T_coords, mustGen = False):
             else:
                 newItem = gen_potion_mana_minor(T_coords)
                 GAME.currentObj.append(newItem)
+
+def gen_book(T_coords):
+    x, y = T_coords
+
+    randNum = libtcod.random_get_int(0, 1, 3)
+
+    if randNum != 0:
+
+        item_com = com_Item()
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: Fireball',
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = 'S_BOOK_FIREBALL',
+                            item = item_com,
+                            info = "read to learn the <cyan>Fireball spell! A powerful missle spell that explodes on contact!"
+                            )
+        GAME.currentObj.append(newBook)
 
 def gen_scroll(T_coords):
     randNum = libtcod.random_get_int(0, 1, 3)
