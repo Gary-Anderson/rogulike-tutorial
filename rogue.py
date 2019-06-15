@@ -1604,15 +1604,31 @@ def mapCreate():
 
         # if it doesn't intersect, carve the room into the map
         if not failed:
-            mapCreateRoom(newMap, newRoom)
-            currentCenter = newRoom.center
 
-            # if this isn't the first room, tunnle from our previous room, to the new one
-            if len(roomList) != 0:
-                previousCenter = roomList[-1].center
-                mapCreateTunnels(previousCenter, currentCenter, newMap)
+            # if this the first room of the first level:
+            if CURRENT_DUNGEON_LEVEL == 1 and len(roomList) == 0:
+
+                # give it a standardized dimension
+                firstX = constants.MAP_WIDTH // 2
+                firstY = constants.MAP_HEIGHT // 2
+                newRoom = obj_Room((firstX, firstY), (5, 5))
+
+                # place the room
+                mapCreateRoom(newMap, newRoom)
+                currentCenter = newRoom.center
+
+            else:
+                mapCreateRoom(newMap, newRoom)
+                currentCenter = newRoom.center
+
+                # if this isn't the first room, tunnle from our previous room, to the new one
+                if len(roomList) != 0:
+                    previousCenter = roomList[-1].center
+                    mapCreateTunnels(previousCenter, currentCenter, newMap)
+
             # add room to roomlist
             roomList.append(newRoom)
+
 
 
     GAME.currentMap = newMap
