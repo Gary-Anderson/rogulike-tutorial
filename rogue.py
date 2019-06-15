@@ -87,7 +87,7 @@ class obj_Actor:
                  ai=None,
                  container=None,
                  item=None,
-                 spellBook=None,
+                 spellbook=None,
                  equipment=None,
                  stairs = None,
                  exitPortal = None,
@@ -921,7 +921,18 @@ class obj_Assets:
 
         pygame.mixer.music.set_volume(PREF.musicVol)
 
+class obj_Spell:
 
+    def __init__(self, spellName, castFunc, value, sprite, info):
+        self.spellName = spellName
+        self.castFunc = castFunc
+        self.value = value
+        self.sprite = sprite
+        self.info = info
+
+    def cast(self):
+        if self.castFunc:
+            result = self.castFunc(self.owner.owner, self.value)
 
 
 
@@ -1196,25 +1207,15 @@ class com_Equipment:
         gameMessage(self.owner.nameObject + " is unequipped")
 
 
-class com_SpellBook:
-    # list of spells actor is able to cast
-    def __init__(self, spellBook=[]):
+class com_Spellbook:
+    # dict of spells actor is able to cast
+    def __init__(self, spellBook=()):
         self.spellBook = spellBook
 
+    # learn a spell
+    def learnSpell(self, spell):
+        self.spellList.append(self.spell)
 
-class com_Spell:
-    def __init__(self, spellName, castFunc):
-        self.spellName = spellName
-        self.castFunc = castFunc
-
-    # pick up an item
-    def learnSpell(self, actor):
-        if actor.SpellBook:
-            actor.SpellBook.spellList.append(self.owner)
-
-    # TODO way to use the item
-    def cast(self):
-        self.castFunc
 
 class com_Stairs:
     def __init__(self, downwards = True):
@@ -3111,6 +3112,20 @@ def helperTextHeight(font):
 #                                            gg:::::::::::::g
 #                                              ggg::::::ggg
 #                                                 gggggg
+
+# add a spell to the player's spell book
+def cast_readBook(target, spell, cost = -100):
+    # find the lowest unused spellSlot
+    spellSlot = len(target.spellBook) + 1
+
+    # if players spell book is full
+    if spellSlot > 5:
+        gameMessage("Spellbook full! Couldn't learn")
+    else:
+        # add it to the players spell book
+        target.spellBook[spellSlot] = constants.SPELL_DICT[spell]
+        print(str(target.spellBook))
+
 def cast_look():
 
     coords = menu_tileSelect()
@@ -4305,12 +4320,14 @@ def gen_player(T_coords):
 
     scentCom = com_Scent(strength = 5)
     creatureCom = com_Creature("greg", maxMP = 11, baseAtk=4, faction='player', deathFunc = death_Player, scent = scentCom)
+    spellbookCom = com_Spellbook()
 
     PLAYER = obj_Actor(x, y, "python",
                        animationKey = "A_PLAYER",
                        depth = constants.DEPTH_PLAYER,
                        animationSpeed=1,
                        creature=creatureCom,
+                       spellbook = spellbookCom,
                        container=containerCom)
 
     GAME.currentObj.append(PLAYER)
