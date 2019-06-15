@@ -645,6 +645,12 @@ class obj_Assets:
         self.S_FLESH_CORPSE_DEFAULT_04 = self.decor.getImage('c', 14, 16, 16, (24, 24))[0]
         # human skull
         self.S_FLESH_CORPSE_DEFAULT_05 = self.decor.getImage('a', 13, 16, 16, (24, 24))[0]
+        # decor
+        self.S_ALTER_1 = self.decor.getImage('a', 21, 16, 16, (24, 24))[0]
+        self.S_ALTER_2 = self.decor.getImage('e', 21, 16, 16, (24, 24))[0]
+        self.S_RUG_RED_CENTER = self.decor.getImage('c', 16, 16, 16, (24, 24))[0]
+        self.S_RUG_GREY_CENTER = self.decor.getImage('i', 16, 16, 16, (24, 24))[0]
+
 
 
         self.S_FLOOR = self.floor.getImage('b', 8, 16, 16, (32, 32))[0]
@@ -742,6 +748,12 @@ class obj_Assets:
             "A_WINCON" : self.A_WINCON,
             "S_MANA_POTION" : self.S_MANA_POTION,
             "S_HEALTH_POTION" : self.S_HEALTH_POTION,
+
+            # decor
+            "S_ALTER_1" : self.S_ALTER_1,
+            "S_ALTER_2" : self.S_ALTER_2,
+            "S_RUG_RED_CENTER" : self.S_RUG_RED_CENTER,
+            "S_RUG_GREY_CENTER" : self.S_RUG_GREY_CENTER,
 
             # GUI
             "S_UP_ARROW_LARGE" : self.S_UP_ARROW_LARGE,
@@ -1692,7 +1704,10 @@ def mapPlaceObjects(roomList):
         lastRoom = (room == roomList[-1])
 
         if firstRoom and topLevel and not bottomLevel:
-            gen_exitPortal(room.center)
+            cenX, cenY = room.center
+            gen_exitPortal((cenX, cenY - 1))
+            gen_magicAlter((cenX - 1, cenY))
+            gen_itemAlter((cenX + 1, cenY))
 
         if firstRoom: PLAYER.x, PLAYER.y = room.center
 
@@ -1708,7 +1723,6 @@ def mapPlaceObjects(roomList):
         if i == 0:
             x = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
             y = libtcod.random_get_int(0, room.ULy + 1, room.LRy - 1)
-            gen_item((x, y), True)
         else:
             x = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
             y = libtcod.random_get_int(0, room.ULy + 1, room.LRy - 1)
@@ -4319,6 +4333,21 @@ def gen_exitPortal(T_coords):
                            depth = constants.DEPTH_DECOR)
 
     GAME.currentObj.append(exitPortal)
+
+def gen_magicAlter(T_coords):
+    x, y = T_coords
+    magicAlter = obj_Actor(x, y, 'Alter',
+                           animationKey = 'S_ALTER_2',
+                           depth = constants.DEPTH_DECOR)
+    GAME.currentObj.append(magicAlter)
+
+def gen_itemAlter(T_coords):
+    x, y = T_coords
+    itemAlter = obj_Actor(x, y, 'offering rug',
+                           animationKey = 'S_ALTER_2',
+                           depth = constants.DEPTH_DECOR)
+    GAME.currentObj.append(itemAlter)
+    gen_item(T_coords, True)
 
 def gen_wincon(T_coords):
     x, y = T_coords
