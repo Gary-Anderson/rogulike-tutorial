@@ -126,6 +126,10 @@ class obj_Actor:
         if self.item:
             self.item.owner = self
 
+        self.spellbook = spellbook
+        if self.spellbook:
+            self.spellbook.owner = self
+
         self.equipment = equipment
         if self.equipment:
             self.equipment.owner = self
@@ -591,6 +595,10 @@ class obj_Assets:
         # GUI
         self.gui = obj_Spritesheet(constants.PATH + "data/graphics/GUI/GUI.png")
 
+        # effects and icons
+        self.effect = obj_Spritesheet(constants.PATH + "data/graphics/Objects/Effect.png")
+
+
 
         ################
         ## ANIMATIONS ##
@@ -700,6 +708,9 @@ class obj_Assets:
         self.ATTACK_ICON = self.mediumWep.getImage('a', 1, 16, 16, (16, 16))[0]
         self.DEFENSE_ICON = self.shield.getImage('a', 1, 16, 16, (16, 16))[0]
 
+        # icons
+        self.S_ICON_FIREBALL = self.effect.getImage('a', 22, 16, 16, (32, 32))[0]
+
         self.animationDict = {
 
             "A_PLAYER" : self.A_PLAYER,
@@ -775,8 +786,12 @@ class obj_Assets:
             "black window box 2 single" : self.BLACK_WINDOW_BOX_2_SINGLE,
             "black window box 3 single" : self.BLACK_WINDOW_BOX_3_SINGLE,
             "black window box 4 single" : self.BLACK_WINDOW_BOX_4_SINGLE,
+
+            # ICONS
             "ATTACK_ICON" : self.ATTACK_ICON,
             "DEFENSE_ICON" : self.DEFENSE_ICON,
+            "S_ICON_FIREBALL" : self.S_ICON_FIREBALL,
+
 
             # SPECIAL
             "S_STAIRS_DOWN" : self.S_STAIRS_DOWN,
@@ -1166,10 +1181,17 @@ class com_Item:
             return
 
         if self.useFunc:
-            result = self.useFunc(self.container.owner, self.value)
-            gameMessage(str(result))
-            if result != 'canceled':
-                self.container.inventory.remove(self.owner)
+            if self.owner.nameObject[0:5] == 'Spell':
+                print('spellBook')
+                result = self.useFunc(self.value)
+                gameMessage(str(result))
+                if result != 'canceled':
+                    self.container.inventory.remove(self.owner)
+            else:
+                result = self.useFunc(self.container.owner, self.value)
+                gameMessage(str(result))
+                if result != 'canceled':
+                    self.container.inventory.remove(self.owner)
 
 class com_Equipment:
     def __init__(self, attackBonus=0, defenseBonus=0, slot=None):
@@ -1209,12 +1231,15 @@ class com_Equipment:
 
 class com_Spellbook:
     # dict of spells actor is able to cast
-    def __init__(self, spellBook=()):
-        self.spellBook = spellBook
+    def __init__(self, spellbook = []):
+        self.spellbook = spellbook
 
     # learn a spell
     def learnSpell(self, spell):
-        self.spellList.append(self.spell)
+        print(str(type(self.spellbook)))
+        self.spellbook.append(spell)
+        for spells in self.spellbook:
+            print(spell.spellName)
 
 
 class com_Stairs:
@@ -3113,19 +3138,6 @@ def helperTextHeight(font):
 #                                              ggg::::::ggg
 #                                                 gggggg
 
-# add a spell to the player's spell book
-def cast_readBook(target, spell, cost = -100):
-    # find the lowest unused spellSlot
-    spellSlot = len(target.spellBook) + 1
-
-    # if players spell book is full
-    if spellSlot > 5:
-        gameMessage("Spellbook full! Couldn't learn")
-    else:
-        # add it to the players spell book
-        target.spellBook[spellSlot] = constants.SPELL_DICT[spell]
-        print(str(target.spellBook))
-
 def cast_look():
 
     coords = menu_tileSelect()
@@ -4325,8 +4337,8 @@ def gen_player(T_coords):
     PLAYER = obj_Actor(x, y, "python",
                        animationKey = "A_PLAYER",
                        depth = constants.DEPTH_PLAYER,
-                       animationSpeed=1,
-                       creature=creatureCom,
+                       animationSpeed = 1,
+                       creature = creatureCom,
                        spellbook = spellbookCom,
                        container=containerCom)
 
@@ -4444,13 +4456,29 @@ def gen_item(T_coords, mustGen = False):
                 GAME.currentObj.append(newItem)
 
 def gen_book(T_coords):
+    # unpack the coords
     x, y = T_coords
 
+    # randomly choose our spell book
     randNum = libtcod.random_get_int(0, 1, 3)
 
+    # TEST: all books are fireball for now
     if randNum != 0:
 
-        item_com = com_Item()
+        # fireball parameters
+        range = 6
+        radius = 1
+        damage = 6
+
+        # make a spell object to put in the player's spellbook
+        spell = obj_Spell('Fireball',
+                          castFunc = cast_fireball,
+                          value = (damage, radius, range),
+                          sprite = 'S_ICON_FIREBALL',
+                          info = ('Launches a ball of fire up to ' + str(range) +
+                                 ' tiles away, damaging everything in a ' + str(radius) +
+                                 ' tile radius for ' + str(damage) + ' points!') )
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Fireball',
                             depth = constants.DEPTH_ITEM,
