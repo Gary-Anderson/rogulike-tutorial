@@ -710,6 +710,8 @@ class obj_Assets:
 
         # icons
         self.S_ICON_FIREBALL = self.effect.getImage('a', 22, 16, 16, (32, 32))[0]
+        self.S_ICON_LIGHTNING = self.effect.getImage('m', 22, 16, 16, (32, 32))[0]
+        self.S_ICON_CONFUSION = self.gui.getImage('k', 1, 16, 16, (32, 32))[0]
 
         self.animationDict = {
 
@@ -791,6 +793,8 @@ class obj_Assets:
             "ATTACK_ICON" : self.ATTACK_ICON,
             "DEFENSE_ICON" : self.DEFENSE_ICON,
             "S_ICON_FIREBALL" : self.S_ICON_FIREBALL,
+            "S_ICON_LIGHTNING" : self.S_ICON_LIGHTNING,
+            "S_ICON_CONFUSION" : self.S_ICON_CONFUSION,
 
 
             # SPECIAL
@@ -4530,7 +4534,7 @@ def gen_book(T_coords):
     randNum = libtcod.random_get_int(0, 1, 3)
 
     # TEST: all books are fireball for now
-    if randNum != 0:
+    if randNum == 1:
 
         # fireball parameters
         range = 6
@@ -4551,7 +4555,51 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_FIREBALL',
                             item = item_com,
-                            info = "read to learn the <cyan>Fireball spell! A powerful missle spell that explodes on contact!"
+                            info = "use to learn the <cyan>Fireball spell! A powerful missle spell that explodes on contact!"
+                            )
+        GAME.currentObj.append(newBook)
+
+    elif randNum == 2:
+
+        # lightning parameters
+        range = 5
+        damage = 5
+
+        # make a spell object to put in the player's spellbook
+        spell = obj_Spell('Lightning',
+                          castFunc = cast_lightning,
+                          value = (damage, range),
+                          sprite = 'S_ICON_LIGHTNING',
+                          info = "Electrocute all enemies in a line <stats>" + str(range) +
+                                 " tiles long from the player for <stats>" + str(damage) + " damage!" )
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: Lightning',
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = 'S_BOOK_LIGHTNING',
+                            item = item_com,
+                            info = "use to learn the <cyan>Lightning spell! Electrocute all enemies in a line from the caster!"
+                            )
+        GAME.currentObj.append(newBook)
+
+    else:
+
+        # confusion parameters
+        numTurns = libtcod.random_get_int(0, 2, 4)
+
+        # make a spell object to put in the player's spellbook
+        spell = obj_Spell('Confusion',
+                          castFunc = cast_confusion,
+                          value = (numTurns),
+                          sprite = 'S_ICON_CONFUSION',
+                          info = "Enemies wander around confused for <stats>" + str(numTurns) + " turns" )
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: Confusion',
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = 'S_BOOK_CONFUSION',
+                            item = item_com,
+                            info = "use to learn the <cyan>Confusion spell! Enemies will wander aimlessly while under its effects!"
                             )
         GAME.currentObj.append(newBook)
 
