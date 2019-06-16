@@ -942,17 +942,21 @@ class obj_Assets:
 
 class obj_Spell:
 
-    def __init__(self, spellName, castFunc, value, sprite, info):
+    global PLAYER
+
+    def __init__(self, spellName, castFunc, value, cost, sprite, info):
         self.spellName = spellName
         self.castFunc = castFunc
         self.value = value
+        self.cost = cost
         self.sprite = sprite
         self.info = info
 
+
+
     def cast(self):
         if self.castFunc:
-            result = self.castFunc(self.owner.owner, self.value)
-
+            result = self.castFunc(PLAYER, self.value, self.cost)
 
 
 
@@ -1186,9 +1190,8 @@ class com_Item:
 
         if self.useFunc:
             if self.owner.nameObject[0:5] == 'Spell':
-                print('spellBook')
                 result = self.useFunc(self.value)
-                gameMessage(str(result))
+                gameMessage(self.owner.nameObject[12:] + " spell learned!", constants.COLOR_CYAN)
                 if result != 'canceled':
                     self.container.inventory.remove(self.owner)
             else:
@@ -1240,10 +1243,7 @@ class com_Spellbook:
 
     # learn a spell
     def learnSpell(self, spell):
-        print(str(type(self.spellbook)))
         self.spellbook.append(spell)
-        for spells in self.spellbook:
-            print(spell.spellName)
 
 
 class com_Stairs:
@@ -2067,18 +2067,13 @@ def drawSpellHotbar():
     # a list, spellTotalNum long of all the icons for spells
     spriteKeyList = []
 
-    print('spellTotalNum = ' + str(spellTotalNum))
-
 
     # for every element of spriteKeyList, add the icon for the spell
     i = 0
     if spellTotalNum > 0:
         for key in range(0, spellTotalNum):
             spriteKeyList.append(PLAYER.spellbook.spellbook[i - 1].sprite)
-            print(spriteKeyList[i - 1])
             i += 1
-
-    print('spriteKeyList = ' + str(len(spriteKeyList)))
 
 
     slot1X = FRAME_MAP.border
@@ -2096,10 +2091,16 @@ def drawSpellHotbar():
                       visibleWhenDisabled = False)
 
     if spellTotalNum >= 1:
-        print(PLAYER.spellbook.spellbook[0].spellName)
         slot1.disabled = False
         slot1.draw()
         FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[0]], (slot1X + 8, slot1Y + 8))
+
+    slot1Pressed = slot1.update(MASTER_EVENTS)
+
+    if slot1Pressed:
+        result = PLAYER.spellbook.spellbook[0].cast()
+
+
 
 
 
@@ -2643,23 +2644,31 @@ def drawInventory():
 
     # iterate over the events list
     for event in MASTER_EVENTS:
-        result = 'menu open'
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
+        result = 'bullshit'
 
+        # check to see if a mouse button has been pressed
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # is that button the left button?
+            if event.button == 1:
+                # it has and the mouse is in the inventory and over an item
                 if (mouseInventory and
                     mouseLineSelect <= len(printList) - 1):
+                    # if we are in dropping mode, drop
                     if IS_DROPPING:
                         result = PLAYER.container.inventory[mouseLineSelect].item.drop(PLAYER.x, PLAYER.y)
+                    # else, use the item
                     else:
                         result = PLAYER.container.inventory[mouseLineSelect].item.use()
 
         if result == 'canceled' or not result:
             return 'no action'
-        elif result == 'menu open':
-            pass
-        else:
-            return 'result'
+
+        # this left over code from the magic menu doesn't seem to do anything
+
+        # elif result == 'menu open':
+        #     pass
+        # else:
+        #     return 'bullshit'
 
     # iterate and draw the inventory list
     line = 0
@@ -4545,6 +4554,7 @@ def gen_book(T_coords):
         spell = obj_Spell('Fireball',
                           castFunc = cast_fireball,
                           value = (damage, radius, range),
+                          cost = 5,
                           sprite = 'S_ICON_FIREBALL',
                           info = ('Launches a ball of fire up to ' + str(range) +
                                  ' tiles away, damaging everything in a ' + str(radius) +
@@ -4569,6 +4579,7 @@ def gen_book(T_coords):
         spell = obj_Spell('Lightning',
                           castFunc = cast_lightning,
                           value = (damage, range),
+                          cost = 5,
                           sprite = 'S_ICON_LIGHTNING',
                           info = "Electrocute all enemies in a line <stats>" + str(range) +
                                  " tiles long from the player for <stats>" + str(damage) + " damage!" )
@@ -4591,6 +4602,7 @@ def gen_book(T_coords):
         spell = obj_Spell('Confusion',
                           castFunc = cast_confusion,
                           value = (numTurns),
+                          cost = 5,
                           sprite = 'S_ICON_CONFUSION',
                           info = "Enemies wander around confused for <stats>" + str(numTurns) + " turns" )
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
@@ -5585,7 +5597,8 @@ def gameExit(save = True):
 
 def gameHandleKeys():
     global FOV_CALC, MASTER_EVENTS
-    # TODO gets all player inputs and makes a list out of them
+
+    # global events list
     MASTER_EVENTS = pygame.event.get()
     keysList = pygame.key.get_pressed()
 
