@@ -2644,7 +2644,6 @@ def drawInventory():
 
     # iterate over the events list
     for event in MASTER_EVENTS:
-        result = 'bullshit'
 
         # check to see if a mouse button has been pressed
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -2655,20 +2654,14 @@ def drawInventory():
                     mouseLineSelect <= len(printList) - 1):
                     # if we are in dropping mode, drop
                     if IS_DROPPING:
-                        result = PLAYER.container.inventory[mouseLineSelect].item.drop(PLAYER.x, PLAYER.y)
+                        PLAYER.container.inventory[mouseLineSelect].item.drop(PLAYER.x, PLAYER.y)
+                        # so no more inventory actions can be done this loop
+                        mouseInventory = False
                     # else, use the item
                     else:
-                        result = PLAYER.container.inventory[mouseLineSelect].item.use()
-
-        if result == 'canceled' or not result:
-            return 'no action'
-
-        # this left over code from the magic menu doesn't seem to do anything
-
-        # elif result == 'menu open':
-        #     pass
-        # else:
-        #     return 'bullshit'
+                        PLAYER.container.inventory[mouseLineSelect].item.use()
+                        # so no more inventory actions can be done this loop
+                        mouseInventory = False
 
     # iterate and draw the inventory list
     line = 0
