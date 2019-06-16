@@ -2096,9 +2096,18 @@ def drawSpellHotbar():
         FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[0]], (slot1X + 8, slot1Y + 8))
 
     slot1Pressed = slot1.update(MASTER_EVENTS)
+    if slot1Pressed == True:
+        slot1.disabled = True
+        slot1Pressed == False
+    else:
+        slot1.disabled = False
+    print("slot1Pressed = " + str(slot1Pressed))
+    print("slot1.disabled = " + str(slot1.disabled))
+
 
     if slot1Pressed:
-        result = PLAYER.spellbook.spellbook[0].cast()
+
+            result = PLAYER.spellbook.spellbook[0].cast()
 
 
 
@@ -3521,13 +3530,22 @@ class ui_Button:
         return mouseInSurface
 
     def update(self, playerInput):
+        # reset button to false
         buttonPressed = False
+        # if button is enabled
         if self.disabled == False:
+            # if the mouse is over the button
             if self.mouseInSurface:
+                # check list of player inputs
                 for event in playerInput:
+                    # if there was a button click
                     if event.type == pygame.MOUSEBUTTONDOWN:
+                        # if that button was the left button
                         if event.button == 1:
+                            # button pressed
                             buttonPressed = True
+                            # unclick button
+                            event.button = 0
         else:
             buttonPressed = False
 
