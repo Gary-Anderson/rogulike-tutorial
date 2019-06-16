@@ -2023,6 +2023,7 @@ def drawGUI():
     SURFACE_MAIN.blit(FRAME_MAP.surface, (0,0))
     FRAME_MAP.surface.blit(BOX_MAP, (FRAME_MAP.border, FRAME_MAP.border))
     BOX_MAP.blit(SURFACE_MAP, (0, 0), CAMERA.rectangle)
+    drawSpellHotbar()
 
 
     # blit PLAYER stats
@@ -2033,6 +2034,72 @@ def drawGUI():
 
     # blit FRAME_STATUS
     SURFACE_MAIN.blit(FRAME_STATUS.surface, (FRAME_MAP.width, FRAME_MAP.height))
+
+def drawSpellHotbar():
+    # draw all the spell buttons on the bottom of the map
+    # def __init__(self, destSurface, buttonText, size, T_coordsCenter,
+    #              Xoffset,
+    #              Yoffset,
+    #              spriteKey = None,
+    #              mouseOverSpriteKey = None,
+    #              box_mouseOverColor = None,
+    #              box_colorDefault = None,
+    #              box_clickColor = None,
+    #              text_mouseOverColor = None,
+    #              text_colorDefault = None,
+    #              text_clickColor = None,
+    #              disabled = False,
+    #              visibleWhenDisabled = True,
+    #              pointlist = None,
+    #              polyWidth = 0):
+
+    # icon frames
+    iconFrame = 'black window box 2 single'
+    mouseOverIconFrame = 'black window box 1 single'
+
+
+    # total number of spells the player knows
+    spellTotalNum = len(PLAYER.spellbook.spellbook)
+    # a list, spellTotalNum long of all the icons for spells
+    spriteKeyList = []
+
+    print('spellTotalNum = ' + str(spellTotalNum))
+
+
+    # for every element of spriteKeyList, add the icon for the spell
+    i = 0
+    if spellTotalNum > 0:
+        for key in range(0, spellTotalNum):
+            spriteKeyList.append(PLAYER.spellbook.spellbook[i - 1].sprite)
+            print(spriteKeyList[i - 1])
+            i += 1
+
+    print('spriteKeyList = ' + str(len(spriteKeyList)))
+
+
+    slot1X = FRAME_MAP.border
+    slot1Y =(FRAME_MAP.height - (48)) - FRAME_MAP.border
+
+    slot1 = ui_Button(destSurface = FRAME_MAP.surface,
+                      buttonText = '',
+                      size = (48, 48),
+                      T_coordsCenter = ( slot1X, slot1Y),
+                      Xoffset = 0,
+                      Yoffset = 0,
+                      spriteKey = iconFrame,
+                      mouseOverSpriteKey = mouseOverIconFrame,
+                      disabled = True,
+                      visibleWhenDisabled = False)
+
+    if spellTotalNum >= 1:
+        print(PLAYER.spellbook.spellbook[0].spellName)
+        slot1.disabled = False
+        slot1.draw()
+        FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[0]], (slot1X + 8, slot1Y + 8))
+
+
+
+
 
 def drawCharGUI():
     # FRAME_INV is the GUI object that holds everything on the right part of the screen
@@ -3492,10 +3559,10 @@ class ui_Button:
 
         else:
             if self.mouseInSurface:
-                self.surface.blit(self.mouseOverSprite, (-8, -8))
+                self.surface.blit(self.mouseOverSprite, (0, 0))
                 self.destSurface.blit(self.surface, self.T_coordsCenter)
             else:
-                self.surface.blit(self.sprite, (-8, -8))
+                self.surface.blit(self.sprite, (0, 0))
                 self.destSurface.blit(self.surface, self.T_coordsCenter)
 
 
