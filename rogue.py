@@ -4403,7 +4403,7 @@ def gen_player(T_coords):
 
     scentCom = com_Scent(strength = 5)
     creatureCom = com_Creature("greg", maxMP = 11, baseAtk=4, faction='player', deathFunc = death_Player, scent = scentCom)
-    spellbookCom = com_Spellbook()
+    spellbookCom = com_Spellbook(spellbook = [])
 
     PLAYER = obj_Actor(x, y, "python",
                        animationKey = "A_PLAYER",
