@@ -1191,7 +1191,6 @@ class com_Item:
         if self.useFunc:
             if self.owner.nameObject[0:5] == 'Spell':
                 result = self.useFunc(self.value)
-                gameMessage(self.owner.nameObject[12:] + " spell learned!", constants.COLOR_CYAN)
                 if result != 'canceled':
                     self.container.inventory.remove(self.owner)
             else:
@@ -1243,7 +1242,29 @@ class com_Spellbook:
 
     # learn a spell
     def learnSpell(self, spell):
+        # get the player's spellbook
+        spellbook = PLAYER.spellbook.spellbook
+        # iterator to count what spell we are in
+        i = 0
+        #go over all the spells to see if we know that spell already
+        for magic in spellbook:
+            # if spell has the same name
+            if spellbook[i].spellName == spell.spellName:
+                # tell the player
+                gameMessage("You already know " + spell.spellName + "!", constants.COLOR_RED)
+                # cancel this so the book is not consumed
+                return "canceled"
+            # increment
+            i += 1
+
+        # if no spells in the spellbook match, add the spell
         self.spellbook.append(spell)
+        # tell the player
+        gameMessage(spell.spellName + " learned!", constants.COLOR_CYAN)
+        # return this string so the book is consumed
+        return 'spell learned'
+
+
 
 
 class com_Stairs:
