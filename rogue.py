@@ -2070,15 +2070,18 @@ def drawSpellHotbar():
 
     # for every element of spriteKeyList, add the icon for the spell
     i = 0
+
+    # if the player knows any spells, get their sprites
     if spellTotalNum > 0:
         for key in range(0, spellTotalNum):
             spriteKeyList.append(PLAYER.spellbook.spellbook[i - 1].sprite)
             i += 1
 
-
+    # X and Y for the magic button
     slot1X = FRAME_MAP.border
     slot1Y =(FRAME_MAP.height - (48)) - FRAME_MAP.border
 
+    # button for magic
     slot1 = ui_Button(destSurface = FRAME_MAP.surface,
                       buttonText = '',
                       size = (48, 48),
@@ -2090,28 +2093,18 @@ def drawSpellHotbar():
                       disabled = True,
                       visibleWhenDisabled = False)
 
+    # disable if we have a spell
     if spellTotalNum >= 1:
         slot1.disabled = False
         slot1.draw()
         FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[0]], (slot1X + 8, slot1Y + 8))
 
+    # if button is pressed, set to true
     slot1Pressed = slot1.update(MASTER_EVENTS)
-    if slot1Pressed == True:
-        slot1.disabled = True
-        slot1Pressed == False
-    else:
-        slot1.disabled = False
-    print("slot1Pressed = " + str(slot1Pressed))
-    print("slot1.disabled = " + str(slot1.disabled))
 
-
+    # if button is pressed, cast spell
     if slot1Pressed:
-
-            result = PLAYER.spellbook.spellbook[0].cast()
-
-
-
-
+        result = PLAYER.spellbook.spellbook[0].cast()
 
 
 
