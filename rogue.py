@@ -3257,7 +3257,7 @@ def helperTextHeight(font):
 
 def cast_look():
 
-    coords = menu_tileSelect()
+    coords = menu_tileSelect((PLAYER.x, PLAYER.y))
     if coords == 'canceled':
         return 'canceled'
     else:
@@ -3287,74 +3287,77 @@ def cast_inflict(caster, value, cost = -100):
     damageVal = libtcod.random_get_int(0, valLow, valHigh)
 
     # select a tile
-    T_coordsTarget = menu_tileSelect(constants.COLOR_DARK_MAGIC)
+    T_coordsTarget, dump = menu_tileSelectLine((PLAYER.x, PLAYER.y), range = 1, justLastTile = True, lineColor = constants.COLOR_DARK_MAGIC)
 
-    # check if an enemy is on the tile
-    mapCoordsX, mapCoordsY = T_coordsTarget
-    target = mapCheckForCreature(mapCoordsX, mapCoordsY)
+    print("T_coordsTarget = " + str(T_coordsTarget))
+    print("dump = " + str(dump))
 
-    # if no enemy is found, cancel
-    if target == False:
-        gameMessage("There is nothing here!")
+
+    if T_coordsTarget == 'canceled':
         return 'canceled'
     else:
-        # if not enough MP
-        if caster.creature.currentMP < cost:
-            gameMessage("Not enough MP!", constants.COLOR_CYAN)
+        # check if an enemy is on the tile
+        mapCoordsX, mapCoordsY = T_coordsTarget
+        target = mapCheckForCreature(mapCoordsX, mapCoordsY)
+        print('target = ' + str(target))
+        # if no enemy is found, cancel
+        if target == None:
+            gameMessage("There is nothing here!")
             return 'canceled'
-
-        # if enough MP
         else:
-            # deduct MP
-            if cost > 0:
-                target.creature.currentMP -= cost
-            victim = None
-            for obj in GAME.currentObj:
-                if obj.x == mapCoordsX and obj.y == mapCoordsY:
-                    victim = obj
-            # message the player
-            gameMessage(victim.displayName + " howls in pain!", costants.COLOR_WHITE)
-            gameMessage(victim.displayName + " is damaged for "  + str(damageVal), constants.COLOR_DAMAGE_HP)
+            # if not enough MP
+            if caster.creature.currentMP < cost:
+                gameMessage("Not enough MP!", constants.COLOR_CYAN)
+                return 'canceled'
+            # if enough MP
+            else:
+                # deduct MP
+                if cost > 0:
+                    caster.creature.currentMP -= cost
 
-            # deal damage
-            victim.creature.takeDamage(damageVal)
+                # message the player
+                gameMessage(target.displayName + " howls in pain!", constants.COLOR_WHITE)
+                gameMessage(target.displayName + " is damaged for "  + str(damageVal), constants.COLOR_DAMAGE_HP)
 
-            # take our turn
-            return 'cast inflict'
+                # deal damage
+                target.creature.takeDamage(damageVal)
+
+                # take our turn
+                return 'cast inflict'
 
 def cast_heal(caster, value, cost = -100):
     valHigh = int(value * 1.2)
     valLow = int(value * .8)
     healVal = libtcod.random_get_int(0, valLow, valHigh)
-    if target.creature.currentMP < cost:
+    if caster.creature.currentMP < cost:
         gameMessage("Not enough MP!", constants.COLOR_CYAN)
         return 'canceled'
-    elif target.creature.currentHP == target.creature.maxHP:
-        gameMessage(target.displayName + ' is at full health!', constants.COLOR_WHITE)
+    elif caster.creature.currentHP == caster.creature.maxHP:
+        gameMessage(caster.displayName + ' is at full health!', constants.COLOR_WHITE)
         return 'canceled'
     else:
         if cost > 0:
-            target.creature.currentMP -= cost
-        gameMessage(target.displayName + ' is healed for ' + str(healVal), constants.COLOR_GREEN)
-        target.creature.heal(healVal)
-        gameMessage(target.displayName + ' health is now ' +
-                    str(target.creature.currentHP) + '/' + str(target.creature.maxHP), constants.COLOR_WHITE)
+            caster.creature.currentMP -= cost
+        gameMessage(caster.displayName + ' is healed for ' + str(healVal), constants.COLOR_GREEN)
+        caster.creature.heal(healVal)
+        gameMessage(caster.displayName + ' health is now ' +
+                    str(caster.creature.currentHP) + '/' + str(caster.creature.maxHP), constants.COLOR_WHITE)
         return 'cast heal'
 
-def cast_heal_mana(target, value, cost = -100):
-    if target.creature.currentMP < cost:
+def cast_heal_mana(caster, value, cost = -100):
+    if caster.creature.currentMP < cost:
         gameMessage("Not enough MP!", constants.COLOR_CYAN)
         return 'canceled'
-    elif target.creature.currentMP == target.creature.maxMP:
-        gameMessage(target.displayName + ' is at full mana!', constants.COLOR_WHITE)
+    elif caster.creature.currentMP == caster.creature.maxMP:
+        gameMessage(caster.displayName + ' is at full mana!', constants.COLOR_WHITE)
         return 'canceled'
     else:
         if cost > 0:
-            target.creature.currentMP -= cost
-        gameMessage(target.displayName + "'s mana is healed for " + str(value), constants.COLOR_CYAN)
-        target.creature.healMP(value)
-        gameMessage(target.displayName + ' MP is now ' +
-                    str(target.creature.currentMP) + '/' + str(target.creature.maxMP), constants.COLOR_WHITE)
+            caster.creature.currentMP -= cost
+        gameMessage(caster.displayName + "'s mana is healed for " + str(value), constants.COLOR_CYAN)
+        caster.creature.healMP(value)
+        gameMessage(caster.displayName + ' MP is now ' +
+                    str(caster.creature.currentMP) + '/' + str(caster.creature.maxMP), constants.COLOR_WHITE)
         return 'cast heal mana'
 
 
@@ -3447,8 +3450,10 @@ def cast_fireball(caster,
 
 
 def cast_confusion(caster=None,
-                   spellDuration=5,
+                   T_range_duration= (7, 5),
                    cost = -100):
+
+    range, spellDuration = T_range_duration
 
     # check for enough MP
     if caster.creature.currentMP < cost:
@@ -3456,7 +3461,11 @@ def cast_confusion(caster=None,
         return 'canceled'
 
     # select tile
-    selectedTile = menu_tileSelect(tileColor=constants.COLOR_PURPLE,)
+    selectedTile, rangeList = menu_tileSelectLine((PLAYER.x, PLAYER.y),
+                                                  range = range,
+                                                  penetrateWalls = False,
+                                                  justLastTile = True,
+                                                  lineColor=constants.COLOR_PURPLE,)
     if selectedTile == 'canceled':
         return 'canceled'
     else:
@@ -4229,7 +4238,7 @@ def menu_magic():
                         if printList[mouseLineSelect] == 'Fireball':
                             result = cast_fireball(PLAYER, cost=5)
                         if printList[mouseLineSelect] == 'Confuse':
-                            result = cast_confusion(PLAYER, cost=5)
+                            result = cast_confusion(PLAYER, cost = 5)
 
             if result == 'canceled' or not result:
                 return 'no action'
@@ -4281,7 +4290,7 @@ def menu_magic():
         # actually draw everything
         pygame.display.update()
 
-def menu_tileSelect(localAlpha=40, tileColor=constants.COLOR_BLACK):
+def menu_tileSelect(T_caster, range = None, localAlpha=40, tileColor=constants.COLOR_BLACK):
     ''' this menu lets a player select a tile
 
     this function pauses the game, produces an on-screen rectangle that follows
@@ -4331,8 +4340,8 @@ def menu_tileSelect(localAlpha=40, tileColor=constants.COLOR_BLACK):
         for obj in sorted(GAME.currentObj, key = lambda obj: obj.depth, reverse = True):
             obj.draw()
 
-        # draw a rectangle at mouse on top of game
 
+        # draw a rectangle at mouse on top of game
         drawTileRect((mapCoordsX, mapCoordsY), rectColor=tileColor, mark='X')
 
         # return the map address
@@ -4355,6 +4364,7 @@ def menu_tileSelectLine(coordsOrigin,
                         radiusAlpha=None,
                         penetrateWalls=True,
                         penetrateCreatures=True,
+                        justLastTile = False,
                         lineColor=constants.COLOR_BLACK,
                         lineAlpha=None):
     ''' this menu lets a player select a tile showing the line of sight
@@ -4370,7 +4380,7 @@ def menu_tileSelectLine(coordsOrigin,
         None
 
     '''
-    range -= 1
+    # range -= 1
     menuClose = False
 
     while not menuClose:
@@ -4410,10 +4420,11 @@ def menu_tileSelectLine(coordsOrigin,
         for i in lineIter:
             lineList.append(i)
 
+        print(str(lineList))
         # if there is a range, this shortens the list
-        i = 0
+        i = 1
         for x, y in lineList:
-            rangeList.append(lineList[i])
+            rangeList.append(lineList[i - 1])
             # stop at walls
             if (not penetrateWalls) and mapCheckForWall(x, y):
                 break
@@ -4448,6 +4459,8 @@ def menu_tileSelectLine(coordsOrigin,
             if (x, y) != (coordsOrigin):
                 if (x, y) == rangeList[-1]:
                     drawTileRect((x, y), rectAlpha=lineAlpha, rectColor=lineColor, mark='X')
+                elif justLastTile:
+                    pass
                 else:
                     drawTileRect((x, y), rectAlpha=lineAlpha, rectColor=lineColor)
 
@@ -4688,15 +4701,18 @@ def gen_book(T_coords):
     elif randNum == 3:
 
         # confusion parameters
-        numTurns = libtcod.random_get_int(0, 2, 4)
+        T_range_duration = (7, 3)
+
+        range, numTurns = T_range_duration
+
 
         # make a spell object to put in the player's spellbook
         spell = obj_Spell('Confusion',
                           castFunc = cast_confusion,
-                          value = (numTurns),
+                          value = T_range_duration,
                           cost = 5,
                           sprite = 'S_ICON_CONFUSION',
-                          info = "Enemies wander around confused for <stats>" + str(numTurns) + " turns" )
+                          info = "Confuse an enemy up to " + str(range) + " tiles aways for <stats>" + str(numTurns) + " turns" )
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Confusion',
@@ -4881,9 +4897,12 @@ def gen_scroll_confusion(T_coords):
 
     x, y = T_coords
 
-    numTurns = libtcod.random_get_int(0, 2, 8)
+    range = libtcod.random_get_int(0, 4, 8)
+    numTurns = libtcod.random_get_int(0, 4, 8)
+    T_range_duration = (range, numTurns)
 
-    item_com = com_Item(useFunc = cast_confusion, value=numTurns)
+
+    item_com = com_Item(useFunc = cast_confusion, value = T_range_duration)
 
     returnObject = obj_Actor(x, y,
                              nameObject='Confusion Scroll',
