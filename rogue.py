@@ -2039,72 +2039,85 @@ def drawGUI():
     # blit FRAME_STATUS
     SURFACE_MAIN.blit(FRAME_STATUS.surface, (FRAME_MAP.width, FRAME_MAP.height))
 
-def drawSpellHotbar():
-    # draw all the spell buttons on the bottom of the map
-    # def __init__(self, destSurface, buttonText, size, T_coordsCenter,
-    #              Xoffset,
-    #              Yoffset,
-    #              spriteKey = None,
-    #              mouseOverSpriteKey = None,
-    #              box_mouseOverColor = None,
-    #              box_colorDefault = None,
-    #              box_clickColor = None,
-    #              text_mouseOverColor = None,
-    #              text_colorDefault = None,
-    #              text_clickColor = None,
-    #              disabled = False,
-    #              visibleWhenDisabled = True,
-    #              pointlist = None,
-    #              polyWidth = 0):
+def gen_spellButton():
+    # this makes the buttons appear dyanmicaly so i dont have to hard code them
 
     # icon frames
     iconFrame = 'black window box 2 single'
     mouseOverIconFrame = 'black window box 1 single'
 
+    # button size (square)
+    size = 48
 
     # total number of spells the player knows
     spellTotalNum = len(PLAYER.spellbook.spellbook)
     # a list, spellTotalNum long of all the icons for spells
     spriteKeyList = []
 
-
-    # for every element of spriteKeyList, add the icon for the spell
+    # for spell in our spellbook, make a button
     i = 0
 
     # if the player knows any spells, get their sprites
     if spellTotalNum > 0:
         for key in range(0, spellTotalNum):
-            spriteKeyList.append(PLAYER.spellbook.spellbook[i - 1].sprite)
+            spriteKeyList.append(PLAYER.spellbook.spellbook[i].sprite)
+
+            # X and Y for the magic button
+            slotX = FRAME_MAP.border + ( ((size // 2) * i) + (size * i) )
+            slotY =(FRAME_MAP.height - (size)) - FRAME_MAP.border
+
+            # button for magic
+            magicButton = ui_Button(destSurface = FRAME_MAP.surface,
+                              buttonText = '',
+                              size = (size, size),
+                              T_coordsCenter = ( slotX, slotY),
+                              Xoffset = 0,
+                              Yoffset = 0,
+                              spriteKey = iconFrame,
+                              mouseOverSpriteKey = mouseOverIconFrame,
+                              disabled = True,
+                              visibleWhenDisabled = False)
+
+            # disable if we have a spell
+            if i <= spellTotalNum:
+                magicButton.disabled = False
+                magicButton.draw()
+                FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[i]], (slotX + 8, slotY + 8))
+
+            # if button is pressed, set to true
+            slotPressed = magicButton.update(MASTER_EVENTS)
+
+            # if button is pressed, cast spell
+            if slotPressed:
+                result = PLAYER.spellbook.spellbook[i].cast()
+
+            # ##TEST: show what spell is in what slot
+            # x = 0
+            # for spell in PLAYER.spellbook.spellbook:
+            #     print("spell #" + str(x) + ": " + PLAYER.spellbook.spellbook[x].spellName)
+            #     x += 1
+            # increment our iterator
             i += 1
 
-    # X and Y for the magic button
-    slot1X = FRAME_MAP.border
-    slot1Y =(FRAME_MAP.height - (48)) - FRAME_MAP.border
 
-    # button for magic
-    slot1 = ui_Button(destSurface = FRAME_MAP.surface,
-                      buttonText = '',
-                      size = (48, 48),
-                      T_coordsCenter = ( slot1X, slot1Y),
-                      Xoffset = 0,
-                      Yoffset = 0,
-                      spriteKey = iconFrame,
-                      mouseOverSpriteKey = mouseOverIconFrame,
-                      disabled = True,
-                      visibleWhenDisabled = False)
+def drawSpellHotbar():
 
-    # disable if we have a spell
-    if spellTotalNum >= 1:
-        slot1.disabled = False
-        slot1.draw()
-        FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[0]], (slot1X + 8, slot1Y + 8))
+    # just this function does it all
+    gen_spellButton()
 
-    # if button is pressed, set to true
-    slot1Pressed = slot1.update(MASTER_EVENTS)
 
-    # if button is pressed, cast spell
-    if slot1Pressed:
-        result = PLAYER.spellbook.spellbook[0].cast()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3581,7 +3594,6 @@ class ui_Button:
             else:
                 self.surface.blit(self.sprite, (0, 0))
                 self.destSurface.blit(self.surface, self.T_coordsCenter)
-
 
 
 
@@ -5713,12 +5725,14 @@ def gameHandleKeys():
                 cast_heal_mana(PLAYER, 10, cost=0)
             if event.key == pygame.K_3:
                 gen_item((PLAYER.x, PLAYER.y))
+            if event.key == pygame.K_4:
+                gen_book((PLAYER.x, PLAYER.y))
 
             # map testing
-            if event.key == pygame.K_4:
+            if event.key == pygame.K_5:
                 if CURRENT_DUNGEON_LEVEL < constants.MAP_NUM_LEVELS:
                     GAME.transitionNextMap()
-            if event.key == pygame.K_5:
+            if event.key == pygame.K_6:
                 GAME.transitionPreviousMap()
 
             if modKey and event.key == pygame.K_SEMICOLON:
