@@ -693,6 +693,7 @@ class obj_Assets:
         self.S_BOOK_LIGHTNING = self.book.getImage('g', 1, 16, 16, (32, 32))[0]
         self.S_BOOK_CONFUSION = self.book.getImage('h', 8, 16, 16, (32, 32))[0]
         self.S_BOOK_HEAL_WOUNDS = self.book.getImage('b', 4, 16, 16, (32, 32))[0]
+        self.S_BOOK_INFLICT_WOUNDS = self.book.getImage('e', 4, 16, 16, (32, 32))[0]
 
 
         # SPECIAL
@@ -714,6 +715,7 @@ class obj_Assets:
         self.S_ICON_LIGHTNING = self.effect.getImage('m', 22, 16, 16, (32, 32))[0]
         self.S_ICON_CONFUSION = self.gui.getImage('k', 1, 16, 16, (32, 32))[0]
         self.S_ICON_HEAL_WOUNDS = self.gui.getImage('b', 2, 16, 16, (32, 32))[0]
+        self.S_ICON_INFLICT_WOUNDS = self.gui.getImage('b', 5, 16, 16, (32, 32))[0]
 
         self.animationDict = {
 
@@ -777,6 +779,7 @@ class obj_Assets:
             "S_BOOK_LIGHTNING" : self.S_BOOK_LIGHTNING,
             "S_BOOK_CONFUSION" : self.S_BOOK_CONFUSION,
             "S_BOOK_HEAL_WOUNDS" : self.S_BOOK_HEAL_WOUNDS,
+            "S_BOOK_INFLICT_WOUNDS" : self.S_BOOK_INFLICT_WOUNDS,
 
             # decor
             "S_ALTER_1" : self.S_ALTER_1,
@@ -799,6 +802,7 @@ class obj_Assets:
             "S_ICON_LIGHTNING" : self.S_ICON_LIGHTNING,
             "S_ICON_CONFUSION" : self.S_ICON_CONFUSION,
             "S_ICON_HEAL_WOUNDS" : self.S_ICON_HEAL_WOUNDS,
+            "S_ICON_INFLICT_WOUNDS" : self.S_ICON_INFLICT_WOUNDS,
 
 
             # SPECIAL
@@ -1064,7 +1068,7 @@ class com_Creature:
     def takeDamage(self, damage):
         self.currentHP -= damage
         gameMessage(self.nameInstance + "'s health is " + str(self.currentHP) +
-                    '/' + str(self.maxHP), constants.COLOR_RED)
+                    '/' + str(self.maxHP), constants.COLOR_DAMAGE_HP)
 
         if self.currentHP <= 0:
             if self.deathFunc is not None:
@@ -3274,9 +3278,51 @@ def cast_look():
         gameMessage('Map Address: (' + str(mapCoordsX) + ',' +
                     str(mapCoordsY) + ')', constants.COLOR_LIGHT_GREY)
 
+def cast_inflict(caster, value, cost = -100):
+    # set the high and low values
+    valHigh = int(value * 1.2)
+    valLow = int(value * .8)
 
+    # get the actuall damage
+    damageVal = libtcod.random_get_int(0, valLow, valHigh)
 
-def cast_heal(target, value, cost = -100):
+    # select a tile
+    T_coordsTarget = menu_tileSelect(constants.COLOR_DARK_MAGIC)
+
+    # check if an enemy is on the tile
+    mapCoordsX, mapCoordsY = T_coordsTarget
+    target = mapCheckForCreature(mapCoordsX, mapCoordsY)
+
+    # if no enemy is found, cancel
+    if target == False:
+        gameMessage("There is nothing here!")
+        return 'canceled'
+    else:
+        # if not enough MP
+        if caster.creature.currentMP < cost:
+            gameMessage("Not enough MP!", constants.COLOR_CYAN)
+            return 'canceled'
+
+        # if enough MP
+        else:
+            # deduct MP
+            if cost > 0:
+                target.creature.currentMP -= cost
+            victim = None
+            for obj in GAME.currentObj:
+                if obj.x == mapCoordsX and obj.y == mapCoordsY:
+                    victim = obj
+            # message the player
+            gameMessage(victim.displayName + " howls in pain!", costants.COLOR_WHITE)
+            gameMessage(victim.displayName + " is damaged for "  + str(damageVal), constants.COLOR_DAMAGE_HP)
+
+            # deal damage
+            victim.creature.takeDamage(damageVal)
+
+            # take our turn
+            return 'cast inflict'
+
+def cast_heal(caster, value, cost = -100):
     valHigh = int(value * 1.2)
     valLow = int(value * .8)
     healVal = libtcod.random_get_int(0, valLow, valHigh)
@@ -4584,7 +4630,7 @@ def gen_book(T_coords):
     x, y = T_coords
 
     # randomly choose our spell book
-    randNum = libtcod.random_get_int(0, 1, 4)
+    randNum = libtcod.random_get_int(0, 1, 5)
 
     # 1 = Fireball
     if randNum == 1:
@@ -4662,7 +4708,7 @@ def gen_book(T_coords):
         GAME.currentObj.append(newBook)
 
     # 4 = heal
-    else:
+    elif randNum == 4:
 
         # confusion parameters
         healVal = 6
@@ -4682,7 +4728,34 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_HEAL_WOUNDS',
                             item = item_com,
-                            info = "use to learn the <cyan>Heal <cyan>Wounds spell! Restore your HP44!"
+                            info = "use to learn the <cyan>Heal   <cyan>Wounds spell! Restore your HP!"
+                            )
+        GAME.currentObj.append(newBook)
+
+    # 5 = inflict wounds
+    else:
+
+        # inflict wounds parameters
+        damage = 7
+
+        # make a spell object to put in the player's spellbook
+        spell = obj_Spell('Inflict Wounds',
+                          castFunc = cast_inflict,
+                          value = damage,
+                          cost = 5,
+                          sprite = 'S_ICON_INFLICT_WOUNDS',
+                          info = "Tear and rip the enemies flesh, causing <dmgHP>" + str(damage) + " points of damage" )
+
+        # make it an item
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+
+        # generate a book item
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: Inflict Wounds',
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = 'S_BOOK_INFLICT_WOUNDS',
+                            item = item_com,
+                            info = "use to learn the <cyan>Inflict <cyan>Wounds spelland rend some flesh!"
                             )
         GAME.currentObj.append(newBook)
 
