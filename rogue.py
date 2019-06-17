@@ -692,6 +692,7 @@ class obj_Assets:
         self.S_BOOK_FIREBALL = self.book.getImage('b', 2, 16, 16, (32, 32))[0]
         self.S_BOOK_LIGHTNING = self.book.getImage('g', 1, 16, 16, (32, 32))[0]
         self.S_BOOK_CONFUSION = self.book.getImage('h', 8, 16, 16, (32, 32))[0]
+        self.S_BOOK_HEAL_WOUNDS = self.book.getImage('b', 4, 16, 16, (32, 32))[0]
 
 
         # SPECIAL
@@ -712,6 +713,7 @@ class obj_Assets:
         self.S_ICON_FIREBALL = self.effect.getImage('a', 22, 16, 16, (32, 32))[0]
         self.S_ICON_LIGHTNING = self.effect.getImage('m', 22, 16, 16, (32, 32))[0]
         self.S_ICON_CONFUSION = self.gui.getImage('k', 1, 16, 16, (32, 32))[0]
+        self.S_ICON_HEAL_WOUNDS = self.gui.getImage('b', 2, 16, 16, (32, 32))[0]
 
         self.animationDict = {
 
@@ -774,6 +776,7 @@ class obj_Assets:
             "S_BOOK_FIREBALL" : self.S_BOOK_FIREBALL,
             "S_BOOK_LIGHTNING" : self.S_BOOK_LIGHTNING,
             "S_BOOK_CONFUSION" : self.S_BOOK_CONFUSION,
+            "S_BOOK_HEAL_WOUNDS" : self.S_BOOK_HEAL_WOUNDS,
 
             # decor
             "S_ALTER_1" : self.S_ALTER_1,
@@ -795,6 +798,7 @@ class obj_Assets:
             "S_ICON_FIREBALL" : self.S_ICON_FIREBALL,
             "S_ICON_LIGHTNING" : self.S_ICON_LIGHTNING,
             "S_ICON_CONFUSION" : self.S_ICON_CONFUSION,
+            "S_ICON_HEAL_WOUNDS" : self.S_ICON_HEAL_WOUNDS,
 
 
             # SPECIAL
@@ -3273,6 +3277,9 @@ def cast_look():
 
 
 def cast_heal(target, value, cost = -100):
+    valHigh = int(value * 1.2)
+    valLow = int(value * .8)
+    healVal = libtcod.random_get_int(0, valLow, valHigh)
     if target.creature.currentMP < cost:
         gameMessage("Not enough MP!", constants.COLOR_CYAN)
         return 'canceled'
@@ -3282,8 +3289,8 @@ def cast_heal(target, value, cost = -100):
     else:
         if cost > 0:
             target.creature.currentMP -= cost
-        gameMessage(target.displayName + ' is healed for ' + str(value), constants.COLOR_GREEN)
-        target.creature.heal(value)
+        gameMessage(target.displayName + ' is healed for ' + str(healVal), constants.COLOR_GREEN)
+        target.creature.heal(healVal)
         gameMessage(target.displayName + ' health is now ' +
                     str(target.creature.currentHP) + '/' + str(target.creature.maxHP), constants.COLOR_WHITE)
         return 'cast heal'
@@ -4577,9 +4584,9 @@ def gen_book(T_coords):
     x, y = T_coords
 
     # randomly choose our spell book
-    randNum = libtcod.random_get_int(0, 1, 3)
+    randNum = libtcod.random_get_int(0, 1, 4)
 
-    # TEST: all books are fireball for now
+    # 1 = Fireball
     if randNum == 1:
 
         # fireball parameters
@@ -4606,6 +4613,7 @@ def gen_book(T_coords):
                             )
         GAME.currentObj.append(newBook)
 
+    # 2 = Lightning
     elif randNum == 2:
 
         # lightning parameters
@@ -4630,7 +4638,8 @@ def gen_book(T_coords):
                             )
         GAME.currentObj.append(newBook)
 
-    else:
+    # 3 = Confusion
+    elif randNum == 3:
 
         # confusion parameters
         numTurns = libtcod.random_get_int(0, 2, 4)
@@ -4649,6 +4658,31 @@ def gen_book(T_coords):
                             animationKey = 'S_BOOK_CONFUSION',
                             item = item_com,
                             info = "use to learn the <cyan>Confusion spell! Enemies will wander aimlessly while under its effects!"
+                            )
+        GAME.currentObj.append(newBook)
+
+    # 4 = heal
+    else:
+
+        # confusion parameters
+        healVal = 6
+        ValHigh = int(healVal * 1.2)
+        ValLow = int(healVal * .8)
+
+        # make a spell object to put in the player's spellbook
+        spell = obj_Spell('Heal Wounds',
+                          castFunc = cast_heal,
+                          value = healVal,
+                          cost = 5,
+                          sprite = 'S_ICON_HEAL_WOUNDS',
+                          info = "Heal yourself for <healHP>" + str(int(healVal * .8)) + " - <healHP>" + str(int(healVal * 1.2)) + " HP!" )
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: Heal Wounds',
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = 'S_BOOK_HEAL_WOUNDS',
+                            item = item_com,
+                            info = "use to learn the <cyan>Heal <cyan>Wounds spell! Restore your HP44!"
                             )
         GAME.currentObj.append(newBook)
 
