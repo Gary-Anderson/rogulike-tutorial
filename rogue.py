@@ -3287,19 +3287,19 @@ def cast_inflict(caster, value, cost = -100):
     damageVal = libtcod.random_get_int(0, valLow, valHigh)
 
     # select a tile
-    T_coordsTarget, dump = menu_tileSelectLine((PLAYER.x, PLAYER.y), range = 1, justLastTile = True, lineColor = constants.COLOR_DARK_MAGIC)
+    T_coordsTarget, rangeList = menu_tileSelectLine((PLAYER.x, PLAYER.y), range = 1, justLastTile = True, lineColor = constants.COLOR_DARK_MAGIC)
 
-    print("T_coordsTarget = " + str(T_coordsTarget))
-    print("dump = " + str(dump))
 
 
     if T_coordsTarget == 'canceled':
+        gameMessage("Spell canceled")
         return 'canceled'
     else:
         # check if an enemy is on the tile
-        mapCoordsX, mapCoordsY = T_coordsTarget
+        mapCoordsX, mapCoordsY = rangeList[-1]
+
         target = mapCheckForCreature(mapCoordsX, mapCoordsY)
-        print('target = ' + str(target))
+
         # if no enemy is found, cancel
         if target == None:
             gameMessage("There is nothing here!")
@@ -3386,6 +3386,7 @@ def cast_lightning(caster,
                                                     lineColor=local_lineColor,
                                                     lineAlpha=local_lineAlpha)
     if selectedTile == 'canceled':
+        gameMessage("Spell canceled")
         return 'canceled'
     else:
         # deduct mp cost
@@ -3432,6 +3433,7 @@ def cast_fireball(caster,
     if listOfLineTiles != None:
         listOfRadiusTiles = mapFindRadius(listOfLineTiles[-1], radius)
     if selectedTile == 'canceled':
+        gameMessage("Spell canceled")
         return 'canceled'
 
 
@@ -3467,15 +3469,17 @@ def cast_confusion(caster=None,
                                                   justLastTile = True,
                                                   lineColor=constants.COLOR_PURPLE,)
     if selectedTile == 'canceled':
+        gameMessage("Spell canceled")
         return 'canceled'
     else:
         x, y = selectedTile
         # get target
         target = mapCheckForCreature(x, y)
 
-
+    if not target:
+        gameMessage("There is nothing there!")
     # cast confusion
-    if target:
+    else:
         if cost > 0:
             caster.creature.currentMP -= cost
         localOldAI = target.ai
@@ -4420,7 +4424,6 @@ def menu_tileSelectLine(coordsOrigin,
         for i in lineIter:
             lineList.append(i)
 
-        print(str(lineList))
         # if there is a range, this shortens the list
         i = 1
         for x, y in lineList:
