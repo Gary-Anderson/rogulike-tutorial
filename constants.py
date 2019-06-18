@@ -24,9 +24,9 @@ MAP_NUM_LEVELS = 10
 
 #Rooms
 ROOM_MAX_HEIGHT = 5
-ROOM_MIN_HEIGHT = 2
+ROOM_MIN_HEIGHT = 3
 ROOM_MAX_WIDTH = 5
-ROOM_MIN_WIDTH = 2
+ROOM_MIN_WIDTH = 3
 # Color Definitions pygame.Color(red, blue, green, opacity)
 COLOR_BLACK =       pygame.Color(  0,   0,   0, 255)
 COLOR_LIGHT_GREY =  pygame.Color(175, 175, 175, 255)
@@ -134,3 +134,4 @@ COST_HEAL = 4
 COST_INFLICT_WOUNDS = 5
 ITEM_SPAWN = .1
 BOOK_SPAWN = .02
+DUNGEON_LEVEL_MAGIC_SPAWN = 5

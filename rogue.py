@@ -1807,7 +1807,9 @@ def mapPlaceObjects(roomList):
             else:
                 gen_stairs(room.center)
                 print("CURRENT_DUNGEON_LEVEL(" + str(CURRENT_DUNGEON_LEVEL) + ") % 5 = " + str(CURRENT_DUNGEON_LEVEL % 5))
-                if CURRENT_DUNGEON_LEVEL % 5 == 0:
+                if CURRENT_DUNGEON_LEVEL % constants.DUNGEON_LEVEL_MAGIC_SPAWN == 0:
+
+                    # NOTE: if the room dim are ever 2 or lower, this could spawn in a wall
                     cenX, cenY = room.center
                     gen_magicAlter((cenX, cenY + 1))
 
@@ -4839,8 +4841,13 @@ def gen_weapon(T_coords):
     else:
         extraBonus = 0
 
+    if CURRENT_DUNGEON_LEVEL < 3:
+        lowVal = 1
+    else:
+        lowVal = CURRENT_DUNGEON_LEVEL - 1
+    highVal = CURRENT_DUNGEON_LEVEL + 1
     # bonus appropriate for the dungeon level
-    ranBonus = libtcod.random_get_int(0, 1, CURRENT_DUNGEON_LEVEL)
+    ranBonus = libtcod.random_get_int(0, lowVal, highVal)
 
     # actual total bonus
     totalBonus = ranBonus + extraBonus
@@ -4849,7 +4856,7 @@ def gen_weapon(T_coords):
     name = '+' + str(totalBonus) + ' Sword'
 
     # equipment component
-    equipmentCom = com_Equipment(attackBonus=ranBonus, slot = "right_hand")
+    equipmentCom = com_Equipment(attackBonus=totalBonus, slot = "right_hand")
 
     # generate the actual item
     returnObj = obj_Actor(x, y,
@@ -4872,6 +4879,15 @@ def gen_armor_shield(T_coords):
     else:
         extraBonus = 0
 
+    if CURRENT_DUNGEON_LEVEL < 3:
+        lowVal = 1
+    else:
+        lowVal = CURRENT_DUNGEON_LEVEL - 1
+    highVal = CURRENT_DUNGEON_LEVEL + 1
+
+    # bonus appropriate for the dungeon level
+    ranBonus = libtcod.random_get_int(0, lowVal, highVal)
+
     # bonus appropriate for the dungeon level
     ranBonus = libtcod.random_get_int(0, 1, int(CURRENT_DUNGEON_LEVEL // 2))
     if ranBonus < 1: ranBonus = 1
@@ -4883,7 +4899,7 @@ def gen_armor_shield(T_coords):
     name = '+' + str(totalBonus) + ' Shield'
 
     # equipment component
-    equipmentCom = com_Equipment(defenseBonus=ranBonus, slot = "left_hand")
+    equipmentCom = com_Equipment(defenseBonus=totalBonus, slot = "left_hand")
 
     # generate the actual item
     returnObj = obj_Actor(x, y,
