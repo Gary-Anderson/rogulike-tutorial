@@ -308,7 +308,7 @@ class obj_Game:
         self.roomList = "roomList"
 
     def transitionNextMap(self):
-        global FOV_CALC
+        global FOV_CALC, CURRENT_DUNGEON_LEVEL
 
         FOV_CALC = True
 
@@ -323,6 +323,10 @@ class obj_Game:
                                       self.currentMap,
                                       self.roomList,
                                       self.currentObj))
+
+            # update our dungeon level counter
+            CURRENT_DUNGEON_LEVEL = len(GAME.previousMaps) + 1
+
             # make a new map
             self.currentObj = [PLAYER]
             self.currentMap, self.roomList = mapCreate()
@@ -384,6 +388,9 @@ class obj_Game:
             FOV_CALC = True
 
             del self.previousMaps[-1]
+
+            # update our dungeon level counter
+            CURRENT_DUNGEON_LEVEL = len(GAME.previousMaps) + 1
 
 class obj_Spritesheet:
     # This class is used to grab images out of a spritesheet
@@ -676,13 +683,19 @@ class obj_Assets:
 
         # ITEMS
         #lightning scroll
-        self.S_SCROLL_01 = self.scroll.getImage('a', 1, 16, 16, (32, 32))[0]
+        self.S_SCROLL_LIGHTNING = self.scroll.getImage('a', 1, 16, 16, (32, 32))[0]
         #fireball scrol
-        self.S_SCROLL_02 = self.scroll.getImage('c', 2, 16, 16, (32, 32))[0]
+        self.S_SCROLL_FIREBALL = self.scroll.getImage('c', 2, 16, 16, (32, 32))[0]
         #confusion scroll
-        self.S_SCROLL_03 = self.scroll.getImage('d', 6, 16, 16, (32, 32))[0]
+        self.S_SCROLL_CONFUSION = self.scroll.getImage('d', 6, 16, 16, (32, 32))[0]
+        #inflict wounds
+        self.S_SCROLL_INFLICT_WOUNDS = self.scroll.getImage('h', 1, 16, 16, (32, 32))[0]
+
         #wincon Amulet
         self.A_WINCON = self.amulet.getAnimation('a', 3, 16, 16, 2, (32, 32))
+
+        # POTIONS
+
         # mana potion
         self.S_MANA_POTION = self.potion.getImage('g', 1, 16, 16, (32, 32))[0]
         # health potion
@@ -762,11 +775,13 @@ class obj_Assets:
 
             # ITEMS
             #lightning scroll
-            "S_SCROLL_01" : self.S_SCROLL_01,
-            #fireball scrol
-            "S_SCROLL_02" : self.S_SCROLL_02,
+            "S_SCROLL_LIGHTNING" : self.S_SCROLL_LIGHTNING,
+            #fireball scroll
+            "S_SCROLL_FIREBALL" : self.S_SCROLL_FIREBALL,
             #confusion scroll
-            "S_SCROLL_03" : self.S_SCROLL_03,
+            "S_SCROLL_CONFUSION" : self.S_SCROLL_CONFUSION,
+            # inflict Wounds
+            "S_SCROLL_INFLICT_WOUNDS" : self.S_SCROLL_INFLICT_WOUNDS,
             #wincon amulet
             "A_WINCON" : self.A_WINCON,
 
@@ -1791,6 +1806,10 @@ def mapPlaceObjects(roomList):
 
             else:
                 gen_stairs(room.center)
+                print("CURRENT_DUNGEON_LEVEL(" + str(CURRENT_DUNGEON_LEVEL) + ") % 5 = " + str(CURRENT_DUNGEON_LEVEL % 5))
+                if CURRENT_DUNGEON_LEVEL % 5 == 0:
+                    cenX, cenY = room.center
+                    gen_magicAlter((cenX, cenY + 1))
 
         if i == 0:
             x = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
@@ -1822,8 +1841,15 @@ def mapPlaceObjects(roomList):
             x = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
             y = libtcod.random_get_int(0, room.ULy + 1, room.LRy - 1)
 
+            # generate (x, y) for magic
+            magX = libtcod.random_get_int(0, room.ULx + 1, room.LRx - 1)
+            magY = libtcod.random_get_int(0, room.ULy + 1, room.LRy - 1)
+
             # gen an new item
             gen_item((x, y))
+
+            # gen a magic alter
+            gen_magicAlter((magX, magY), True)
 
         # increment what room we are on
         i += 1
@@ -3316,7 +3342,8 @@ def cast_inflict(caster, value, cost = -100):
                     caster.creature.currentMP -= cost
 
                 # message the player
-                gameMessage(target.displayName + " howls in pain!", constants.COLOR_WHITE)
+                gameMessage("The flesh around where you touch the " + target.nameObject + " ripples and splits. ", constants.COLOR_WHITE)
+                gameMessage(target.creature.nameInstance + " howls in pain!", constants.COLOR_WHITE)
                 gameMessage(target.displayName + " is damaged for "  + str(damageVal), constants.COLOR_DAMAGE_HP)
 
                 # deal damage
@@ -4238,11 +4265,11 @@ def menu_magic():
                         if printList[mouseLineSelect] == 'Look':
                             result = cast_look()
                         if printList[mouseLineSelect] == 'Lightning':
-                            result = cast_lightning(PLAYER, cost=5)
+                            result = cast_lightning(PLAYER, cost = constants.COST_LIGHTNING)
                         if printList[mouseLineSelect] == 'Fireball':
-                            result = cast_fireball(PLAYER, cost=5)
+                            result = cast_fireball(PLAYER, cost = constants.COST_FIREBALL)
                         if printList[mouseLineSelect] == 'Confuse':
-                            result = cast_confusion(PLAYER, cost = 5)
+                            result = cast_confusion(PLAYER, cost = constants.COST_CONFUSION)
 
             if result == 'canceled' or not result:
                 return 'no action'
@@ -4562,13 +4589,23 @@ def gen_exitPortal(T_coords):
 
     GAME.currentObj.append(exitPortal)
 
-def gen_magicAlter(T_coords):
-    x, y = T_coords
-    magicAlter = obj_Actor(x, y, 'Alter',
-                           animationKey = 'S_ALTER_2',
-                           depth = constants.DEPTH_DECOR)
-    GAME.currentObj.append(magicAlter)
-    gen_book(T_coords)
+def gen_magicAlter(T_coords, canFail = False):
+
+    # generate a randome number for the fail chance
+    ranNum = libtcod.random_get_int(0, 1, 100)
+
+    spawn = False
+
+    if ranNum <= 100 * constants.BOOK_SPAWN:
+        spawn = True
+
+    if canFail == False or spawn == True:
+        x, y = T_coords
+        magicAlter = obj_Actor(x, y, 'Alter',
+                               animationKey = 'S_ALTER_2',
+                               depth = constants.DEPTH_DECOR)
+        GAME.currentObj.append(magicAlter)
+        gen_book(T_coords)
 
 def gen_itemAlter(T_coords):
     x, y = T_coords
@@ -4660,7 +4697,7 @@ def gen_book(T_coords):
         spell = obj_Spell('Fireball',
                           castFunc = cast_fireball,
                           value = (damage, radius, range),
-                          cost = 5,
+                          cost = constants.COST_FIREBALL,
                           sprite = 'S_ICON_FIREBALL',
                           info = ('Launches a ball of fire up to ' + str(range) +
                                  ' tiles away, damaging everything in a ' + str(radius) +
@@ -4686,7 +4723,7 @@ def gen_book(T_coords):
         spell = obj_Spell('Lightning',
                           castFunc = cast_lightning,
                           value = (damage, range),
-                          cost = 5,
+                          cost = constants.COST_LIGHTNING,
                           sprite = 'S_ICON_LIGHTNING',
                           info = "Electrocute all enemies in a line <stats>" + str(range) +
                                  " tiles long from the player for <stats>" + str(damage) + " damage!" )
@@ -4713,7 +4750,7 @@ def gen_book(T_coords):
         spell = obj_Spell('Confusion',
                           castFunc = cast_confusion,
                           value = T_range_duration,
-                          cost = 5,
+                          cost = constants.COST_CONFUSION,
                           sprite = 'S_ICON_CONFUSION',
                           info = "Confuse an enemy up to " + str(range) + " tiles aways for <stats>" + str(numTurns) + " turns" )
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
@@ -4738,7 +4775,7 @@ def gen_book(T_coords):
         spell = obj_Spell('Heal Wounds',
                           castFunc = cast_heal,
                           value = healVal,
-                          cost = 5,
+                          cost = constants.COST_HEAL,
                           sprite = 'S_ICON_HEAL_WOUNDS',
                           info = "Heal yourself for <healHP>" + str(int(healVal * .8)) + " - <healHP>" + str(int(healVal * 1.2)) + " HP!" )
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
@@ -4755,13 +4792,13 @@ def gen_book(T_coords):
     else:
 
         # inflict wounds parameters
-        damage = 7
+        damage = 9
 
         # make a spell object to put in the player's spellbook
         spell = obj_Spell('Inflict Wounds',
                           castFunc = cast_inflict,
                           value = damage,
-                          cost = 5,
+                          cost = constants.COST_INFLICT_WOUNDS,
                           sprite = 'S_ICON_INFLICT_WOUNDS',
                           info = "Tear and rip the enemies flesh, causing <dmgHP>" + str(damage) + " points of damage" )
 
@@ -4779,11 +4816,12 @@ def gen_book(T_coords):
         GAME.currentObj.append(newBook)
 
 def gen_scroll(T_coords):
-    randNum = libtcod.random_get_int(0, 1, 3)
+    randNum = libtcod.random_get_int(0, 1, 4)
 
     if randNum == 1: newItem = gen_scroll_lightning(T_coords)
     elif randNum == 2: newItem = gen_scroll_fireball(T_coords)
-    else: newItem = gen_scroll_confusion(T_coords)
+    elif randNum == 3: newItem = gen_scroll_confusion(T_coords)
+    else: newItem = gen_scroll_inflict_wounds(T_coords)
 
     return newItem
 
@@ -4868,7 +4906,7 @@ def gen_scroll_lightning(T_coords):
     returnObject = obj_Actor(x, y,
                              nameObject='Lightning Scroll',
                              depth = constants.DEPTH_ITEM,
-                             animationKey= "S_SCROLL_01",
+                             animationKey= "S_SCROLL_LIGHTNING",
                              item=item_com,
                              info = "Electrocute all enemies in a line <stats>" + str(maxRange) +
                                     " tiles long from the player for <stats>" + str(damage) + " damage!")
@@ -4888,7 +4926,7 @@ def gen_scroll_fireball(T_coords):
     returnObject = obj_Actor(x, y,
                              nameObject='Fireball Scroll',
                              depth = constants.DEPTH_ITEM,
-                             animationKey= "S_SCROLL_02",
+                             animationKey= "S_SCROLL_FIREBALL",
                              item=item_com,
                              info = "Hurl a fireball up to <stats>" + str(maxRange) +
                                     " tiles away. Fireball explodes, damaging everything for <stats>" + str(damage) +
@@ -4897,23 +4935,47 @@ def gen_scroll_fireball(T_coords):
     return returnObject
 
 def gen_scroll_confusion(T_coords):
-
+    # unpack coords
     x, y = T_coords
 
+    # spell parameters
     range = libtcod.random_get_int(0, 4, 8)
     numTurns = libtcod.random_get_int(0, 4, 8)
     T_range_duration = (range, numTurns)
 
-
+    # make object into an item (add item component)
     item_com = com_Item(useFunc = cast_confusion, value = T_range_duration)
 
+    # generate object
     returnObject = obj_Actor(x, y,
                              nameObject='Confusion Scroll',
                              depth = constants.DEPTH_ITEM,
-                             animationKey= "S_SCROLL_03",
+                             animationKey= "S_SCROLL_CONFUSION",
                              item=item_com,
                              info = "Enemy wanders around confused for <stats>" + str(numTurns) + " turns!")
 
+    # return object
+    return returnObject
+
+def gen_scroll_inflict_wounds(T_coords):
+    # unpack coords
+    x, y = T_coords
+
+    # spell parameters
+    damage = libtcod.random_get_int(0, 4, 8)
+
+    # make object into an item (add item component)
+    item_com = com_Item(useFunc = cast_inflict, value = damage)
+
+    # generate object
+    returnObject = obj_Actor(x, y,
+                             nameObject='Inflict Wounds Scroll',
+                             depth = constants.DEPTH_ITEM,
+                             animationKey= "S_SCROLL_INFLICT_WOUNDS",
+                             item=item_com,
+                             info = "A deathly touch spell that rips and tears the enemy's flesh, causing " + str(damage) + " damage!")
+
+    # return object
     return returnObject
 
 def gen_potion_health_minor(T_coords):
