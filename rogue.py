@@ -690,6 +690,8 @@ class obj_Assets:
         self.S_SCROLL_CONFUSION = self.scroll.getImage('d', 6, 16, 16, (32, 32))[0]
         #inflict wounds
         self.S_SCROLL_INFLICT_WOUNDS = self.scroll.getImage('h', 1, 16, 16, (32, 32))[0]
+        # frost snap
+        self.S_SCROLL_FROST_SNAP = self.scroll.getImage('d', 1, 16, 16, (32, 32))[0]
 
         #wincon Amulet
         self.A_WINCON = self.amulet.getAnimation('a', 3, 16, 16, 2, (32, 32))
@@ -707,6 +709,7 @@ class obj_Assets:
         self.S_BOOK_CONFUSION = self.book.getImage('h', 8, 16, 16, (32, 32))[0]
         self.S_BOOK_HEAL_WOUNDS = self.book.getImage('b', 4, 16, 16, (32, 32))[0]
         self.S_BOOK_INFLICT_WOUNDS = self.book.getImage('e', 4, 16, 16, (32, 32))[0]
+        self.S_BOOK_FROST_SNAP = self.book.getImage('a', 3, 16, 16, (32, 32))[0]
 
 
         # SPECIAL
@@ -729,6 +732,7 @@ class obj_Assets:
         self.S_ICON_CONFUSION = self.gui.getImage('k', 1, 16, 16, (32, 32))[0]
         self.S_ICON_HEAL_WOUNDS = self.gui.getImage('b', 2, 16, 16, (32, 32))[0]
         self.S_ICON_INFLICT_WOUNDS = self.gui.getImage('b', 5, 16, 16, (32, 32))[0]
+        self.S_ICON_FROST_SNAP = self.effect.getImage('j', 22, 16, 16, (32, 32))[0]
 
         self.animationDict = {
 
@@ -782,6 +786,8 @@ class obj_Assets:
             "S_SCROLL_CONFUSION" : self.S_SCROLL_CONFUSION,
             # inflict Wounds
             "S_SCROLL_INFLICT_WOUNDS" : self.S_SCROLL_INFLICT_WOUNDS,
+            # frost snap
+            "S_SCROLL_FROST_SNAP" : self.S_SCROLL_FROST_SNAP,
             #wincon amulet
             "A_WINCON" : self.A_WINCON,
 
@@ -795,6 +801,7 @@ class obj_Assets:
             "S_BOOK_CONFUSION" : self.S_BOOK_CONFUSION,
             "S_BOOK_HEAL_WOUNDS" : self.S_BOOK_HEAL_WOUNDS,
             "S_BOOK_INFLICT_WOUNDS" : self.S_BOOK_INFLICT_WOUNDS,
+            "S_BOOK_FROST_SNAP" : self.S_BOOK_FROST_SNAP,
 
             # decor
             "S_ALTER_1" : self.S_ALTER_1,
@@ -818,6 +825,7 @@ class obj_Assets:
             "S_ICON_CONFUSION" : self.S_ICON_CONFUSION,
             "S_ICON_HEAL_WOUNDS" : self.S_ICON_HEAL_WOUNDS,
             "S_ICON_INFLICT_WOUNDS" : self.S_ICON_INFLICT_WOUNDS,
+            "S_ICON_FROST_SNAP" : self.S_ICON_FROST_SNAP,
 
 
             # SPECIAL
@@ -3520,6 +3528,63 @@ def cast_confusion(caster=None,
     # temporarily confuse target
 
 
+def cast_frostSnap(caster,
+                  T_damage_radius=(4, 1),
+                  cost = -100):
+
+    # check if enough MP
+    if caster.creature.currentMP < cost:
+        gameMessage("Not enough MP!", constants.COLOR_CYAN)
+        return 'canceled'
+
+    # spell parameters
+    damage, radius= T_damage_radius
+
+    coordsOrigin = (caster.x, caster.y)
+    # get list of line tiles
+    listOfLineTiles = []
+    selectedTile, listOfLineTiles = menu_tileSelectLine(coordsOrigin,
+                                                        range = 0,
+                                                        hasRadius=True,
+                                                        radiusValue=radius,
+                                                        radiusColor=constants.COLOR_BLUE,
+                                                        radiusAlpha=60,
+                                                        penetrateWalls=False,
+                                                        penetrateCreatures=True,
+                                                        lineColor=constants.COLOR_BLUE,
+                                                        lineAlpha=100)
+
+    listOfRadiusTiles = []
+    print("selectedTile = " + str(selectedTile))
+    print("listOfLineTiles = " + str(listOfLineTiles))
+
+
+    # get radius from selected tile
+    listOfRadiusTiles = mapFindRadius((caster.x, caster.y), radius)
+    print("listOfRadiusTiles = " + str(listOfRadiusTiles))
+
+    if selectedTile == 'canceled':
+        gameMessage("Spell canceled")
+        return 'canceled'
+
+
+    # cast frost snap
+    else:
+        # flavor text
+        gameMessage("You hear the sounds of slow cracking as the area around you becomes", constants.COLOR_WHITE)
+        gameMessage("devoid fo all heat", constants.COLOR_WHITE)
+        if cost > 0:
+            caster.creature.currentMP -= cost
+        for x, y in listOfRadiusTiles:
+
+            target = mapCheckForCreature(x, y)
+            # damage everything in radius
+            if target and target != caster:
+                gameMessage(target.displayName + ' ', constants.COLOR_ORANGE)
+                target.creature.takeDamage(damage)
+        return 'cast frost snap'
+
+
 # UUUUUUUU     UUUUUUUUIIIIIIIIII
 # U::::::U     U::::::UI::::::::I
 # U::::::U     U::::::UI::::::::I
@@ -4455,18 +4520,21 @@ def menu_tileSelectLine(coordsOrigin,
 
         # if there is a range, this shortens the list
         i = 1
-        for x, y in lineList:
-            rangeList.append(lineList[i - 1])
-            # stop at walls
-            if (not penetrateWalls) and mapCheckForWall(x, y):
-                break
-            # stop at creatures
-            if (not penetrateCreatures) and (mapCheckForCreature(x, y) != None):
-                break
-            if range and i == range:
-                break
+        if range == 0:
+            rangeList.append(coordsOrigin)
+        else:
+            for x, y in lineList:
+                rangeList.append(lineList[i - 1])
+                # stop at walls
+                if (not penetrateWalls) and mapCheckForWall(x, y):
+                    break
+                # stop at creatures
+                if (not penetrateCreatures) and (mapCheckForCreature(x, y) != None):
+                    break
+                if range and i == range:
+                    break
 
-            i += 1
+                i += 1
 
         # cancel
         for event in eventsList:
@@ -4499,7 +4567,11 @@ def menu_tileSelectLine(coordsOrigin,
         if hasRadius:
             radiusList = mapFindRadius((rangeList[-1]), radiusValue)
             for (xr, yr) in radiusList:
-                drawTileRect((xr, yr), rectAlpha=radiusAlpha, rectColor=radiusColor)
+                if range == 0:
+                    if (xr, yr) != (coordsOrigin):
+                        drawTileRect((xr, yr), rectAlpha=radiusAlpha, rectColor=radiusColor)
+                else:
+                    drawTileRect((xr, yr), rectAlpha=radiusAlpha, rectColor=radiusColor)
 
         # keep the animations going
         CLOCK.tick(constants.GAME_FPS)
@@ -4685,7 +4757,7 @@ def gen_book(T_coords):
     x, y = T_coords
 
     # randomly choose our spell book
-    randNum = libtcod.random_get_int(0, 1, 5)
+    randNum = libtcod.random_get_int(0, 1, 6)
 
     # 1 = Fireball
     if randNum == 1:
@@ -4791,7 +4863,7 @@ def gen_book(T_coords):
         GAME.currentObj.append(newBook)
 
     # 5 = inflict wounds
-    else:
+    elif randNum == 5:
 
         # inflict wounds parameters
         damage = 9
@@ -4817,13 +4889,42 @@ def gen_book(T_coords):
                             )
         GAME.currentObj.append(newBook)
 
+    # 6 = frost snap
+    else:
+
+        # frost snap parameters
+        damage = 4
+        radius = 1
+
+        # make a spell object to put in the player's spellbook
+        spell = obj_Spell('Frost Snap',
+                          castFunc = cast_frostSnap,
+                          value = (damage, radius),
+                          cost = constants.COST_FROST_SNAP,
+                          sprite = 'S_ICON_FROST_SNAP',
+                          info = "Deal <stats>" + str(damage) + " to everything up to <stats>" + str(radius) + " tiles away from you!")
+
+        # make it an item
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+
+        # generate a book item
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: Frost Snap',
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = 'S_BOOK_FROST_SNAP',
+                            item = item_com,
+                            info = "use to learn the <cyan>Frost <cyan>Snap spell!"
+                            )
+        GAME.currentObj.append(newBook)
+
 def gen_scroll(T_coords):
-    randNum = libtcod.random_get_int(0, 1, 4)
+    randNum = libtcod.random_get_int(0, 1, 5)
 
     if randNum == 1: newItem = gen_scroll_lightning(T_coords)
     elif randNum == 2: newItem = gen_scroll_fireball(T_coords)
     elif randNum == 3: newItem = gen_scroll_confusion(T_coords)
-    else: newItem = gen_scroll_inflict_wounds(T_coords)
+    elif randNum == 4: newItem = gen_scroll_inflict_wounds(T_coords)
+    else: newItem = gen_scroll_frost_snap(T_coords)
 
     return newItem
 
@@ -4887,10 +4988,6 @@ def gen_armor_shield(T_coords):
 
     # bonus appropriate for the dungeon level
     ranBonus = libtcod.random_get_int(0, lowVal, highVal)
-
-    # bonus appropriate for the dungeon level
-    ranBonus = libtcod.random_get_int(0, 1, int(CURRENT_DUNGEON_LEVEL // 2))
-    if ranBonus < 1: ranBonus = 1
 
     # actual total bonus
     totalBonus = ranBonus + extraBonus
@@ -4990,6 +5087,30 @@ def gen_scroll_inflict_wounds(T_coords):
                              animationKey= "S_SCROLL_INFLICT_WOUNDS",
                              item=item_com,
                              info = "A deathly touch spell that rips and tears the enemy's flesh, causing " + str(damage) + " damage!")
+
+    # return object
+    return returnObject
+
+def gen_scroll_frost_snap(T_coords):
+    # unpack coords
+    x, y = T_coords
+
+    # spell parameters
+    damage = libtcod.random_get_int(0, 4, 6)
+    radius = 1
+
+    T_damage_radius = (damage, radius)
+
+    # make object into an item (add item component)
+    item_com = com_Item(useFunc = cast_frostSnap, value = T_damage_radius)
+
+    # generate object
+    returnObject = obj_Actor(x, y,
+                             nameObject='Frost Snap Scroll',
+                             depth = constants.DEPTH_ITEM,
+                             animationKey= "S_SCROLL_FROST_SNAP",
+                             item=item_com,
+                             info = "Deal <stats>" + str(damage) + " to all enemies up to <stats>" + str(radius) + " tiles around you!")
 
     # return object
     return returnObject
