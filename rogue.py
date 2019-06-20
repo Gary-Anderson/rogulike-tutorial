@@ -3327,8 +3327,8 @@ def cast_look():
 
 def cast_inflict(caster, value, cost = -100, improve = 0):
     # set the high and low values
-    valHigh = int(value * (1.2 + improve))
-    valLow = int(value * (.8 + improve))
+    valHigh = int(value * (1.5 + improve))
+    valLow = int(value * (1 + improve))
 
     # get the actuall damage
     damageVal = libtcod.random_get_int(0, valLow, valHigh)
@@ -3429,11 +3429,7 @@ def cast_lightning(caster,
     damage, spellRange = T_damage_maxRange
     coordsOrigin = (caster.x, caster.y)
     # apply bonus to range
-    print("before = " + str(spellRange))
-    print("improve = " + str(improve))
-    print("improve in spellbook = " + str(PLAYER.spellbook.spellbook[0].improve))
     spellRange += improve
-    print("after = " + str(spellRange))
 
     # init tile list
     listOfTiles = []
@@ -3449,9 +3445,6 @@ def cast_lightning(caster,
     # generate random values
     highVal = int(damage * (1.2 + improve))
     lowVal = int(damage * (.8 + improve))
-    # get our actual damage
-    actualDamage = libtcod.random_get_int(0, lowVal, highVal)
-
 
     if selectedTile == 'canceled':
         gameMessage("Spell canceled")
@@ -3465,6 +3458,8 @@ def cast_lightning(caster,
             target = mapCheckForCreature(x, y)
             # if there is a target its not the caster
             if target:
+                # get our actual damage
+                actualDamage = libtcod.random_get_int(0, lowVal, highVal)
                 gameMessage(target.displayName + ' is hit by the lightning!', constants.COLOR_WHITE)
                 target.creature.takeDamage(actualDamage)
         return 'cast lightning'
@@ -3483,7 +3478,16 @@ def cast_fireball(caster,
     # spell parameters
     damage, radius, maxRange = T_damage_radius_maxRange
 
+    # add our improve bonus
+    damage += improve
+    radius =+ improve
+    maxRange += improve
     coordsOrigin = (caster.x, caster.y)
+
+    # generate parameters for random values
+    highVal = int(damage * (1.2 + improve))
+    lowVal = int(damage * (.8 + improve))
+
     # get list of line tiles
     listOfLineTiles = []
     selectedTile, listOfLineTiles = menu_tileSelectLine(coordsOrigin,
@@ -3516,17 +3520,20 @@ def cast_fireball(caster,
             target = mapCheckForCreature(x, y)
             # damage everything in radius
             if target:
+                realDamage = libtcod.random_get_int(0, lowVal, highVal)
                 gameMessage(target.displayName + ' is hit by the fireball!', constants.COLOR_ORANGE)
-                target.creature.takeDamage(damage)
+                target.creature.takeDamage(realDamage)
         return 'cast fireball'
 
 
 def cast_confusion(caster=None,
-                   T_range_duration= (7, 5),
+                   T_range_duration= (7, 3),
                    cost = -100,
                    improve = 0):
 
     range, spellDuration = T_range_duration
+
+    spellDuration += improve
 
     # check for enough MP
     if caster.creature.currentMP < cost:
@@ -3575,6 +3582,10 @@ def cast_frostSnap(caster,
     # spell parameters
     damage, radius= T_damage_radius
 
+    radius += improve
+    highVal = (damage * (1.2 + improve))
+    lowVal = (damage * (.8 + improve))
+
     coordsOrigin = (caster.x, caster.y)
     # get list of line tiles
     listOfLineTiles = []
@@ -3612,8 +3623,9 @@ def cast_frostSnap(caster,
             target = mapCheckForCreature(x, y)
             # damage everything in radius
             if target and target != caster:
+                actualDamage = ligtcod.random_get_int(0, lowVal, highVal)
                 gameMessage(target.displayName + ' ', constants.COLOR_ORANGE)
-                target.creature.takeDamage(damage)
+                target.creature.takeDamage(actualDamage)
         return 'cast frost snap'
 
 def cast_magicSling(caster,
@@ -3630,6 +3642,9 @@ def cast_magicSling(caster,
             return 'canceled'
 
     damage, spellRange = T_damage_maxRange
+    range += improve
+    highVal = (damage * (1.2 + improve))
+    lowVal = (damage * (.8 + improve))
 
     coordsOrigin = (caster.x, caster.y)
 
@@ -3654,8 +3669,9 @@ def cast_magicSling(caster,
         target = mapCheckForCreature(x, y)
         # if there is a target its not the caster
         if target:
+            actualDamage = libtcod.random_get_int(0, lowVal, highVal)
             gameMessage(target.displayName + ' is hit by the magic stone!', constants.COLOR_WHITE)
-            target.creature.takeDamage(damage)
+            target.creature.takeDamage(actualDamage)
         return 'cast magic sling'
 
 
