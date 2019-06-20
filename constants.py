@@ -47,6 +47,7 @@ COLOR_LIGHT_BLUE =  pygame.Color(100, 100, 255, 255)
 COLOR_BLUE =        pygame.Color(  0,   0, 255, 255)
 COLOR_DARK_BLUE =   pygame.Color(  0,   0, 128, 255)
 COLOR_PURPLE =      pygame.Color(128,   0, 128, 255)
+COLOR_BROWN =       pygame.Color(165,   42, 42, 255)
 
 
 PATH = "/Users/garyanderson/Desktop/Education/Computer Science/Roguelike tutorial/Project/repos/roguelike/first/"
@@ -91,6 +92,7 @@ COLOR_TEXT_LIGHT_GREY = COLOR_LIGHT_GREY
 COLOR_TEXT_GREY = COLOR_GREY
 COLOR_TEXT_DARK_GREY = COLOR_DARK_GREY
 
+
 # function color
 COLOR_DAMAGE_HP = COLOR_TEXT_DARK_RED
 COLOR_HEAL_HP = COLOR_TEXT_LIGHT_GREEN
@@ -133,6 +135,8 @@ COST_CONFUSION = 3
 COST_HEAL = 4
 COST_INFLICT_WOUNDS = 5
 COST_FROST_SNAP = 5
+COST_MAGIC_SLING = 4
+
 ITEM_SPAWN = .1
 BOOK_SPAWN = .02
 DUNGEON_LEVEL_MAGIC_SPAWN = 5

@@ -692,6 +692,8 @@ class obj_Assets:
         self.S_SCROLL_INFLICT_WOUNDS = self.scroll.getImage('h', 1, 16, 16, (32, 32))[0]
         # frost snap
         self.S_SCROLL_FROST_SNAP = self.scroll.getImage('d', 1, 16, 16, (32, 32))[0]
+        # magic sling
+        self.S_SCROLL_MAGIC_SLING = self.scroll.getImage('a', 2, 16, 16, (32, 32))[0]
 
         #wincon Amulet
         self.A_WINCON = self.amulet.getAnimation('a', 3, 16, 16, 2, (32, 32))
@@ -710,6 +712,7 @@ class obj_Assets:
         self.S_BOOK_HEAL_WOUNDS = self.book.getImage('b', 4, 16, 16, (32, 32))[0]
         self.S_BOOK_INFLICT_WOUNDS = self.book.getImage('e', 4, 16, 16, (32, 32))[0]
         self.S_BOOK_FROST_SNAP = self.book.getImage('a', 3, 16, 16, (32, 32))[0]
+        self.S_BOOK_MAGIC_SLING = self.book.getImage('a', 1, 16, 16, (32, 32))[0]
 
 
         # SPECIAL
@@ -733,6 +736,7 @@ class obj_Assets:
         self.S_ICON_HEAL_WOUNDS = self.gui.getImage('b', 2, 16, 16, (32, 32))[0]
         self.S_ICON_INFLICT_WOUNDS = self.gui.getImage('b', 5, 16, 16, (32, 32))[0]
         self.S_ICON_FROST_SNAP = self.effect.getImage('j', 22, 16, 16, (32, 32))[0]
+        self.S_ICON_MAGIC_SLING = self.effect.getImage('f', 23, 16, 16, (32, 32))[0]
 
         self.animationDict = {
 
@@ -788,6 +792,8 @@ class obj_Assets:
             "S_SCROLL_INFLICT_WOUNDS" : self.S_SCROLL_INFLICT_WOUNDS,
             # frost snap
             "S_SCROLL_FROST_SNAP" : self.S_SCROLL_FROST_SNAP,
+            # magic sling
+            'S_SCROLL_MAGIC_SLING' : self.S_SCROLL_MAGIC_SLING,
             #wincon amulet
             "A_WINCON" : self.A_WINCON,
 
@@ -802,6 +808,7 @@ class obj_Assets:
             "S_BOOK_HEAL_WOUNDS" : self.S_BOOK_HEAL_WOUNDS,
             "S_BOOK_INFLICT_WOUNDS" : self.S_BOOK_INFLICT_WOUNDS,
             "S_BOOK_FROST_SNAP" : self.S_BOOK_FROST_SNAP,
+            "S_BOOK_MAGIC_SLING" : self.S_BOOK_MAGIC_SLING,
 
             # decor
             "S_ALTER_1" : self.S_ALTER_1,
@@ -826,6 +833,7 @@ class obj_Assets:
             "S_ICON_HEAL_WOUNDS" : self.S_ICON_HEAL_WOUNDS,
             "S_ICON_INFLICT_WOUNDS" : self.S_ICON_INFLICT_WOUNDS,
             "S_ICON_FROST_SNAP" : self.S_ICON_FROST_SNAP,
+            "S_ICON_MAGIC_SLING" : self.S_ICON_MAGIC_SLING,
 
 
             # SPECIAL
@@ -1814,7 +1822,6 @@ def mapPlaceObjects(roomList):
 
             else:
                 gen_stairs(room.center)
-                print("CURRENT_DUNGEON_LEVEL(" + str(CURRENT_DUNGEON_LEVEL) + ") % 5 = " + str(CURRENT_DUNGEON_LEVEL % 5))
                 if CURRENT_DUNGEON_LEVEL % constants.DUNGEON_LEVEL_MAGIC_SPAWN == 0:
 
                     # NOTE: if the room dim are ever 2 or lower, this could spawn in a wall
@@ -3555,13 +3562,10 @@ def cast_frostSnap(caster,
                                                         lineAlpha=100)
 
     listOfRadiusTiles = []
-    print("selectedTile = " + str(selectedTile))
-    print("listOfLineTiles = " + str(listOfLineTiles))
 
 
     # get radius from selected tile
     listOfRadiusTiles = mapFindRadius((caster.x, caster.y), radius)
-    print("listOfRadiusTiles = " + str(listOfRadiusTiles))
 
     if selectedTile == 'canceled':
         gameMessage("Spell canceled")
@@ -3583,6 +3587,47 @@ def cast_frostSnap(caster,
                 gameMessage(target.displayName + ' ', constants.COLOR_ORANGE)
                 target.creature.takeDamage(damage)
         return 'cast frost snap'
+
+def cast_magicSling(caster,
+                   T_damage_maxRange = (6, 5),
+                   cost = -100,
+                   local_penetrateWalls=False,
+                   penetrateCreatures=False,
+                   local_lineColor=constants.COLOR_BROWN,
+                   local_lineAlpha=100):
+
+    if caster.creature.currentMP < cost:
+            gameMessage("Not enough MP!", constants.COLOR_CYAN)
+            return 'canceled'
+
+    damage, spellRange = T_damage_maxRange
+
+    coordsOrigin = (caster.x, caster.y)
+
+    listOfTiles = []
+    # select target via target select
+    selectedTile, listOfTiles = menu_tileSelectLine(coordsOrigin,
+                                                    range=spellRange,
+                                                    hasRadius=False,
+                                                    penetrateWalls=local_penetrateWalls,
+                                                    penetrateCreatures=False,
+                                                    lineColor=local_lineColor,
+                                                    lineAlpha=local_lineAlpha)
+    if selectedTile == 'canceled':
+        gameMessage("Spell canceled")
+        return 'canceled'
+    else:
+        # deduct mp cost
+        if cost > 0:
+            caster.creature.currentMP -= cost
+        # apply damage to everything in the list
+        x, y = listOfTiles[-1]
+        target = mapCheckForCreature(x, y)
+        # if there is a target its not the caster
+        if target:
+            gameMessage(target.displayName + ' is hit by the magic stone!', constants.COLOR_WHITE)
+            target.creature.takeDamage(damage)
+        return 'cast magic sling'
 
 
 # UUUUUUUU     UUUUUUUUIIIIIIIIII
@@ -4757,7 +4802,7 @@ def gen_book(T_coords):
     x, y = T_coords
 
     # randomly choose our spell book
-    randNum = libtcod.random_get_int(0, 1, 6)
+    randNum = libtcod.random_get_int(0, 1, 7)
 
     # 1 = Fireball
     if randNum == 1:
@@ -4890,7 +4935,7 @@ def gen_book(T_coords):
         GAME.currentObj.append(newBook)
 
     # 6 = frost snap
-    else:
+    elif randNum == 6:
 
         # frost snap parameters
         damage = 4
@@ -4914,6 +4959,33 @@ def gen_book(T_coords):
                             animationKey = 'S_BOOK_FROST_SNAP',
                             item = item_com,
                             info = "use to learn the <cyan>Frost <cyan>Snap spell!"
+                            )
+        GAME.currentObj.append(newBook)
+
+    # 7 = magic sling
+    else:
+        # frost snap parameters
+        damage = 6
+        range = 5
+
+        # make a spell object to put in the player's spellbook
+        spell = obj_Spell('Magic Sling',
+                          castFunc = cast_magicSling,
+                          value = (damage, range),
+                          cost = constants.COST_MAGIC_SLING,
+                          sprite = 'S_ICON_MAGIC_SLING',
+                          info = "Deal <stats>" + str(damage) + " to an enemy up to <stats>" + str(range) + " tiles away!")
+
+        # make it an item
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+
+        # generate a book item
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: Magic Sling',
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = 'S_BOOK_MAGIC_SLING',
+                            item = item_com,
+                            info = "use to learn the <cyan>Magic <cyan>Sling spell!"
                             )
         GAME.currentObj.append(newBook)
 
