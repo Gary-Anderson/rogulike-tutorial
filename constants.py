@@ -47,7 +47,8 @@ COLOR_LIGHT_BLUE =  pygame.Color(100, 100, 255, 255)
 COLOR_BLUE =        pygame.Color(  0,   0, 255, 255)
 COLOR_DARK_BLUE =   pygame.Color(  0,   0, 128, 255)
 COLOR_PURPLE =      pygame.Color(128,   0, 128, 255)
-COLOR_BROWN =       pygame.Color(165,   42, 42, 255)
+COLOR_LIGHT_BROWN = pygame.Color(150,   92, 92, 255)
+COLOR_BROWN =       pygame.Color(100,   42, 42, 255)
 
 
 PATH = "/Users/garyanderson/Desktop/Education/Computer Science/Roguelike tutorial/Project/repos/roguelike/first/"

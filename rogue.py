@@ -983,19 +983,21 @@ class obj_Spell:
 
     global PLAYER
 
-    def __init__(self, spellName, castFunc, value, cost, sprite, info):
+    def __init__(self, spellName, castFunc, value, cost, sprite, info, improve = 0):
         self.spellName = spellName
         self.castFunc = castFunc
         self.value = value
         self.cost = cost
         self.sprite = sprite
         self.info = info
+        self.improve = 0
 
 
 
     def cast(self):
         if self.castFunc:
-            result = self.castFunc(PLAYER, self.value, self.cost)
+            print("obj_spell.improve = " + str(self.improve))
+            result = self.castFunc(PLAYER, self.value, self.cost, improve = self.improve)
 
 
 
@@ -1290,9 +1292,11 @@ class com_Spellbook:
             # if spell has the same name
             if spellbook[i].spellName == spell.spellName:
                 # tell the player
-                gameMessage("You already know " + spell.spellName + "!", constants.COLOR_RED)
-                # cancel this so the book is not consumed
-                return "canceled"
+                gameMessage("Your mastery of " + spell.spellName + " has increased!", constants.COLOR_WHITE)
+                spellbook[i].improve += 1
+                print(spellbook[i].spellName + " has been improved by +" + str(spellbook[i].improve))
+                # return this so the book is consumed
+                return 'improve'
             # increment
             i += 1
 
@@ -3321,16 +3325,19 @@ def cast_look():
         gameMessage('Map Address: (' + str(mapCoordsX) + ',' +
                     str(mapCoordsY) + ')', constants.COLOR_LIGHT_GREY)
 
-def cast_inflict(caster, value, cost = -100):
+def cast_inflict(caster, value, cost = -100, improve = 0):
     # set the high and low values
-    valHigh = int(value * 1.2)
-    valLow = int(value * .8)
+    valHigh = int(value * (1.2 + improve))
+    valLow = int(value * (.8 + improve))
 
     # get the actuall damage
     damageVal = libtcod.random_get_int(0, valLow, valHigh)
 
     # select a tile
-    T_coordsTarget, rangeList = menu_tileSelectLine((PLAYER.x, PLAYER.y), range = 1, justLastTile = True, lineColor = constants.COLOR_DARK_MAGIC)
+    T_coordsTarget, rangeList = menu_tileSelectLine((PLAYER.x, PLAYER.y),
+                                                    range = 1,
+                                                    justLastTile = True,
+                                                    lineColor = constants.COLOR_DARK_MAGIC)
 
 
 
@@ -3369,9 +3376,9 @@ def cast_inflict(caster, value, cost = -100):
                 # take our turn
                 return 'cast inflict'
 
-def cast_heal(caster, value, cost = -100):
-    valHigh = int(value * 1.2)
-    valLow = int(value * .8)
+def cast_heal(caster, value, cost = -100, improve = 0):
+    valHigh = int(value * (1.2 + improve))
+    valLow = int(value * (.8 + improve))
     healVal = libtcod.random_get_int(0, valLow, valHigh)
     if caster.creature.currentMP < cost:
         gameMessage("Not enough MP!", constants.COLOR_CYAN)
@@ -3388,7 +3395,7 @@ def cast_heal(caster, value, cost = -100):
                     str(caster.creature.currentHP) + '/' + str(caster.creature.maxHP), constants.COLOR_WHITE)
         return 'cast heal'
 
-def cast_heal_mana(caster, value, cost = -100):
+def cast_heal_mana(caster, value, cost = -100, improve = 0):
     if caster.creature.currentMP < cost:
         gameMessage("Not enough MP!", constants.COLOR_CYAN)
         return 'canceled'
@@ -3411,24 +3418,41 @@ def cast_lightning(caster,
                    local_penetrateWalls=False,
                    penetrateCreatures=True,
                    local_lineColor=constants.COLOR_WHITE,
-                   local_lineAlpha=100):
+                   local_lineAlpha=100,
+                   improve = 0):
 
     if caster.creature.currentMP < cost:
             gameMessage("Not enough MP!", constants.COLOR_CYAN)
             return 'canceled'
 
+    # unpack our values
     damage, spellRange = T_damage_maxRange
-
     coordsOrigin = (caster.x, caster.y)
+    # apply bonus to range
+    print("before = " + str(spellRange))
+    print("improve = " + str(improve))
+    print("improve in spellbook = " + str(PLAYER.spellbook.spellbook[0].improve))
+    spellRange += improve
+    print("after = " + str(spellRange))
 
+    # init tile list
     listOfTiles = []
     # select target via target select
     selectedTile, listOfTiles = menu_tileSelectLine(coordsOrigin,
                                                     range=spellRange,
                                                     hasRadius=False,
                                                     penetrateWalls=local_penetrateWalls,
+                                                    wholeLine = True,
                                                     lineColor=local_lineColor,
                                                     lineAlpha=local_lineAlpha)
+
+    # generate random values
+    highVal = int(damage * (1.2 + improve))
+    lowVal = int(damage * (.8 + improve))
+    # get our actual damage
+    actualDamage = libtcod.random_get_int(0, lowVal, highVal)
+
+
     if selectedTile == 'canceled':
         gameMessage("Spell canceled")
         return 'canceled'
@@ -3442,13 +3466,14 @@ def cast_lightning(caster,
             # if there is a target its not the caster
             if target:
                 gameMessage(target.displayName + ' is hit by the lightning!', constants.COLOR_WHITE)
-                target.creature.takeDamage(damage)
+                target.creature.takeDamage(actualDamage)
         return 'cast lightning'
 
 
 def cast_fireball(caster,
                   T_damage_radius_maxRange=(6, 1, 5),
-                  cost = -100):
+                  cost = -100,
+                  improve = 0):
 
     # check if enough MP
     if caster.creature.currentMP < cost:
@@ -3469,6 +3494,7 @@ def cast_fireball(caster,
                                                         radiusAlpha=60,
                                                         penetrateWalls=False,
                                                         penetrateCreatures=False,
+                                                        wholeLine = False,
                                                         lineColor=constants.COLOR_ORANGE,
                                                         lineAlpha=100)
 
@@ -3497,7 +3523,8 @@ def cast_fireball(caster,
 
 def cast_confusion(caster=None,
                    T_range_duration= (7, 5),
-                   cost = -100):
+                   cost = -100,
+                   improve = 0):
 
     range, spellDuration = T_range_duration
 
@@ -3536,8 +3563,9 @@ def cast_confusion(caster=None,
 
 
 def cast_frostSnap(caster,
-                  T_damage_radius=(4, 1),
-                  cost = -100):
+                  T_damage_radius=(6, 1),
+                  cost = -100,
+                  improve = 0):
 
     # check if enough MP
     if caster.creature.currentMP < cost:
@@ -3554,11 +3582,11 @@ def cast_frostSnap(caster,
                                                         range = 0,
                                                         hasRadius=True,
                                                         radiusValue=radius,
-                                                        radiusColor=constants.COLOR_BLUE,
+                                                        radiusColor=constants.COLOR_CYAN,
                                                         radiusAlpha=60,
                                                         penetrateWalls=False,
                                                         penetrateCreatures=True,
-                                                        lineColor=constants.COLOR_BLUE,
+                                                        lineColor=constants.COLOR_CYAN,
                                                         lineAlpha=100)
 
     listOfRadiusTiles = []
@@ -3593,8 +3621,9 @@ def cast_magicSling(caster,
                    cost = -100,
                    local_penetrateWalls=False,
                    penetrateCreatures=False,
-                   local_lineColor=constants.COLOR_BROWN,
-                   local_lineAlpha=100):
+                   local_lineColor=constants.COLOR_LIGHT_BROWN,
+                   local_lineAlpha=100,
+                   improve = 0):
 
     if caster.creature.currentMP < cost:
             gameMessage("Not enough MP!", constants.COLOR_CYAN)
@@ -4508,6 +4537,7 @@ def menu_tileSelectLine(coordsOrigin,
                         penetrateWalls=True,
                         penetrateCreatures=True,
                         justLastTile = False,
+                        wholeLine = False,
                         lineColor=constants.COLOR_BLACK,
                         lineAlpha=None):
     ''' this menu lets a player select a tile showing the line of sight
@@ -4607,16 +4637,19 @@ def menu_tileSelectLine(coordsOrigin,
                 elif justLastTile:
                     pass
                 else:
-                    drawTileRect((x, y), rectAlpha=lineAlpha, rectColor=lineColor)
+                    if wholeLine:
+                        drawTileRect((x, y), rectAlpha=lineAlpha, rectColor=lineColor, mark = 'x')
+                    else:
+                        drawTileRect((x, y), rectAlpha=lineAlpha, rectColor=lineColor)
 
         if hasRadius:
             radiusList = mapFindRadius((rangeList[-1]), radiusValue)
             for (xr, yr) in radiusList:
                 if range == 0:
                     if (xr, yr) != (coordsOrigin):
-                        drawTileRect((xr, yr), rectAlpha=radiusAlpha, rectColor=radiusColor)
+                        drawTileRect((xr, yr), rectAlpha=radiusAlpha, rectColor=radiusColor, mark = 'x')
                 else:
-                    drawTileRect((xr, yr), rectAlpha=radiusAlpha, rectColor=radiusColor)
+                    drawTileRect((xr, yr), rectAlpha=radiusAlpha, rectColor=radiusColor, mark = 'x')
 
         # keep the animations going
         CLOCK.tick(constants.GAME_FPS)
