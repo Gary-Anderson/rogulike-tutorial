@@ -2178,10 +2178,153 @@ def gen_spellButton():
 
 def drawSpellHotbar():
 
+    # TODO add some data to this? maybe cost or what level improvment it is
+
     # just this function does it all
     gen_spellButton()
 
+def drawTextWordWrap(surface,
+                     text,
+                     surfWidth,
+                     surfHeight,
+                     font = constants.FONT_TEXT_INFO,
+                     defaultColor = constants.COLOR_TEXT_INFO,
+                     backColor = constants.COLOR_BLACK,
+                     margin = 2
+                     ):
 
+
+    # margins
+    textStartX = margin * 2
+    textStartY = margin
+    lineMaxWidth = (surfWidth - (margin * 2))
+
+    # word wrap vars
+    word = ''
+    lastLineWidth = 0
+    lineHeight = helperTextHeight(font)
+    iter = 0
+    i = 0
+    isTag = False
+    tag = ''
+    textColor = defaultColor
+    textColorIndex = { 'white'      : constants.COLOR_TEXT_WHITE,
+                       'pink'       : constants.COLOR_TEXT_PINK,
+                       'red'        : constants.COLOR_TEXT_RED,
+                       'drkRed'     : constants.COLOR_TEXT_DARK_RED,
+                       'orange'     : constants.COLOR_TEXT_ORANGE,
+                       'yellow'     : constants.COLOR_TEXT_YELLOW,
+                       'liGreen'    : constants.COLOR_TEXT_LIGHT_GREEN,
+                       'green'      : constants.COLOR_TEXT_GREEN,
+                       'drkGreen'   : constants.COLOR_TEXT_DARK_GREEN,
+                       'cyan'       : constants.COLOR_TEXT_CYAN,
+                       'liBlue'     : constants.COLOR_TEXT_LIGHT_BLUE,
+                       'blue'       : constants.COLOR_TEXT_BLUE,
+                       'drkBlue'    : constants.COLOR_TEXT_DARK_BLUE,
+                       'purple'     : constants.COLOR_TEXT_PURPLE,
+                       'liGrey'     : constants.COLOR_TEXT_LIGHT_GREY,
+                       'grey'       : constants.COLOR_TEXT_GREY,
+                       'drkGrey'    : constants.COLOR_TEXT_DARK_GREY,
+                       'dmgHP'      : constants.COLOR_DAMAGE_HP,
+                       'dmgMP'      : constants.COLOR_DAMAGE_MP,
+                       'healHP'      : constants.COLOR_HEAL_HP,
+                       'healMP'      : constants.COLOR_HEAL_MP,
+                       'stats'      : constants.COLOR_STATS,}
+
+
+    # go through every letter of itemInfo
+    for letter in text:
+
+        # starts new lines after the margin
+        if lastLineWidth == 0:
+            lastLineWidth = textStartX
+
+        # if a tag is starting...
+        if letter == '<':
+
+            # toggle isTag to true
+            isTag = True
+
+            # clear word
+            word = ''
+
+
+        # end the tag and assign the color from the dictionary
+        elif letter == '>':
+
+            # tag is over, toggle isTag off
+            isTag = False
+
+            # look up our tag in the color dictionary and assign textColor
+            textColor = textColorIndex[tag]
+
+            # reset tag
+            tag = ''
+
+        # get what the tag is
+        elif isTag:
+
+            # letter will spell out our tag
+            tag += letter
+
+        # letters seperated by spaces are 'words'
+        elif letter != ' ' and isTag == False:
+
+            # if the letter is not a space, add it to the word
+            word += letter
+
+        # when we hit a space, see if we can add it to the line
+        else:
+
+            # add a space to the end of the word
+            word += ' '
+
+            # get width of word in pixels
+            wordWidth = helperTextWidth(font, word)
+
+            # does this word fit on the line?
+            if lastLineWidth + wordWidth < lineMaxWidth:
+
+                # print on same line
+                drawText(surface, word,
+                        (lastLineWidth, (textStartY + (i * lineHeight))),
+                        textColor,
+                        font,
+                        backColor)
+
+                # remember how far across the text window we are
+                lastLineWidth += wordWidth
+
+                # reset word
+                word = ''
+
+                # reset color
+                textColor = defaultColor
+
+            # word doesn't fit on the line
+            else:
+
+                # start a new line
+                i += 1
+
+                # start at the beginning of the window
+                lastLineWidth = textStartX
+
+                #print word to new line
+                drawText(surface, word,
+                        (lastLineWidth, (textStartY + (i * lineHeight))),
+                        textColor,
+                        font,
+                        backColor)
+
+                # remembe how far across the text window we are
+                lastLineWidth += wordWidth
+
+                # reset word
+                word = ''
+
+                # reset color
+                textColor = defaultColor
 
 
 
@@ -2895,131 +3038,13 @@ def drawInventory():
     else:
         itemInfo = ''
 
-    # word wrap vars
-    word = ''
-    lastLineWidth = 0
-    iter = 0
-    i = 0
-    isTag = False
-    tag = ''
-    textColor = constants.COLOR_TEXT_INV_INFO
-    textColorIndex = { 'white'      : constants.COLOR_TEXT_WHITE,
-                       'pink'       : constants.COLOR_TEXT_PINK,
-                       'red'        : constants.COLOR_TEXT_RED,
-                       'drkRed'     : constants.COLOR_TEXT_DARK_RED,
-                       'orange'     : constants.COLOR_TEXT_ORANGE,
-                       'yellow'     : constants.COLOR_TEXT_YELLOW,
-                       'liGreen'    : constants.COLOR_TEXT_LIGHT_GREEN,
-                       'green'      : constants.COLOR_TEXT_GREEN,
-                       'drkGreen'   : constants.COLOR_TEXT_DARK_GREEN,
-                       'cyan'       : constants.COLOR_TEXT_CYAN,
-                       'liBlue'     : constants.COLOR_TEXT_LIGHT_BLUE,
-                       'blue'       : constants.COLOR_TEXT_BLUE,
-                       'drkBlue'    : constants.COLOR_TEXT_DARK_BLUE,
-                       'purple'     : constants.COLOR_TEXT_PURPLE,
-                       'liGrey'     : constants.COLOR_TEXT_LIGHT_GREY,
-                       'grey'       : constants.COLOR_TEXT_GREY,
-                       'drkGrey'    : constants.COLOR_TEXT_DARK_GREY,
-                       'dmgHP'      : constants.COLOR_DAMAGE_HP,
-                       'dmgMP'      : constants.COLOR_DAMAGE_MP,
-                       'healHP'      : constants.COLOR_HEAL_HP,
-                       'healMP'      : constants.COLOR_HEAL_MP,
-                       'stats'      : constants.COLOR_STATS,}
+    drawTextWordWrap(surface = infoWindowSurf,
+                     text = itemInfo,
+                     surfWidth = infoWindowWidth,
+                     surfHeight = infoWindowHeight,
+                     defaultColor = constants.COLOR_PURPLE)
 
-
-    # go through every letter of itemInfo
-    for letter in itemInfo:
-
-        # starts new lines after the margin
-        if lastLineWidth == 0:
-            lastLineWidth = textStartX
-
-        # if a tag is starting...
-        if letter == '<':
-
-            # toggle isTag to true
-            isTag = True
-
-            # clear word
-            word = ''
-
-
-        # end the tag and assign the color from the dictionary
-        elif letter == '>':
-
-            # tag is over, toggle isTag off
-            isTag = False
-
-            # look up our tag in the color dictionary and assign textColor
-            textColor = textColorIndex[tag]
-
-            # reset tag
-            tag = ''
-
-        # get what the tag is
-        elif isTag:
-
-            # letter will spell out our tag
-            tag += letter
-
-        # letters seperated by spaces are 'words'
-        elif letter != ' ' and isTag == False:
-
-            # if the letter is not a space, add it to the word
-            word += letter
-
-        # when we hit a space, see if we can add it to the line
-        else:
-
-            # add a space to the end of the word
-            word += ' '
-
-            # get width of word in pixels
-            wordWidth = helperTextWidth(infoFont, word)
-
-            # does this word fit on the line?
-            if lastLineWidth + wordWidth < lineMaxWidth:
-
-                # print on same line
-                drawText(infoWindowSurf, word,
-                        (lastLineWidth, (textStartY + (i * infoTextHeight))),
-                        textColor,
-                        font=constants.FONT_INV_INFO,
-                        backColor=constants.COLOR_BLACK)
-
-                # remember how far across the text window we are
-                lastLineWidth += wordWidth
-
-                # reset word
-                word = ''
-
-                # reset color
-                textColor = constants.COLOR_TEXT_INV_INFO
-
-            # word doesn't fit on the line
-            else:
-
-                # start a new line
-                i += 1
-
-                # start at the beginning of the window
-                lastLineWidth = textStartX
-
-                #print word to new line
-                drawText(infoWindowSurf, word,
-                        (lastLineWidth, (textStartY + (i * infoTextHeight))),
-                        constants.COLOR_TEXT_INV_INFO,
-                        font=constants.FONT_INV_INFO,
-                        backColor=constants.COLOR_BLACK)
-
-                # remembe how far across the text window we are
-                lastLineWidth += wordWidth
-
-                # reset word
-                word = ''
-
-                # reset color
-                textColor = constants.COLOR_TEXT_INV_INFO
+    
 
 
     #############
@@ -3480,7 +3505,7 @@ def cast_fireball(caster,
 
     # add our improve bonus
     damage += improve
-    radius =+ improve
+    radius += improve
     maxRange += improve
     coordsOrigin = (caster.x, caster.y)
 
@@ -3583,8 +3608,8 @@ def cast_frostSnap(caster,
     damage, radius= T_damage_radius
 
     radius += improve
-    highVal = (damage * (1.2 + improve))
-    lowVal = (damage * (.8 + improve))
+    highVal = int(damage * (1.2 + improve))
+    lowVal = int(damage * (.8 + improve))
 
     coordsOrigin = (caster.x, caster.y)
     # get list of line tiles
@@ -3642,9 +3667,9 @@ def cast_magicSling(caster,
             return 'canceled'
 
     damage, spellRange = T_damage_maxRange
-    range += improve
-    highVal = (damage * (1.2 + improve))
-    lowVal = (damage * (.8 + improve))
+    spellRange += improve
+    highVal = int(damage * (1.2 + improve))
+    lowVal = int(damage * (.8 + improve))
 
     coordsOrigin = (caster.x, caster.y)
 

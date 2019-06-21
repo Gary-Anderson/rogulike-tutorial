@@ -63,6 +63,7 @@ COLOR_BUTTON_MOUSEOVER = COLOR_RED
 COLOR_BUTTON_TEXT = COLOR_WHITE
 COLOR_BUTTON_TEXT_MOUSEOVER = COLOR_WHITE
 COLOR_TEXT_INV_INFO = COLOR_LIGHT_GREY
+COLOR_TEXT_INFO = COLOR_LIGHT_GREY
 COLOR_SWITCH = COLOR_DARK_RED
 COLOR_DROPPING_TEXT = COLOR_WHITE
 COLOR_DROPPING_HIGHLIGHT = COLOR_DARK_RED
@@ -111,6 +112,7 @@ FONT_TITLE_NAME_TEXT = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 20)
 FONT_TITLE_RACE_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 12)
 FONT_INV_TITLE = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 18)
 FONT_INV_INFO = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 10)
+FONT_TEXT_INFO = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 10)
 FONT_HPMP_TEXT = pygame.font.Font(PATH + 'data/AGoblinAppears.otf', 12)
 FONT_ATTRIBUTE_TEXT = pygame.font.Font(PATH + 'data/joystixMonospace.ttf', 8)
 
