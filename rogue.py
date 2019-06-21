@@ -2099,6 +2099,7 @@ def mapFindRadius(T_coordsCenter, radius):
 #
 def drawGUI():
 
+    global INFODRAW
     # blit BOX_MAP
     SURFACE_MAIN.blit(FRAME_MAP.surface, (0,0))
     FRAME_MAP.surface.blit(BOX_MAP, (FRAME_MAP.border, FRAME_MAP.border))
@@ -2106,8 +2107,17 @@ def drawGUI():
     drawSpellHotbar()
 
 
-    # blit PLAYER stats
+    # blit console messages
     SURFACE_MAIN.blit(FRAME_CONSOLE.surface, (0,FRAME_MAP.height))
+    # blit info if we are mousing over something
+    print(str(INFODRAW))
+    if MOUSEINV or MOUSEMAGICBUTTON or MOUSELOOK:
+        INFODRAW = True
+    else:
+        INFODRAW = False
+
+    if INFODRAW:
+        SURFACE_MAIN.blit(FRAME_CONSOLE.infoSurface, (0,FRAME_MAP.height))
 
     # blit PLAYER inventory
     SURFACE_MAIN.blit(FRAME_INV.surface, (FRAME_MAP.width, 0))
@@ -2117,6 +2127,8 @@ def drawGUI():
 
 def gen_spellButton():
     # this makes the buttons appear dyanmicaly so i dont have to hard code them
+
+    global MOUSEMAGICBUTTON
 
     # icon frames
     iconFrame = 'black window box 2 single'
@@ -2135,6 +2147,8 @@ def gen_spellButton():
 
     # if the player knows any spells, get their sprites
     if spellTotalNum > 0:
+        anyButton = False
+        mouseSpellInfo = ''
         for key in range(0, spellTotalNum):
             spriteKeyList.append(PLAYER.spellbook.spellbook[i].sprite)
 
@@ -2160,6 +2174,19 @@ def gen_spellButton():
                 magicButton.draw()
                 FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[i]], (slotX + 8, slotY + 8))
 
+            # shoe mouse over info
+            print("button mouse over = " + str(magicButton.mouseInSurface))
+
+            if magicButton.mouseInSurface:
+                anyButton = True
+                MOUSEMAGICBUTTON = True
+                mouseSpellInfo = PLAYER.spellbook.spellbook[i].info
+                drawInformation(mouseSpellInfo)
+            elif magicButton.mouseInSurface == False and anyButton == True:
+                drawInformation(mouseSpellInfo)
+            else:
+                MOUSEMAGICBUTTON = False
+
             # if button is pressed, set to true
             slotPressed = magicButton.update(MASTER_EVENTS)
 
@@ -2167,12 +2194,6 @@ def gen_spellButton():
             if slotPressed:
                 result = PLAYER.spellbook.spellbook[i].cast()
 
-            # ##TEST: show what spell is in what slot
-            # x = 0
-            # for spell in PLAYER.spellbook.spellbook:
-            #     print("spell #" + str(x) + ": " + PLAYER.spellbook.spellbook[x].spellName)
-            #     x += 1
-            # increment our iterator
             i += 1
 
 
@@ -2864,6 +2885,7 @@ def drawInventory():
     ## inventory selection ##
     #########################
 
+    global MOUSEINV
     # get mouse x, y
     mouseX, mouseY = pygame.mouse.get_pos()
     mouseX_rel = (mouseX - FRAME_INV.x) - boxX - inventoryWindowX
@@ -2876,6 +2898,15 @@ def drawInventory():
 
     mouseLineSelect = int((mouseY_rel // inventoryTextHeight) + INV_SCROLL_INDEX)
 
+    # toggle what surface is being drawn in the console
+    if (mouseInventory and
+        mouseLineSelect <= len(printList) - 1):
+
+        MOUSEINV = True
+    else:
+        # toggle what surface is being drawn in the console
+        MOUSEINV = False
+
     # iterate over the events list
     for event in MASTER_EVENTS:
 
@@ -2886,6 +2917,7 @@ def drawInventory():
                 # it has and the mouse is in the inventory and over an item
                 if (mouseInventory and
                     mouseLineSelect <= len(printList) - 1):
+
                     # if we are in dropping mode, drop
                     if IS_DROPPING:
                         PLAYER.container.inventory[mouseLineSelect].item.drop(PLAYER.x, PLAYER.y)
@@ -3044,7 +3076,9 @@ def drawInventory():
                      surfHeight = infoWindowHeight,
                      defaultColor = constants.COLOR_PURPLE)
 
-    
+    drawInformation(itemInfo)
+
+
 
 
     #############
@@ -3219,6 +3253,21 @@ def drawMessages():
                  (startX, (startY + (i * textHeight))), color, font=constants.FONT_MESSAGE_TEXT,
                  backColor=constants.COLOR_BLACK)
         i += 1
+
+def drawInformation(text):
+
+    # draw to FRAME_CONSOLE's second, infoSurface
+    FRAME_CONSOLE.infoSurface.fill(FRAME_CONSOLE.color)
+    FRAME_CONSOLE.drawBorder()
+
+    drawTextWordWrap(FRAME_CONSOLE.infoSurface,
+                 text,
+                 FRAME_CONSOLE.width,
+                 FRAME_CONSOLE.height,
+                 margin = 10)
+
+
+
 
 
 def drawDebug():
@@ -3648,7 +3697,7 @@ def cast_frostSnap(caster,
             target = mapCheckForCreature(x, y)
             # damage everything in radius
             if target and target != caster:
-                actualDamage = ligtcod.random_get_int(0, lowVal, highVal)
+                actualDamage = libtcod.random_get_int(0, lowVal, highVal)
                 gameMessage(target.displayName + ' ', constants.COLOR_ORANGE)
                 target.creature.takeDamage(actualDamage)
         return 'cast frost snap'
@@ -3748,9 +3797,12 @@ class ui_frame:
         self.bottomleft = (self.border, (self.height - self.border))
         self.bottomright = ((self.width - self.border), (self.height - self.border))
         self.surface = pygame.Surface((self.width, self.height))
+        self.infoSurface = pygame.Surface((self.width, self.height))
     def drawBorder(self):
         pygame.draw.rect(self.surface, constants.COLOR_LIGHT_GREY, self.borderRect, 2)
         pygame.draw.rect(self.surface, constants.COLOR_GREY, self.innerBorderRect, 1)
+        pygame.draw.rect(self.infoSurface, constants.COLOR_LIGHT_GREY, self.borderRect, 2)
+        pygame.draw.rect(self.infoSurface, constants.COLOR_GREY, self.innerBorderRect, 1)
 
 
 class ui_Button:
@@ -5954,7 +6006,7 @@ def gameInit():
     global SURFACE_MAIN, SURFACE_MAP, CURRENT_DUNGEON_LEVEL, GAME_LOOP_ITER
     global FRAME_MAP, BOX_MAP, FRAME_CONSOLE, FRAME_INV, FRAME_STATUS
     global CLOCK, FOV_CALC, FOV_MAP, ENEMY, ASSETS, PREF, CAMERA, RANDOM_ENGINE
-    global INV_SCROLL_INDEX, IS_DROPPING
+    global INV_SCROLL_INDEX, IS_DROPPING, INFODRAW, MOUSEMAGICBUTTON, MOUSEINV, MOUSELOOK
 
     # initialiaze pygame
     pygame.init()
@@ -6039,6 +6091,13 @@ def gameInit():
 
     # if the user is selecting something to be dropped
     IS_DROPPING = False
+
+    # do we draw the info or not
+    INFODRAW = False
+
+    MOUSEMAGICBUTTON = False
+    MOUSEINV = False
+    MOUSELOOK = False
 
 def gameStart(new=True):
     if not new:
