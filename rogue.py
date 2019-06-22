@@ -2226,6 +2226,7 @@ def drawTextWordWrap(surface,
     lineHeight = helperTextHeight(font)
     iter = 0
     i = 0
+    charLeft = len(text)
     isTag = False
     tag = ''
     textColor = defaultColor
@@ -2255,6 +2256,9 @@ def drawTextWordWrap(surface,
 
     # go through every letter of itemInfo
     for letter in text:
+
+        # decremate the charLeft variable, so we know how many chars are left
+        charLeft -= 1
 
         # starts new lines after the margin
         if lastLineWidth == 0:
@@ -2293,6 +2297,56 @@ def drawTextWordWrap(surface,
 
             # if the letter is not a space, add it to the word
             word += letter
+
+            # if last letter in string
+            if charLeft == 0:
+                # get width of word in pixels
+                wordWidth = helperTextWidth(font, word)
+
+                # does this word fit on the line?
+                if lastLineWidth + wordWidth < lineMaxWidth:
+
+                    # print on same line
+                    drawText(surface, word,
+                            (lastLineWidth, (textStartY + (i * lineHeight))),
+                            textColor,
+                            font,
+                            backColor)
+
+                    # remember how far across the text window we are
+                    lastLineWidth += wordWidth
+
+                    # reset word
+                    word = ''
+
+                    # reset color
+                    textColor = defaultColor
+
+                # word doesn't fit on the line
+                else:
+
+                    # start a new line
+                    i += 1
+
+                    # start at the beginning of the window
+                    lastLineWidth = textStartX
+
+                    #print word to new line
+                    drawText(surface, word,
+                            (lastLineWidth, (textStartY + (i * lineHeight))),
+                            textColor,
+                            font,
+                            backColor)
+
+                    # remembe how far across the text window we are
+                    lastLineWidth += wordWidth
+
+                    # reset word
+                    word = ''
+
+                    # reset color
+                    textColor = defaultColor
+
 
         # when we hit a space, see if we can add it to the line
         else:
@@ -4944,9 +4998,9 @@ def gen_book(T_coords):
                           value = (damage, radius, range),
                           cost = constants.COST_FIREBALL,
                           sprite = 'S_ICON_FIREBALL',
-                          info = ('Launches a ball of fire up to ' + str(range) +
-                                 ' tiles away, damaging everything in a ' + str(radius) +
-                                 ' tile radius for ' + str(damage) + ' points!') )
+                          info = ('Launches a ball of fire up to <stats>' + str(range) +
+                                 ' tiles away, damaging everything in a <stats>' + str(radius) +
+                                 ' tile radius for <stats>' + str(damage) + ' points!') )
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Fireball',
@@ -5029,7 +5083,7 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_HEAL_WOUNDS',
                             item = item_com,
-                            info = "use to learn the <cyan>Heal   <cyan>Wounds spell! Restore your HP!"
+                            info = "use to learn the <cyan>Heal <cyan>Wounds spell! Restore your HP!"
                             )
         GAME.currentObj.append(newBook)
 
