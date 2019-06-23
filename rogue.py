@@ -996,7 +996,6 @@ class obj_Spell:
 
     def cast(self):
         if self.castFunc:
-            print("obj_spell.improve = " + str(self.improve))
             result = self.castFunc(PLAYER, self.value, self.cost, improve = self.improve)
 
 
@@ -1294,7 +1293,6 @@ class com_Spellbook:
                 # tell the player
                 gameMessage("Your mastery of " + spell.spellName + " has increased!", constants.COLOR_WHITE)
                 spellbook[i].improve += 1
-                print(spellbook[i].spellName + " has been improved by +" + str(spellbook[i].improve))
                 # return this so the book is consumed
                 return 'improve'
             # increment
@@ -2110,7 +2108,6 @@ def drawGUI():
     # blit console messages
     SURFACE_MAIN.blit(FRAME_CONSOLE.surface, (0,FRAME_MAP.height))
     # blit info if we are mousing over something
-    print(str(INFODRAW))
     if MOUSEINV or MOUSEMAGICBUTTON or MOUSELOOK:
         INFODRAW = True
     else:
@@ -2173,9 +2170,6 @@ def gen_spellButton():
                 magicButton.disabled = False
                 magicButton.draw()
                 FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[i]], (slotX + 8, slotY + 8))
-
-            # shoe mouse over info
-            print("button mouse over = " + str(magicButton.mouseInSurface))
 
             if magicButton.mouseInSurface:
                 anyButton = True
@@ -2288,8 +2282,8 @@ def drawTextWordWrap(surface,
                 # reset word
                 word = ''
 
-                # reset color
-                textColor = defaultColor
+                # # reset color
+                # textColor = defaultColor
 
                 # increment the new line
                 i += 1
@@ -2319,8 +2313,8 @@ def drawTextWordWrap(surface,
                 # reset word
                 word = ''
 
-                # reset color
-                textColor = defaultColor
+                # # reset color
+                # textColor = defaultColor
 
                 lastLineWidth = textStartX
 
@@ -2441,8 +2435,8 @@ def drawTextWordWrap(surface,
                 # reset word
                 word = ''
 
-                # reset color
-                textColor = defaultColor
+                # # reset color
+                # textColor = defaultColor
 
             # word doesn't fit on the line
             else:
@@ -2466,8 +2460,8 @@ def drawTextWordWrap(surface,
                 # reset word
                 word = ''
 
-                # reset color
-                textColor = defaultColor
+                # # reset color
+                # textColor = defaultColor
 
 
 
@@ -5059,6 +5053,7 @@ def gen_book(T_coords):
         range = 5
         radius = 1
         damage = 6
+        cost = constants.COST_FIREBALL
 
         # make a spell object to put in the player's spellbook
         spell = obj_Spell('Fireball',
@@ -5066,7 +5061,8 @@ def gen_book(T_coords):
                           value = (damage, radius, range),
                           cost = constants.COST_FIREBALL,
                           sprite = 'S_ICON_FIREBALL',
-                          info = '<cyan>Fireball: | |' +
+                          info = '<cyan>Fireball <stats>: | |' +
+                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
                                  '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
                                  '<drkCyan>Range: <stats>' + str(range) +' | |' +
                                  '<drkCyan>Radius: <stats>' + str(radius) +' | |'
@@ -5087,6 +5083,7 @@ def gen_book(T_coords):
         # lightning parameters
         range = 5
         damage = 5
+        cost = constants.COST_LIGHTNING
 
         # make a spell object to put in the player's spellbook
         spell = obj_Spell('Lightning',
@@ -5094,8 +5091,11 @@ def gen_book(T_coords):
                           value = (damage, range),
                           cost = constants.COST_LIGHTNING,
                           sprite = 'S_ICON_LIGHTNING',
-                          info = "Electrocute all enemies in a line <stats>" + str(range) +
-                                 " tiles long from the player for <stats>" + str(damage) + " damage!" )
+                          info = '<cyan>Lightning <stats>: | |' +
+                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
+                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
+                                 '<drkCyan>Range: <stats>' + str(range) +' | |' +
+                                 'Discharge an arc of lightning that electrocute all enemies caught in its path! ' )
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Lightning',
@@ -5113,6 +5113,7 @@ def gen_book(T_coords):
         T_range_duration = (7, 3)
 
         range, numTurns = T_range_duration
+        cost = constants.COST_CONFUSION
 
 
         # make a spell object to put in the player's spellbook
@@ -5121,7 +5122,10 @@ def gen_book(T_coords):
                           value = T_range_duration,
                           cost = constants.COST_CONFUSION,
                           sprite = 'S_ICON_CONFUSION',
-                          info = "Confuse an enemy up to " + str(range) + " tiles aways for <stats>" + str(numTurns) + " turns" )
+                          info = '<cyan>Confusion <stats>: | |' +
+                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
+                                 '<drkCyan>Duration: <stats>' + str(int(numTurns * .8)) + ' - <stats>' + str(int(numTurns * 1.2)) + ' | |' +
+                                 'Dazzle the enemy, causing it to wander around for aimlessly! ' )
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Confusion',
@@ -5139,14 +5143,18 @@ def gen_book(T_coords):
         healVal = 6
         ValHigh = int(healVal * 1.2)
         ValLow = int(healVal * .8)
+        cost = constants.COST_HEAL_WOUNDS
 
         # make a spell object to put in the player's spellbook
         spell = obj_Spell('Heal Wounds',
                           castFunc = cast_heal,
                           value = healVal,
-                          cost = constants.COST_HEAL,
+                          cost = constants.COST_HEAL_WOUNDS,
                           sprite = 'S_ICON_HEAL_WOUNDS',
-                          info = "Heal yourself for <healHP>" + str(int(healVal * .8)) + " - <healHP>" + str(int(healVal * 1.2)) + " HP!" )
+                          info = '<cyan>Heal Wounds <stats>: | |' +
+                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
+                                 '<drkCyan>Heal: <stats>' + str(int(healVal * .8)) + ' - <stats>' + str(int(healVal * 1.2)) + ' | |' +
+                                 'Use magical energies to resore your body and heal wounds! ' )
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Heal Wounds',
@@ -5162,6 +5170,7 @@ def gen_book(T_coords):
 
         # inflict wounds parameters
         damage = 9
+        cost = constants.COST_INFLICT_WOUNDS
 
         # make a spell object to put in the player's spellbook
         spell = obj_Spell('Inflict Wounds',
@@ -5169,7 +5178,11 @@ def gen_book(T_coords):
                           value = damage,
                           cost = constants.COST_INFLICT_WOUNDS,
                           sprite = 'S_ICON_INFLICT_WOUNDS',
-                          info = "Tear and rip the enemies flesh, causing <dmgHP>" + str(damage) + " points of damage" )
+                          info = '<cyan>Inflict Wounds <stats>: | |' +
+                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
+                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
+                                 '<drkCyan>Range: <stats>Melee | |' +
+                                 'Charge your hands with magical energies to disrupt and warp what ever you touch! ' )
 
         # make it an item
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
@@ -5190,6 +5203,7 @@ def gen_book(T_coords):
         # frost snap parameters
         damage = 4
         radius = 1
+        cost = constants.COST_FROST_SNAP
 
         # make a spell object to put in the player's spellbook
         spell = obj_Spell('Frost Snap',
@@ -5197,7 +5211,12 @@ def gen_book(T_coords):
                           value = (damage, radius),
                           cost = constants.COST_FROST_SNAP,
                           sprite = 'S_ICON_FROST_SNAP',
-                          info = "Deal <stats>" + str(damage) + " to everything up to <stats>" + str(radius) + " tiles away from you!")
+                          info = '<cyan>Frost Snap <stats>: | |' +
+                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
+                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
+                                 '<drkCyan>Range: <stats>Centered on caster | |' +
+                                 '<drkCyan>Radius: <stats>' + str(radius) + ' | |' +
+                                 'Form an energy sink that sucks all heat from around the caster, flash-freezing everything!')
 
         # make it an item
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
@@ -5217,6 +5236,7 @@ def gen_book(T_coords):
         # frost snap parameters
         damage = 6
         range = 5
+        cost = constants.COST_MAGIC_SLING
 
         # make a spell object to put in the player's spellbook
         spell = obj_Spell('Magic Sling',
@@ -5224,7 +5244,11 @@ def gen_book(T_coords):
                           value = (damage, range),
                           cost = constants.COST_MAGIC_SLING,
                           sprite = 'S_ICON_MAGIC_SLING',
-                          info = "Deal <stats>" + str(damage) + " to an enemy up to <stats>" + str(range) + " tiles away!")
+                          info = '<cyan>Magic Sling <stats>: | |' +
+                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
+                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
+                                 '<drkCyan>Range: <stats>' + str(range) + ' | |' +
+                                 'Discharge energy from the end of a stone, rocketing it at an enemy for high-damage! ')
 
         # make it an item
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
@@ -5240,13 +5264,14 @@ def gen_book(T_coords):
         GAME.currentObj.append(newBook)
 
 def gen_scroll(T_coords):
-    randNum = libtcod.random_get_int(0, 1, 5)
+    randNum = libtcod.random_get_int(0, 1, 6)
 
     if randNum == 1: newItem = gen_scroll_lightning(T_coords)
     elif randNum == 2: newItem = gen_scroll_fireball(T_coords)
     elif randNum == 3: newItem = gen_scroll_confusion(T_coords)
     elif randNum == 4: newItem = gen_scroll_inflict_wounds(T_coords)
-    else: newItem = gen_scroll_frost_snap(T_coords)
+    elif randNum == 5: newItem = gen_scroll_frost_snap(T_coords)
+    else: newItem = gen_scroll_magic_sling(T_coords)
 
     return newItem
 
@@ -5433,6 +5458,30 @@ def gen_scroll_frost_snap(T_coords):
                              animationKey= "S_SCROLL_FROST_SNAP",
                              item=item_com,
                              info = "Deal <stats>" + str(damage) + " to all enemies up to <stats>" + str(radius) + " tiles around you!")
+
+    # return object
+    return returnObject
+
+def gen_scroll_magic_sling(T_coords):
+    # unpack coords
+    x, y = T_coords
+
+    # spell parameters
+    damage = libtcod.random_get_int(0, 6, 8)
+    range = 6
+
+    T_damage_range = (damage, range)
+
+    # make object into an item (add item component)
+    item_com = com_Item(useFunc = cast_magicSling, value = T_damage_range)
+
+    # generate object
+    returnObject = obj_Actor(x, y,
+                             nameObject='Magic Sling Scroll',
+                             depth = constants.DEPTH_ITEM,
+                             animationKey= "S_SCROLL_MAGIC_SLING",
+                             item=item_com,
+                             info = "Deal <stats>" + str(damage) + " to an enemy <stats>" + str(range) + " tiles from you!")
 
     # return object
     return returnObject
