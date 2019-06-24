@@ -1044,12 +1044,15 @@ class obj_Spell1:
 
         # Any extra values needed
         self.value = value
+        self.baseValue = self.value
         # Base damage, if any
         self.damage = damage
         # range if any. A 0 range centers on caster
         self.range = range
+        self.baseRange = self.range
         # radius from the selected tile
-        self.radius = radius\
+        self.radius = radius
+        self.baseRadius = self.radius
         # whether this spell hurts the caster or not if hit
         self.casterImmune = casterImmune
         # whether this spells uses a line of sight element
@@ -1071,6 +1074,23 @@ class obj_Spell1:
 
     @property
     def info(self):
+
+
+        # add our improve bonus, if applicable
+        if self.damage:
+            if self.dmgHighVal != int(self.damage * (1.2 + self.improve)):
+                self.dmgHighVal = int(self.damage * (1.2 + self.improve))
+            if self.dmgLowVal != int(self.damage * (.8 + self.improve)):
+                self.dmgLowVal = int(self.damage * (.8 + self.improve))
+        if self.radius:
+            if self.radius != self.baseRadius + self.improve:
+                self.radius += self.improve
+        if self.range:
+            if self.range != self.baseRange + self.improve:
+                self.range += self.improve
+        if self.value:
+            if self.value != self.baseValue + self.improve:
+                self.value += self.improve
 
         levelText = ''
         if self.improve > 0:
@@ -1122,15 +1142,7 @@ class obj_Spell1:
             gameMessage("Not enough MP!", constants.COLOR_CYAN)
             return 'canceled'
 
-        # add our improve bonus, if applicable
-        if self.damage:
-            self.damage += self.improve
-        if self.radius:
-            self.radius += self.improve
-        if self.range:
-            self.range += self.improve
-        if self.value:
-            self.value += self.improve
+
 
 
         coordsOrigin = (self.caster.x, self.caster.y)
