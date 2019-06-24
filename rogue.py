@@ -713,6 +713,7 @@ class obj_Assets:
         self.S_BOOK_INFLICT_WOUNDS = self.book.getImage('e', 4, 16, 16, (32, 32))[0]
         self.S_BOOK_FROST_SNAP = self.book.getImage('a', 3, 16, 16, (32, 32))[0]
         self.S_BOOK_MAGIC_SLING = self.book.getImage('a', 1, 16, 16, (32, 32))[0]
+        self.S_BOOK_TEST = self.book.getImage('a', 9, 16, 16, (32, 32))[0]
 
 
         # SPECIAL
@@ -737,6 +738,7 @@ class obj_Assets:
         self.S_ICON_INFLICT_WOUNDS = self.gui.getImage('b', 5, 16, 16, (32, 32))[0]
         self.S_ICON_FROST_SNAP = self.effect.getImage('j', 22, 16, 16, (32, 32))[0]
         self.S_ICON_MAGIC_SLING = self.effect.getImage('f', 23, 16, 16, (32, 32))[0]
+        self.S_ICON_TEST = self.effect.getImage('a', 24, 16, 16, (32, 32))[0]
 
         self.animationDict = {
 
@@ -809,6 +811,7 @@ class obj_Assets:
             "S_BOOK_INFLICT_WOUNDS" : self.S_BOOK_INFLICT_WOUNDS,
             "S_BOOK_FROST_SNAP" : self.S_BOOK_FROST_SNAP,
             "S_BOOK_MAGIC_SLING" : self.S_BOOK_MAGIC_SLING,
+            "S_BOOK_TEST" : self.S_BOOK_TEST,
 
             # decor
             "S_ALTER_1" : self.S_ALTER_1,
@@ -834,6 +837,7 @@ class obj_Assets:
             "S_ICON_INFLICT_WOUNDS" : self.S_ICON_INFLICT_WOUNDS,
             "S_ICON_FROST_SNAP" : self.S_ICON_FROST_SNAP,
             "S_ICON_MAGIC_SLING" : self.S_ICON_MAGIC_SLING,
+            "S_ICON_TEST" : self.S_ICON_TEST,
 
 
             # SPECIAL
@@ -983,7 +987,14 @@ class obj_Spell:
 
     global PLAYER
 
-    def __init__(self, spellName, castFunc, value, cost, sprite, info, improve = 0):
+    def __init__(self,
+                 spellName,
+                 castFunc,
+                 value,
+                 cost,
+                 sprite,
+                 info,
+                 improve = 0):
         self.spellName = spellName
         self.castFunc = castFunc
         self.value = value
@@ -998,6 +1009,209 @@ class obj_Spell:
         if self.castFunc:
             result = self.castFunc(PLAYER, self.value, self.cost, improve = self.improve)
 
+class obj_Spell1:
+
+    global PLAYER
+
+    def __init__(self,
+                 caster,
+                 spellName,
+                 cost,
+                 sprite,
+                 flavorText,
+                 value = None,
+                 damage = None,
+                 range = None,
+                 radius = None,
+                 casterImmune = False,
+                 line = False,
+                 lineInclusive = False,
+                 passCreatures = False,
+                 passWalls = False,
+                 effects = [],
+                 improve = 0):
+
+        # who's casting
+        self.caster = caster
+        # How the name appears to the player
+        self.spellName = spellName
+        # base cost of the spell
+        self.cost = cost
+        # the sprite that appears in the hotbutton
+        self.sprite = sprite
+        # the info that appears in the console
+        self.flavorText = flavorText
+
+        # Any extra values needed
+        self.value = value
+        # Base damage, if any
+        self.damage = damage
+        # range if any. A 0 range centers on caster
+        self.range = range
+        # radius from the selected tile
+        self.radius = radius\
+        # whether this spell hurts the caster or not if hit
+        self.casterImmune = casterImmune
+        # whether this spells uses a line of sight element
+        self.line = line
+        # whether this spell hits everything in the line of sight
+        self.lineInclusive = lineInclusive
+        # whether this spells passes through creatures or not
+        self.passCreatures = passCreatures
+        # whether this spell passes through walls or not
+        self.passWalls = passWalls
+        # list of effects this spell applies
+        self.effects = effects
+        # how many improvement points this spell has
+        self.improve = 0
+
+        # generate parameters for random values
+        self.dmgHighVal = int(self.damage * (1.2 + self.improve))
+        self.dmgLowVal = int(self.damage * (.8 + self.improve))
+
+    @property
+    def info(self):
+
+        levelText = ''
+        if self.improve > 0:
+            levelText = '<magicData>Level <stats>: <lvl>' + str(self.improve) + ' <off> | |'
+
+        damageText = ''
+        if self.damage > 0:
+            if self.improve > 0:
+                damageText = '<magicData>Damage <stats>: <lvl>' + str(self.dmgLowVal) + ' <stats>- <lvl>' + str(self.dmgHighVal) + ' <off> | |'
+            else:
+                damageText = '<magicData>Damage <stats>: ' + str(self.dmgLowVal) + ' - ' + str(self.dmgHighVal) + ' <off> | |'
+
+        rangeText = '<magicData>Range <stats>: '
+        if self.range == 0:
+            rangeText += 'Self <off>| |'
+        elif self.range == 1:
+            rangeText += 'Melee <off>| |'
+        else:
+            if self.improve > 0:
+                rangeText += '<lvl>' + str(self.range) + ' <off> | |'
+            else:
+                rangeText += str(self.range) + ' <off>| |'
+
+
+        radiusText = ''
+        if self.radius > 0:
+            radiusText = '<magicData>Radius <stats>: '
+            if self.improve > 0:
+                radiusText += '<lvl>' + str(self.radius) + ' <off> | |'
+            else:
+                radiusText += str(self.radius) + ' <off> | |'
+
+        valueText = ''
+
+        infoString =  '<magicHeader>' + self.spellName + ' <stats>: | |' + levelText + damageText + rangeText + radiusText + valueText + self.flavorText
+
+        print('levelText = ' + levelText)
+        print('damageText = ' + damageText)
+        print('rangeText = ' + rangeText)
+        print('radiusText = ' + radiusText)
+        print('valueText = ' + valueText)
+        print(infoString)
+        return infoString
+
+    def cast(self):
+
+        # check if enough MP
+        if self.caster.creature.currentMP < self.cost:
+            gameMessage("Not enough MP!", constants.COLOR_CYAN)
+            return 'canceled'
+
+        # add our improve bonus, if applicable
+        if self.damage:
+            self.damage += self.improve
+        if self.radius:
+            self.radius += self.improve
+        if self.range:
+            self.range += self.improve
+        if self.value:
+            self.value += self.improve
+
+
+        coordsOrigin = (self.caster.x, self.caster.y)
+
+
+
+        ###############
+        ## TARGETING ##
+        ###############
+
+        # get list of line tiles
+        listOfLineTiles = []
+        selectedTile, listOfLineTiles = menu_tileSelectLine(coordsOrigin,
+                                                            self.range,
+                                                            hasRadius = (self.radius > 0),
+                                                            radiusValue = self.radius,
+                                                            radiusColor = constants.COLOR_RED,
+                                                            radiusAlpha = 60,
+                                                            penetrateWalls = self.passWalls,
+                                                            penetrateCreatures = self.passCreatures,
+                                                            wholeLine = self.lineInclusive,
+                                                            justLastTile = (not self.line),
+                                                            lineColor = constants.COLOR_ORANGE,
+                                                            lineAlpha = 100)
+
+
+
+        if selectedTile == 'canceled':
+            gameMessage("Spell canceled")
+            return 'canceled'
+
+        #############
+        ## CASTING ##
+        #############
+
+        # cast spell
+        else:
+
+            # get radius from selected tile
+            if self.radius > 0:
+                listOfRadiusTiles = mapFindRadius(listOfLineTiles[-1], self.radius)
+                for coords in listOfRadiusTiles:
+                    if coords == selectedTile:
+                        listOfRadiusTiles.remove(coords)
+                    if self.casterImmune == True:
+                        if coords == coordsOrigin:
+                            listOfRadiusTiles.remove(coords)
+
+
+            # see that we have enough mana
+            if self.cost > 0:
+                self.caster.creature.currentMP -= self.cost
+
+            # if we do damage at all
+            if self.damage > 0:
+
+                if self.lineInclusive:
+                    for x, y in listOfLineTiles:
+                        target = mapCheckForCreature(x, y)
+                        # damage everything in radius
+                        if target:
+                            realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
+                            gameMessage(target.displayName + ' is hit by the line fo the spell!', constants.COLOR_ORANGE)
+                            target.creature.takeDamage(realDamage)
+                else:
+                    x, y = selectedTile
+                    target = mapCheckForCreature(x, y)
+                    # damage everything in radius
+                    if target:
+                        realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
+                        gameMessage(target.displayName + ' is hit dead on by the spell!', constants.COLOR_ORANGE)
+                        target.creature.takeDamage(realDamage)
+                if self.radius > 0:
+                    for x, y in listOfRadiusTiles:
+
+                        target = mapCheckForCreature(x, y)
+                        # damage everything in radius
+                        if target:
+                            realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
+                            gameMessage(target.displayName + ' is hit by the radius of the spell!', constants.COLOR_ORANGE)
+                            target.creature.takeDamage(realDamage)
 
 
 
@@ -2165,11 +2379,14 @@ def gen_spellButton():
                               disabled = True,
                               visibleWhenDisabled = False)
 
-            # disable if we have a spell
+            # disable if we don't have a spell
             if i <= spellTotalNum:
+                print("magicButton.info = " + PLAYER.spellbook.spellbook[i].info)
                 magicButton.disabled = False
                 magicButton.draw()
                 FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[i]], (slotX + 8, slotY + 8))
+
+
 
             if magicButton.mouseInSurface:
                 anyButton = True
@@ -2247,6 +2464,9 @@ def drawTextWordWrap(surface,
                        'healHP'     : constants.COLOR_HEAL_HP,
                        'healMP'     : constants.COLOR_HEAL_MP,
                        'stats'      : constants.COLOR_STATS,
+                       'lvl'        : constants.COLOR_LEVEL,
+                       'magicData'  : constants.COLOR_MAGIC_DATA,
+                       'magicHeader' : constants.COLOR_MAGIC_HEADER,
                        'off'        : defaultColor}
 
 
@@ -5046,6 +5266,38 @@ def gen_book(T_coords):
     # randomly choose our spell book
     randNum = libtcod.random_get_int(0, 1, 7)
 
+
+    ##TEST
+    if randNum < 10:
+
+        # test parameters
+        range = 3
+        damage = 2
+        radius = 1
+        cost = 1
+
+        # test spell
+        spell = obj_Spell1(caster = PLAYER,
+                           spellName = 'Test Spell',
+                           range = 3,
+                           damage = 2,
+                           radius = 1,
+                           cost = 1,
+                           lineInclusive = True,
+                           line = True,
+                           casterImmune = True,
+                           sprite = 'S_ICON_TEST',
+                           flavorText = 'test spell!')
+
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: TEST',
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = 'S_BOOK_TEST',
+                            item = item_com,
+                            info = "Use to see how bad I screwed up this code! "
+                            )
+        GAME.currentObj.append(newBook)
     # 1 = Fireball
     if randNum == 1:
 
