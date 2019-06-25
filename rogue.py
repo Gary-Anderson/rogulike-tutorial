@@ -1029,7 +1029,9 @@ class obj_Spell1:
                  passCreatures = False,
                  passWalls = False,
                  effects = [],
-                 improve = 0):
+                 improve = 0,
+                 primaryColor = constants.COLOR_WHITE,
+                 secondaryColor = constants.COLOR_BLACK):
 
         # who's casting
         self.caster = caster
@@ -1068,6 +1070,10 @@ class obj_Spell1:
         # how many improvement points this spell has
         self.improve = 0
 
+        # set our colors
+        self.primaryColor = primaryColor
+        self.secondaryColor = secondaryColor
+
         # generate parameters for random values
         self.dmgHighVal = int(self.damage * (1.2 + self.improve))
         self.dmgLowVal = int(self.damage * (.8 + self.improve))
@@ -1084,17 +1090,23 @@ class obj_Spell1:
                 self.dmgLowVal = int(self.damage * (.8 + self.improve))
         if self.radius:
             if self.radius != self.baseRadius + self.improve:
-                self.radius += self.improve
+                self.radius = self.baseRadius + self.improve
         if self.range:
-            if self.range != self.baseRange + self.improve:
-                self.range += self.improve
+            if self.range > 1:
+                if self.range != self.baseRange + self.improve:
+                    self.range += self.improve
         if self.value:
             if self.value != self.baseValue + self.improve:
                 self.value += self.improve
 
+        costText = '<magicData>Cost <stats>: <cyan>' + str(self.cost) + ' <off> | |'
+
         levelText = ''
         if self.improve > 0:
-            levelText = '<magicData>Level <stats>: <lvl>' + str(self.improve) + ' <off> | |'
+            levelText = '<magicData>Level <stats>: <lvl>' + str(self.improve + 1) + ' <off> | |'
+            costText = '<magicData>Cost <stats>: <cyan>' + str(self.cost) + '           ' + levelText
+
+
 
         damageText = ''
         if self.damage > 0:
@@ -1125,14 +1137,8 @@ class obj_Spell1:
 
         valueText = ''
 
-        infoString =  '<magicHeader>' + self.spellName + ' <stats>: | |' + levelText + damageText + rangeText + radiusText + valueText + self.flavorText
+        infoString =  '<magicHeader>' + self.spellName + ' <stats>: | |' + costText + damageText + rangeText + radiusText + valueText + self.flavorText
 
-        print('levelText = ' + levelText)
-        print('damageText = ' + damageText)
-        print('rangeText = ' + rangeText)
-        print('radiusText = ' + radiusText)
-        print('valueText = ' + valueText)
-        print(infoString)
         return infoString
 
     def cast(self):
@@ -1142,12 +1148,7 @@ class obj_Spell1:
             gameMessage("Not enough MP!", constants.COLOR_CYAN)
             return 'canceled'
 
-
-
-
         coordsOrigin = (self.caster.x, self.caster.y)
-
-
 
         ###############
         ## TARGETING ##
@@ -1159,16 +1160,14 @@ class obj_Spell1:
                                                             self.range,
                                                             hasRadius = (self.radius > 0),
                                                             radiusValue = self.radius,
-                                                            radiusColor = constants.COLOR_RED,
+                                                            radiusColor = self.primaryColor,
                                                             radiusAlpha = 60,
                                                             penetrateWalls = self.passWalls,
                                                             penetrateCreatures = self.passCreatures,
                                                             wholeLine = self.lineInclusive,
                                                             justLastTile = (not self.line),
-                                                            lineColor = constants.COLOR_ORANGE,
+                                                            lineColor = self.secondaryColor,
                                                             lineAlpha = 100)
-
-
 
         if selectedTile == 'canceled':
             gameMessage("Spell canceled")
@@ -1183,13 +1182,18 @@ class obj_Spell1:
 
             # get radius from selected tile
             if self.radius > 0:
-                listOfRadiusTiles = mapFindRadius(listOfLineTiles[-1], self.radius)
+                if self.range == 0:
+                    print("Frost Snap!!!!!!!!!!")
+                    listOfRadiusTiles = mapFindRadius(coordsOrigin, self.radius)
+                else:
+                    listOfRadiusTiles = mapFindRadius(listOfLineTiles[-1], self.radius)
+
                 for coords in listOfRadiusTiles:
+                    #remove selected tile so it doesn't get hit twice
+                    #and so it can be treated differnetly
                     if coords == selectedTile:
                         listOfRadiusTiles.remove(coords)
-                    if self.casterImmune == True:
-                        if coords == coordsOrigin:
-                            listOfRadiusTiles.remove(coords)
+
 
 
             # see that we have enough mana
@@ -1202,10 +1206,10 @@ class obj_Spell1:
                 if self.lineInclusive:
                     for x, y in listOfLineTiles:
                         target = mapCheckForCreature(x, y)
-                        # damage everything in radius
+                        # damage everything in line
                         if target:
                             realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
-                            gameMessage(target.displayName + ' is hit by the line fo the spell!', constants.COLOR_ORANGE)
+                            gameMessage(target.displayName + ' is hit by the line of the spell!', constants.COLOR_ORANGE)
                             target.creature.takeDamage(realDamage)
                 else:
                     x, y = selectedTile
@@ -1213,8 +1217,14 @@ class obj_Spell1:
                     # damage everything in radius
                     if target:
                         realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
-                        gameMessage(target.displayName + ' is hit dead on by the spell!', constants.COLOR_ORANGE)
-                        target.creature.takeDamage(realDamage)
+                        if target != self.caster:
+                            gameMessage(target.displayName + ' is hit dead on by the spell!', constants.COLOR_ORANGE)
+                            target.creature.takeDamage(realDamage)
+                        else:
+                            if self.casterImmune == False:
+                                gameMessage(target.displayName + ' is hit dead on by the spell!', constants.COLOR_ORANGE)
+                                target.creature.takeDamage(realDamage)
+
                 if self.radius > 0:
                     for x, y in listOfRadiusTiles:
 
@@ -1222,8 +1232,13 @@ class obj_Spell1:
                         # damage everything in radius
                         if target:
                             realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
-                            gameMessage(target.displayName + ' is hit by the radius of the spell!', constants.COLOR_ORANGE)
-                            target.creature.takeDamage(realDamage)
+                            if target != self.caster:
+                                gameMessage(target.displayName + ' is hit by the radius of the spell!', constants.COLOR_ORANGE)
+                                target.creature.takeDamage(realDamage)
+                            else:
+                                if self.casterImmune == False:
+                                    gameMessage(target.displayName + ' is hit by the radius of the spell!', constants.COLOR_ORANGE)
+                                    target.creature.takeDamage(realDamage)
 
 
 
@@ -2393,7 +2408,6 @@ def gen_spellButton():
 
             # disable if we don't have a spell
             if i <= spellTotalNum:
-                print("magicButton.info = " + PLAYER.spellbook.spellbook[i].info)
                 magicButton.disabled = False
                 magicButton.draw()
                 FRAME_MAP.surface.blit(ASSETS.animationDict[spriteKeyList[i]], (slotX + 8, slotY + 8))
@@ -5280,57 +5294,60 @@ def gen_book(T_coords):
 
 
     ##TEST
-    if randNum < 10:
+    # if randNum < 10:
+    #
+    #     # test parameters
+    #     range = 3
+    #     damage = 2
+    #     radius = 1
+    #     cost = 1
 
-        # test parameters
-        range = 3
-        damage = 2
-        radius = 1
-        cost = 1
-
-        # test spell
-        spell = obj_Spell1(caster = PLAYER,
-                           spellName = 'Test Spell',
-                           range = 3,
-                           damage = 2,
-                           radius = 1,
-                           cost = 1,
-                           lineInclusive = True,
-                           line = True,
-                           casterImmune = True,
-                           sprite = 'S_ICON_TEST',
-                           flavorText = 'test spell!')
-
-        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
-        newBook = obj_Actor(x, y,
-                            'Spell Tome: TEST',
-                            depth = constants.DEPTH_ITEM,
-                            animationKey = 'S_BOOK_TEST',
-                            item = item_com,
-                            info = "Use to see how bad I screwed up this code! "
-                            )
-        GAME.currentObj.append(newBook)
+        # # test spell
+        # spell = obj_Spell1(caster = PLAYER,
+        #                    spellName = 'Test Spell',
+        #                    range = 3,
+        #                    damage = 2,
+        #                    radius = 1,
+        #                    cost = 1,
+        #                    lineInclusive = True,
+        #                    passCreatures = False,
+        #                    line = True,
+        #                    casterImmune = False,
+        #                    sprite = 'S_ICON_TEST',
+        #                    flavorText = 'test spell!')
+        #
+        # item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+        # newBook = obj_Actor(x, y,
+        #                     'Spell Tome: TEST',
+        #                     depth = constants.DEPTH_ITEM,
+        #                     animationKey = 'S_BOOK_TEST',
+        #                     item = item_com,
+        #                     info = "Use to see how bad I screwed up this code! "
+        #                     )
+        # GAME.currentObj.append(newBook)
     # 1 = Fireball
     if randNum == 1:
 
-        # fireball parameters
-        range = 5
-        radius = 1
-        damage = 6
-        cost = constants.COST_FIREBALL
-
         # make a spell object to put in the player's spellbook
-        spell = obj_Spell('Fireball',
-                          castFunc = cast_fireball,
-                          value = (damage, radius, range),
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = "Fireball",
                           cost = constants.COST_FIREBALL,
                           sprite = 'S_ICON_FIREBALL',
-                          info = '<cyan>Fireball <stats>: | |' +
-                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
-                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
-                                 '<drkCyan>Range: <stats>' + str(range) +' | |' +
-                                 '<drkCyan>Radius: <stats>' + str(radius) +' | |'
-                                 'Launch a fireball that explodes on contact, damaging everything around it. Be carefull not to blow yourself up! ')
+                          flavorText = 'Launch a powerful ball of fire that explodes on contact! Be careful not to blow yourself up!',
+                          value = None,
+                          damage = constants.DAMAGE_FIREBALL,
+                          range = 4,
+                          radius = 1,
+                          casterImmune = False,
+                          line = True,
+                          lineInclusive = False,
+                          passCreatures = False,
+                          passWalls = False,
+                          effects = [],
+                          improve = 0,
+                          primaryColor = constants.COLOR_FIRE_PRIMARY,
+                          secondaryColor = constants.COLOR_FIRE_SECONDARY)
+
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Fireball',
@@ -5344,22 +5361,26 @@ def gen_book(T_coords):
     # 2 = Lightning
     elif randNum == 2:
 
-        # lightning parameters
-        range = 5
-        damage = 5
-        cost = constants.COST_LIGHTNING
-
         # make a spell object to put in the player's spellbook
-        spell = obj_Spell('Lightning',
-                          castFunc = cast_lightning,
-                          value = (damage, range),
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = "Lightning",
                           cost = constants.COST_LIGHTNING,
                           sprite = 'S_ICON_LIGHTNING',
-                          info = '<cyan>Lightning <stats>: | |' +
-                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
-                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
-                                 '<drkCyan>Range: <stats>' + str(range) +' | |' +
-                                 'Discharge an arc of lightning that electrocute all enemies caught in its path! ' )
+                          flavorText = 'Discharge an arc of pure electrical energy, electrocuting everything in its path!',
+                          value = None,
+                          damage = constants.DAMAGE_LIGHTNING,
+                          range = 4,
+                          radius = 0,
+                          casterImmune = False,
+                          line = True,
+                          lineInclusive = True,
+                          passCreatures = True,
+                          passWalls = False,
+                          effects = [],
+                          improve = 0,
+                          primaryColor = constants.COLOR_LIGHTNING_PRIMARY,
+                          secondaryColor = constants.COLOR_LIGHTNING_SECONDARY)
+
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Lightning',
@@ -5373,23 +5394,26 @@ def gen_book(T_coords):
     # 3 = Confusion
     elif randNum == 3:
 
-        # confusion parameters
-        T_range_duration = (7, 3)
-
-        range, numTurns = T_range_duration
-        cost = constants.COST_CONFUSION
-
-
         # make a spell object to put in the player's spellbook
-        spell = obj_Spell('Confusion',
-                          castFunc = cast_confusion,
-                          value = T_range_duration,
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = "Confusion",
                           cost = constants.COST_CONFUSION,
                           sprite = 'S_ICON_CONFUSION',
-                          info = '<cyan>Confusion <stats>: | |' +
-                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
-                                 '<drkCyan>Duration: <stats>' + str(int(numTurns * .8)) + ' - <stats>' + str(int(numTurns * 1.2)) + ' | |' +
-                                 'Dazzle the enemy, causing it to wander around for aimlessly! ' )
+                          flavorText = 'Dazzle the enemies mind. Causing it to wander aimlessly for a short while!',
+                          value = 3,
+                          damage = 0,
+                          range = 5,
+                          radius = 0,
+                          casterImmune = False,
+                          line = False,
+                          lineInclusive = False,
+                          passCreatures = True,
+                          passWalls = True,
+                          effects = [],
+                          improve = 0,
+                          primaryColor = constants.COLOR_MIND_PRIMARY,
+                          secondaryColor = constants.COLOR_MIND_SECONDARY)
+
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: Confusion',
@@ -5432,21 +5456,25 @@ def gen_book(T_coords):
     # 5 = inflict wounds
     elif randNum == 5:
 
-        # inflict wounds parameters
-        damage = 9
-        cost = constants.COST_INFLICT_WOUNDS
-
         # make a spell object to put in the player's spellbook
-        spell = obj_Spell('Inflict Wounds',
-                          castFunc = cast_inflict,
-                          value = damage,
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = "Inflict Wounds",
                           cost = constants.COST_INFLICT_WOUNDS,
                           sprite = 'S_ICON_INFLICT_WOUNDS',
-                          info = '<cyan>Inflict Wounds <stats>: | |' +
-                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
-                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
-                                 '<drkCyan>Range: <stats>Melee | |' +
-                                 'Charge your hands with magical energies to disrupt and warp what ever you touch! ' )
+                          flavorText = 'Charge your touch with corrupting dark magic, causing your victim\'s flesh to twist and split, causing heavy damage!',
+                          value = None,
+                          damage = constants.DAMAGE_INFLICT_WOUNDS,
+                          range = 1,
+                          radius = 0,
+                          casterImmune = True,
+                          line = False,
+                          lineInclusive = False,
+                          passCreatures = False,
+                          passWalls = False,
+                          effects = [],
+                          improve = 0,
+                          primaryColor = constants.COLOR_DARK_PRIMARY,
+                          secondaryColor = constants.COLOR_DARK_SECONDARY)
 
         # make it an item
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
@@ -5464,23 +5492,25 @@ def gen_book(T_coords):
     # 6 = frost snap
     elif randNum == 6:
 
-        # frost snap parameters
-        damage = 4
-        radius = 1
-        cost = constants.COST_FROST_SNAP
-
         # make a spell object to put in the player's spellbook
-        spell = obj_Spell('Frost Snap',
-                          castFunc = cast_frostSnap,
-                          value = (damage, radius),
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = "Frost Snap",
                           cost = constants.COST_FROST_SNAP,
                           sprite = 'S_ICON_FROST_SNAP',
-                          info = '<cyan>Frost Snap <stats>: | |' +
-                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
-                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
-                                 '<drkCyan>Range: <stats>Centered on caster | |' +
-                                 '<drkCyan>Radius: <stats>' + str(radius) + ' | |' +
-                                 'Form an energy sink that sucks all heat from around the caster, flash-freezing everything!')
+                          flavorText = 'Create an energy sink that sucks all the heat out of the area surrounding the caster, flash-freezing everything!',
+                          value = None,
+                          damage = constants.DAMAGE_FROST_SNAP,
+                          range = 0,
+                          radius = 1,
+                          casterImmune = True,
+                          line = False,
+                          lineInclusive = False,
+                          passCreatures = True,
+                          passWalls = True,
+                          effects = [],
+                          improve = 0,
+                          primaryColor = constants.COLOR_ICE_PRIMARY,
+                          secondaryColor = constants.COLOR_ICE_SECONDARY)
 
         # make it an item
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
@@ -5497,22 +5527,25 @@ def gen_book(T_coords):
 
     # 7 = magic sling
     else:
-        # frost snap parameters
-        damage = 6
-        range = 5
-        cost = constants.COST_MAGIC_SLING
-
         # make a spell object to put in the player's spellbook
-        spell = obj_Spell('Magic Sling',
-                          castFunc = cast_magicSling,
-                          value = (damage, range),
-                          cost = constants.COST_MAGIC_SLING,
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = "Magic Sling",
+                          cost = constants.COST_FROST_SNAP,
                           sprite = 'S_ICON_MAGIC_SLING',
-                          info = '<cyan>Magic Sling <stats>: | |' +
-                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
-                                 '<drkCyan>Damage: <stats>' + str(int(damage * .8)) + ' - <stats>' + str(int(damage * 1.2)) + ' | |' +
-                                 '<drkCyan>Range: <stats>' + str(range) + ' | |' +
-                                 'Discharge energy from the end of a stone, rocketing it at an enemy for high-damage! ')
+                          flavorText = 'Cause a common to stone expel magical force out of its side, propelling it at your enemies!',
+                          value = None,
+                          damage = constants.DAMAGE_MAGIC_SLING,
+                          range = 5,
+                          radius = 0,
+                          casterImmune = True,
+                          line = False,
+                          lineInclusive = False,
+                          passCreatures = False,
+                          passWalls = False,
+                          effects = [],
+                          improve = 0,
+                          primaryColor = constants.COLOR_EARTH_PRIMARY,
+                          secondaryColor = constants.COLOR_EARTH_SECONDARY)
 
         # make it an item
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
