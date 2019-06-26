@@ -694,6 +694,8 @@ class obj_Assets:
         self.S_SCROLL_FROST_SNAP = self.scroll.getImage('d', 1, 16, 16, (32, 32))[0]
         # magic sling
         self.S_SCROLL_MAGIC_SLING = self.scroll.getImage('a', 2, 16, 16, (32, 32))[0]
+        # default icon
+        self.S_SCROLL_DEFAULT = self.scroll.getImage('c', 6, 16, 16, (32, 32))[0]
 
         #wincon Amulet
         self.A_WINCON = self.amulet.getAnimation('a', 3, 16, 16, 2, (32, 32))
@@ -713,7 +715,7 @@ class obj_Assets:
         self.S_BOOK_INFLICT_WOUNDS = self.book.getImage('e', 4, 16, 16, (32, 32))[0]
         self.S_BOOK_FROST_SNAP = self.book.getImage('a', 3, 16, 16, (32, 32))[0]
         self.S_BOOK_MAGIC_SLING = self.book.getImage('a', 1, 16, 16, (32, 32))[0]
-        self.S_BOOK_TEST = self.book.getImage('a', 9, 16, 16, (32, 32))[0]
+        self.S_BOOK_DEFAULT = self.book.getImage('a', 9, 16, 16, (32, 32))[0]
 
 
         # SPECIAL
@@ -796,6 +798,8 @@ class obj_Assets:
             "S_SCROLL_FROST_SNAP" : self.S_SCROLL_FROST_SNAP,
             # magic sling
             'S_SCROLL_MAGIC_SLING' : self.S_SCROLL_MAGIC_SLING,
+            # default
+            'S_SCROLL_DEFAULT' : self.S_SCROLL_DEFAULT,
             #wincon amulet
             "A_WINCON" : self.A_WINCON,
 
@@ -811,7 +815,7 @@ class obj_Assets:
             "S_BOOK_INFLICT_WOUNDS" : self.S_BOOK_INFLICT_WOUNDS,
             "S_BOOK_FROST_SNAP" : self.S_BOOK_FROST_SNAP,
             "S_BOOK_MAGIC_SLING" : self.S_BOOK_MAGIC_SLING,
-            "S_BOOK_TEST" : self.S_BOOK_TEST,
+            "S_BOOK_DEFAULT" : self.S_BOOK_DEFAULT,
 
             # decor
             "S_ALTER_1" : self.S_ALTER_1,
@@ -1031,7 +1035,10 @@ class obj_Spell1:
                  effects = [],
                  improve = 0,
                  primaryColor = constants.COLOR_WHITE,
-                 secondaryColor = constants.COLOR_BLACK):
+                 secondaryColor = constants.COLOR_BLACK,
+                 bookSprite = 'S_BOOK_DEFAULT',
+                 scrollSprite = 'S_SCROLL_DEFAULT',
+                 isScroll = False):
 
         # who's casting
         self.caster = caster
@@ -1073,6 +1080,14 @@ class obj_Spell1:
         # set our colors
         self.primaryColor = primaryColor
         self.secondaryColor = secondaryColor
+
+        # item sprites
+        self.bookSprite = bookSprite
+        self.scrollSprite = scrollSprite
+
+        # if we are a scroll and its text
+        self.isScroll = isScroll
+        self.scrollText = 'A one time use scroll for the <cyan>' + self.spellName + '<off>spell!'
 
         # generate parameters for random values
         self.dmgHighVal = int(self.damage * (1.2 + self.improve))
@@ -1140,6 +1155,19 @@ class obj_Spell1:
         infoString =  '<magicHeader>' + self.spellName + ' <stats>: | |' + costText + damageText + rangeText + radiusText + valueText + self.flavorText
 
         return infoString
+
+    @property
+    def bookInfo(self):
+        if len(PLAYER.spellbook.spellbook) == 0:
+            bookText = "Use to learn the <cyan>" + self.spellName + ' <off>spell!'
+            return bookText
+
+        for spell in PLAYER.spellbook.spellbook:
+            if spell.spellName == self.spellName:
+                bookText = 'Use to further your mastery of the <cyan>' + self.spellName + ' <off>spell! Boosting the spell to new levels of power!'
+            else:
+                bookText = "Use to learn the <cyan>" + self.spellName + ' <off>spell!'
+            return bookText
 
     def cast(self):
 
@@ -5345,16 +5373,17 @@ def gen_book(T_coords):
                           passWalls = False,
                           effects = [],
                           improve = 0,
+                          bookSprite = 'S_BOOK_FIREBALL',
                           primaryColor = constants.COLOR_FIRE_PRIMARY,
                           secondaryColor = constants.COLOR_FIRE_SECONDARY)
 
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
-                            'Spell Tome: Fireball',
+                            'Spell Tome: ' + spell.spellName,
                             depth = constants.DEPTH_ITEM,
-                            animationKey = 'S_BOOK_FIREBALL',
+                            animationKey = spell.bookSprite,
                             item = item_com,
-                            info = "use to learn the <cyan>Fireball spell! A powerful missle spell that explodes on contact!"
+                            info = spell.bookInfo
                             )
         GAME.currentObj.append(newBook)
 
@@ -5387,7 +5416,7 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_LIGHTNING',
                             item = item_com,
-                            info = "use to learn the <cyan>Lightning spell! Electrocute all enemies in a line from the caster!"
+                            info = "Use to learn the <cyan>Lightning <off>spell! Electrocute all enemies in a line from the caster!"
                             )
         GAME.currentObj.append(newBook)
 
@@ -5420,7 +5449,7 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_CONFUSION',
                             item = item_com,
-                            info = "use to learn the <cyan>Confusion spell! Enemies will wander aimlessly while under its effects!"
+                            info = "use to learn the <cyan>Confusion <off>spell! Enemies will wander aimlessly while under its effects!"
                             )
         GAME.currentObj.append(newBook)
 
@@ -5449,7 +5478,7 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_HEAL_WOUNDS',
                             item = item_com,
-                            info = "use to learn the <cyan>Heal <cyan>Wounds spell! Restore your HP!"
+                            info = "use to learn the <cyan>Heal Wounds <off>spell! Restore your HP!"
                             )
         GAME.currentObj.append(newBook)
 
@@ -5485,7 +5514,7 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_INFLICT_WOUNDS',
                             item = item_com,
-                            info = "use to learn the <cyan>Inflict <cyan>Wounds spelland rend some flesh!"
+                            info = "use to learn the <cyan>Inflict Wounds <off>spell and rend some flesh!"
                             )
         GAME.currentObj.append(newBook)
 
@@ -5521,7 +5550,7 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_FROST_SNAP',
                             item = item_com,
-                            info = "use to learn the <cyan>Frost <cyan>Snap spell!"
+                            info = "use to learn the <cyan>Frost Snap <off>spell!"
                             )
         GAME.currentObj.append(newBook)
 
@@ -5556,7 +5585,7 @@ def gen_book(T_coords):
                             depth = constants.DEPTH_ITEM,
                             animationKey = 'S_BOOK_MAGIC_SLING',
                             item = item_com,
-                            info = "use to learn the <cyan>Magic <cyan>Sling spell!"
+                            info = "use to learn the <cyan>Magic Sling <off>spell!"
                             )
         GAME.currentObj.append(newBook)
 
