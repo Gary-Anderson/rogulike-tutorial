@@ -1109,7 +1109,7 @@ class obj_Spell1:
         if self.range:
             if self.range > 1:
                 if self.range != self.baseRange + self.improve:
-                    self.range += self.improve
+                    self.range = self.baseRange + self.improve
         if self.value:
             if self.value != self.baseValue + self.improve:
                 self.value += self.improve
@@ -1158,16 +1158,22 @@ class obj_Spell1:
 
     @property
     def bookInfo(self):
-        if len(PLAYER.spellbook.spellbook) == 0:
+        spellbookLen = len(PLAYER.spellbook.spellbook)
+        if spellbookLen == 0:
             bookText = "Use to learn the <cyan>" + self.spellName + ' <off>spell!'
             return bookText
 
-        for spell in PLAYER.spellbook.spellbook:
-            if spell.spellName == self.spellName:
+        i = 0
+        for spell in range(spellbookLen):
+            print(PLAYER.spellbook.spellbook[i].spellName)
+            print(self.spellName)
+            if PLAYER.spellbook.spellbook[i].spellName == self.spellName:
                 bookText = 'Use to further your mastery of the <cyan>' + self.spellName + ' <off>spell! Boosting the spell to new levels of power!'
-            else:
-                bookText = "Use to learn the <cyan>" + self.spellName + ' <off>spell!'
-            return bookText
+                return bookText
+            i += 1
+
+        bookText = "Use to learn the <cyan>" + self.spellName + ' <off>spell!'
+        return bookText
 
     def cast(self):
 
@@ -5407,16 +5413,17 @@ def gen_book(T_coords):
                           passWalls = False,
                           effects = [],
                           improve = 0,
+                          bookSprite = 'S_BOOK_LIGHTNING',
                           primaryColor = constants.COLOR_LIGHTNING_PRIMARY,
                           secondaryColor = constants.COLOR_LIGHTNING_SECONDARY)
 
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
-                            'Spell Tome: Lightning',
+                            'Spell Tome: ' + spell.spellName,
                             depth = constants.DEPTH_ITEM,
-                            animationKey = 'S_BOOK_LIGHTNING',
+                            animationKey = spell.bookSprite,
                             item = item_com,
-                            info = "Use to learn the <cyan>Lightning <off>spell! Electrocute all enemies in a line from the caster!"
+                            info = spell.bookInfo
                             )
         GAME.currentObj.append(newBook)
 
@@ -5440,16 +5447,17 @@ def gen_book(T_coords):
                           passWalls = True,
                           effects = [],
                           improve = 0,
+                          bookSprite = 'S_BOOK_CONFUSION',
                           primaryColor = constants.COLOR_MIND_PRIMARY,
                           secondaryColor = constants.COLOR_MIND_SECONDARY)
 
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
-                            'Spell Tome: Confusion',
+                            'Spell Tome: ' + spell.spellName,
                             depth = constants.DEPTH_ITEM,
-                            animationKey = 'S_BOOK_CONFUSION',
+                            animationKey = spell.bookSprite,
                             item = item_com,
-                            info = "use to learn the <cyan>Confusion <off>spell! Enemies will wander aimlessly while under its effects!"
+                            info = spell.bookInfo
                             )
         GAME.currentObj.append(newBook)
 
@@ -5502,6 +5510,7 @@ def gen_book(T_coords):
                           passWalls = False,
                           effects = [],
                           improve = 0,
+                          bookSprite = 'S_BOOK_INFLICT_WOUNDS',
                           primaryColor = constants.COLOR_DARK_PRIMARY,
                           secondaryColor = constants.COLOR_DARK_SECONDARY)
 
@@ -5510,11 +5519,11 @@ def gen_book(T_coords):
 
         # generate a book item
         newBook = obj_Actor(x, y,
-                            'Spell Tome: Inflict Wounds',
+                            'Spell Tome: ' + spell.spellName,
                             depth = constants.DEPTH_ITEM,
-                            animationKey = 'S_BOOK_INFLICT_WOUNDS',
+                            animationKey = spell.bookSprite,
                             item = item_com,
-                            info = "use to learn the <cyan>Inflict Wounds <off>spell and rend some flesh!"
+                            info = spell.bookInfo
                             )
         GAME.currentObj.append(newBook)
 
@@ -5538,6 +5547,7 @@ def gen_book(T_coords):
                           passWalls = True,
                           effects = [],
                           improve = 0,
+                          bookSprite = 'S_BOOK_FROST_SNAP',
                           primaryColor = constants.COLOR_ICE_PRIMARY,
                           secondaryColor = constants.COLOR_ICE_SECONDARY)
 
@@ -5546,11 +5556,11 @@ def gen_book(T_coords):
 
         # generate a book item
         newBook = obj_Actor(x, y,
-                            'Spell Tome: Frost Snap',
+                            'Spell Tome: ' + spell.spellName,
                             depth = constants.DEPTH_ITEM,
-                            animationKey = 'S_BOOK_FROST_SNAP',
+                            animationKey = spell.bookSprite,
                             item = item_com,
-                            info = "use to learn the <cyan>Frost Snap <off>spell!"
+                            info = spell.bookInfo
                             )
         GAME.currentObj.append(newBook)
 
@@ -5573,6 +5583,7 @@ def gen_book(T_coords):
                           passWalls = False,
                           effects = [],
                           improve = 0,
+                          bookSprite = 'S_BOOK_MAGIC_SLING',
                           primaryColor = constants.COLOR_EARTH_PRIMARY,
                           secondaryColor = constants.COLOR_EARTH_SECONDARY)
 
@@ -5581,11 +5592,11 @@ def gen_book(T_coords):
 
         # generate a book item
         newBook = obj_Actor(x, y,
-                            'Spell Tome: Magic Sling',
+                            'Spell Tome: ' + spell.spellName,
                             depth = constants.DEPTH_ITEM,
-                            animationKey = 'S_BOOK_MAGIC_SLING',
+                            animationKey = spell.bookSprite,
                             item = item_com,
-                            info = "use to learn the <cyan>Magic Sling <off>spell!"
+                            info = spell.bookInfo
                             )
         GAME.currentObj.append(newBook)
 
