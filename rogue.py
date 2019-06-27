@@ -91,7 +91,8 @@ class obj_Actor:
                  equipment=None,
                  stairs = None,
                  exitPortal = None,
-                 info = 'no info available'):
+                 info = 'no info available',
+                 numTurns = 0):
 
         self.x = x  # map address
         self.y = y  # map address
@@ -146,6 +147,9 @@ class obj_Actor:
             self.exitPortal.owner = self
 
         self.info = info
+
+        # lifespan (in turns) of actor
+        self.numTurns = numTurns
 
     @property
     def relX(self):
@@ -6901,6 +6905,9 @@ def gameLoop():
                         obj.creature.scent.trail()
                 if obj.scentStrength:
                     obj.decay()
+                obj.numTurns += 1
+                print('player turn number = ' + str(PLAYER.numTurns))
+                print(obj.nameObject + ' turn number = ' + str(obj.numTurns))
             if obj.exitPortal:
                 obj.exitPortal.update()
 
