@@ -1023,12 +1023,17 @@ class obj_Spell1:
                  cost,
                  sprite,
                  flavorText,
+                 hitText = '',
+                 radiusText = ' is hit by the radius of the spell!',
+                 lineText = ' is hit by the line of the spell!',
+                 directHitText = ' is hit dead on by the spell!',
                  value = None,
                  damage = None,
                  range = None,
                  radius = None,
                  casterImmune = False,
                  line = False,
+                 directHitBonus = False,
                  lineInclusive = False,
                  passCreatures = False,
                  passWalls = False,
@@ -1051,6 +1056,14 @@ class obj_Spell1:
         # the info that appears in the console
         self.flavorText = flavorText
 
+        # all the hit texts
+        self.hitText = hitText
+        if self.hitText == '':
+            self.hitText = ' was hit by the ' + self.spellName + ' spell!'
+        self.radiusText = radiusText
+        self.lineText = lineText
+        self.directHitText = directHitText
+
         # Any extra values needed
         self.value = value
         self.baseValue = self.value
@@ -1064,6 +1077,8 @@ class obj_Spell1:
         self.baseRadius = self.radius
         # whether this spell hurts the caster or not if hit
         self.casterImmune = casterImmune
+        # does this spell get a bonus
+        self.directHitBonus = directHitBonus
         # whether this spells uses a line of sight element
         self.line = line
         # whether this spell hits everything in the line of sight
@@ -1217,7 +1232,6 @@ class obj_Spell1:
             # get radius from selected tile
             if self.radius > 0:
                 if self.range == 0:
-                    print("Frost Snap!!!!!!!!!!")
                     listOfRadiusTiles = mapFindRadius(coordsOrigin, self.radius)
                 else:
                     listOfRadiusTiles = mapFindRadius(listOfLineTiles[-1], self.radius)
@@ -1242,21 +1256,32 @@ class obj_Spell1:
                         target = mapCheckForCreature(x, y)
                         # damage everything in line
                         if target:
-                            realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
-                            gameMessage(target.displayName + ' is hit by the line of the spell!', constants.COLOR_ORANGE)
-                            target.creature.takeDamage(realDamage)
+                            if self.directHitBonus:
+                                if (x, y) == listOfLineTiles[-1]:
+                                        realDamage = int(1.2 * (libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)))
+                                        gameMessage(target.displayName + self.directHitText, constants.COLOR_TEXT_INFO)
+                                        target.creature.takeDamage(realDamage)
+                            else:
+                                realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
+                                gameMessage(target.displayName + self.lineText, constants.COLOR_TEXT_INFO)
+                                target.creature.takeDamage(realDamage)
                 else:
-                    x, y = selectedTile
+                    x, y = listOfLineTiles[-1]
                     target = mapCheckForCreature(x, y)
                     # damage everything in radius
                     if target:
                         realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
                         if target != self.caster:
-                            gameMessage(target.displayName + ' is hit dead on by the spell!', constants.COLOR_ORANGE)
-                            target.creature.takeDamage(realDamage)
+                            if self.directHitBonus:
+                                realDamage = int(realDamage * 1.2)
+                                gameMessage(target.displayName + self.directHitText, constants.COLOR_TEXT_INFO)
+                                target.creature.takeDamage(realDamage)
+                            else:
+                                gameMessage(target.displayName + self.hitText, constants.COLOR_TEXT_INFO)
+                                target.creature.takeDamage(realDamage)
                         else:
                             if self.casterImmune == False:
-                                gameMessage(target.displayName + ' is hit dead on by the spell!', constants.COLOR_ORANGE)
+                                gameMessage(target.displayName + self.hitText, constants.COLOR_TEXT_INFO)
                                 target.creature.takeDamage(realDamage)
 
                 if self.radius > 0:
@@ -1267,11 +1292,11 @@ class obj_Spell1:
                         if target:
                             realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
                             if target != self.caster:
-                                gameMessage(target.displayName + ' is hit by the radius of the spell!', constants.COLOR_ORANGE)
+                                gameMessage(target.displayName + self.radiusText, constants.COLOR_TEXT_INFO)
                                 target.creature.takeDamage(realDamage)
                             else:
                                 if self.casterImmune == False:
-                                    gameMessage(target.displayName + ' is hit by the radius of the spell!', constants.COLOR_ORANGE)
+                                    gameMessage(target.displayName + self.radiusText, constants.COLOR_TEXT_INFO)
                                     target.creature.takeDamage(realDamage)
 
 
@@ -5368,6 +5393,10 @@ def gen_book(T_coords):
                           cost = constants.COST_FIREBALL,
                           sprite = 'S_ICON_FIREBALL',
                           flavorText = 'Launch a powerful ball of fire that explodes on contact! Be careful not to blow yourself up!',
+                          directHitBonus = True,
+                          directHitText = ' was hit dead on by the fireball!',
+                          lineText = ' was hit dead on by the fireball!',
+                          radiusText = ' was hit by a wave of force and flame!',
                           value = None,
                           damage = constants.DAMAGE_FIREBALL,
                           range = 4,
@@ -5402,6 +5431,9 @@ def gen_book(T_coords):
                           cost = constants.COST_LIGHTNING,
                           sprite = 'S_ICON_LIGHTNING',
                           flavorText = 'Discharge an arc of pure electrical energy, electrocuting everything in its path!',
+                          lineText = ' is caught in the arc of lightning!',
+                          directHitBonus = True,
+                          directHitText = ' recieves the whip of the arc!',
                           value = None,
                           damage = constants.DAMAGE_LIGHTNING,
                           range = 4,
@@ -5536,6 +5568,7 @@ def gen_book(T_coords):
                           cost = constants.COST_FROST_SNAP,
                           sprite = 'S_ICON_FROST_SNAP',
                           flavorText = 'Create an energy sink that sucks all the heat out of the area surrounding the caster, flash-freezing everything!',
+                          radiusText = ' is suddenly encased in frost!',
                           value = None,
                           damage = constants.DAMAGE_FROST_SNAP,
                           range = 0,
@@ -5571,7 +5604,8 @@ def gen_book(T_coords):
                           spellName = "Magic Sling",
                           cost = constants.COST_FROST_SNAP,
                           sprite = 'S_ICON_MAGIC_SLING',
-                          flavorText = 'Cause a common to stone expel magical force out of its side, propelling it at your enemies!',
+                          flavorText = 'Cause a common stone to expel magical force out of its side, propelling it at your enemies!',
+                          hitText = ' is pelted with the magic stone!',
                           value = None,
                           damage = constants.DAMAGE_MAGIC_SLING,
                           range = 5,
