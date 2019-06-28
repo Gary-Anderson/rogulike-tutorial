@@ -74,7 +74,7 @@ class struc_Preferences:
 
 
 class obj_Actor:
-    # this class represents every object in the game
+    # this class represents every visible object in the game
     def __init__(self,
                  x, y,
                  nameObject,
@@ -92,7 +92,8 @@ class obj_Actor:
                  stairs = None,
                  exitPortal = None,
                  info = 'no info available',
-                 numTurns = 0):
+                 numTurns = 0,
+                 effectsList = []):
 
         self.x = x  # map address
         self.y = y  # map address
@@ -150,6 +151,8 @@ class obj_Actor:
 
         # lifespan (in turns) of actor
         self.numTurns = numTurns
+        # what effects are currently in effect
+        self.effectsList = effectsList
 
     @property
     def relX(self):
@@ -299,6 +302,13 @@ class obj_Actor:
         self.scentStrength -= 1
         if self.scentStrength <= 0:
             GAME.currentObj.remove(self)
+
+    # when an effect object is added to our effects list, init it.
+    def effectInit(self):
+        if self.effects:
+            for obj in self.effects:
+                self.obj.owner = self
+
 
 class obj_Game:
     # this class is used to consolidate global game variables
@@ -698,6 +708,8 @@ class obj_Assets:
         self.S_SCROLL_FROST_SNAP = self.scroll.getImage('d', 1, 16, 16, (32, 32))[0]
         # magic sling
         self.S_SCROLL_MAGIC_SLING = self.scroll.getImage('a', 2, 16, 16, (32, 32))[0]
+        # primal nature
+        self.S_SCROLL_PRIMAL_NATURE = self.scroll.getImage('f', 2, 16, 16, (32, 32))[0]
         # default icon
         self.S_SCROLL_DEFAULT = self.scroll.getImage('c', 6, 16, 16, (32, 32))[0]
 
@@ -719,6 +731,7 @@ class obj_Assets:
         self.S_BOOK_INFLICT_WOUNDS = self.book.getImage('e', 4, 16, 16, (32, 32))[0]
         self.S_BOOK_FROST_SNAP = self.book.getImage('a', 3, 16, 16, (32, 32))[0]
         self.S_BOOK_MAGIC_SLING = self.book.getImage('a', 1, 16, 16, (32, 32))[0]
+        self.S_BOOK_PRIMAL_NATURE = self.book.getImage('h', 2, 16, 16, (32, 32))[0]
         self.S_BOOK_DEFAULT = self.book.getImage('a', 9, 16, 16, (32, 32))[0]
 
 
@@ -744,7 +757,8 @@ class obj_Assets:
         self.S_ICON_INFLICT_WOUNDS = self.gui.getImage('b', 5, 16, 16, (32, 32))[0]
         self.S_ICON_FROST_SNAP = self.effect.getImage('j', 22, 16, 16, (32, 32))[0]
         self.S_ICON_MAGIC_SLING = self.effect.getImage('f', 23, 16, 16, (32, 32))[0]
-        self.S_ICON_TEST = self.effect.getImage('a', 24, 16, 16, (32, 32))[0]
+        self.S_ICON_PRIMAL_NATURE = self.effect.getImage('m', 25, 16, 16, (32, 32))[0]
+        self.S_ICON_DEFAULT = self.effect.getImage('a', 24, 16, 16, (32, 32))[0]
 
         self.animationDict = {
 
@@ -802,6 +816,8 @@ class obj_Assets:
             "S_SCROLL_FROST_SNAP" : self.S_SCROLL_FROST_SNAP,
             # magic sling
             'S_SCROLL_MAGIC_SLING' : self.S_SCROLL_MAGIC_SLING,
+            # primal nature
+            'S_SCROLL_PRIMAL_NATURE' : self.S_SCROLL_PRIMAL_NATURE,
             # default
             'S_SCROLL_DEFAULT' : self.S_SCROLL_DEFAULT,
             #wincon amulet
@@ -819,6 +835,7 @@ class obj_Assets:
             "S_BOOK_INFLICT_WOUNDS" : self.S_BOOK_INFLICT_WOUNDS,
             "S_BOOK_FROST_SNAP" : self.S_BOOK_FROST_SNAP,
             "S_BOOK_MAGIC_SLING" : self.S_BOOK_MAGIC_SLING,
+            "S_BOOK_PRIMAL_NATURE" : self.S_BOOK_PRIMAL_NATURE,
             "S_BOOK_DEFAULT" : self.S_BOOK_DEFAULT,
 
             # decor
@@ -845,7 +862,8 @@ class obj_Assets:
             "S_ICON_INFLICT_WOUNDS" : self.S_ICON_INFLICT_WOUNDS,
             "S_ICON_FROST_SNAP" : self.S_ICON_FROST_SNAP,
             "S_ICON_MAGIC_SLING" : self.S_ICON_MAGIC_SLING,
-            "S_ICON_TEST" : self.S_ICON_TEST,
+            "S_ICON_PRIMAL_NATURE" : self.S_ICON_PRIMAL_NATURE,
+            "S_ICON_DEFAULT" : self.S_ICON_DEFAULT,
 
 
             # SPECIAL
@@ -1171,7 +1189,27 @@ class obj_Spell1:
 
         valueText = ''
 
-        infoString =  '<magicHeader>' + self.spellName + ' <stats>: | |' + costText + damageText + rangeText + radiusText + valueText + self.flavorText
+        durationText = ''
+        if len(self.effects) > 0:
+            duration = str(self.effects[-1].duration + self.improve)
+            if self.effects[-1].duration == 0:
+                durationText = ''
+            else:
+                durationText = '<magicData>Duration <stats>: '
+                if self.improve > 0:
+                    durationText += '<lvl>' + str(duration) + ' <off>          '
+                else:
+                    durationText += str(duration) + ' <off>          '
+            effectName = self.effects[-1].effectName
+            effect = str(self.effects[-1].value + (self.improve * 2))
+            effectText = '<magicData>'+ effectName + ' <stats>: '
+            if self.improve > 0:
+                effectText += '<lvl>' + str(effect) + ' <off> | |'
+            else:
+                effectText += str(effect) + ' <off> | |'
+            durationText += effectText
+
+        infoString =  '<magicHeader>' + self.spellName + ' <stats>: | |' + costText + damageText + rangeText + radiusText + valueText + durationText + self.flavorText
 
         return infoString
 
@@ -1184,8 +1222,6 @@ class obj_Spell1:
 
         i = 0
         for spell in range(spellbookLen):
-            print(PLAYER.spellbook.spellbook[i].spellName)
-            print(self.spellName)
             if PLAYER.spellbook.spellbook[i].spellName == self.spellName:
                 bookText = 'Use to further your mastery of the <cyan>' + self.spellName + ' <off>spell! Boosting the spell to new levels of power!'
                 return bookText
@@ -1209,6 +1245,7 @@ class obj_Spell1:
 
         # get list of line tiles
         listOfLineTiles = []
+
         selectedTile, listOfLineTiles = menu_tileSelectLine(coordsOrigin,
                                                             self.range,
                                                             hasRadius = (self.radius > 0),
@@ -1221,6 +1258,10 @@ class obj_Spell1:
                                                             justLastTile = (not self.line),
                                                             lineColor = self.secondaryColor,
                                                             lineAlpha = 100)
+
+        if self.range == 0:
+            listOfLineTiles = [(self.caster.x, self.caster.y)]
+            selectedTile = (self.caster.x, self.caster.y)
 
         if selectedTile == 'canceled':
             gameMessage("Spell canceled")
@@ -1252,28 +1293,40 @@ class obj_Spell1:
             if self.cost > 0:
                 self.caster.creature.currentMP -= self.cost
 
-            # if we do damage at all
-            if self.damage > 0:
+            print('number of effects = ' +str(len(self.effects)))
 
-                if self.lineInclusive:
-                    for x, y in listOfLineTiles:
-                        target = mapCheckForCreature(x, y)
-                        # damage everything in line
-                        if target:
-                            if self.directHitBonus:
-                                if (x, y) == listOfLineTiles[-1]:
+            if self.lineInclusive:
+                for x, y in listOfLineTiles:
+                    target = mapCheckForCreature(x, y)
+                    # damage everything in line
+                    if target:
+                        if self.directHitBonus:
+                            if (x, y) == listOfLineTiles[-1]:
+                                    if self.damage > 0:
                                         realDamage = int(1.2 * (libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)))
                                         gameMessage(target.displayName + self.directHitText, constants.COLOR_TEXT_INFO)
                                         target.creature.takeDamage(realDamage)
-                            else:
+                                    if len(self.effects) > 0:
+                                        for fx in self.effects:
+                                            print('spells effect name = ' + fx.effectName)
+                                            target.effectsList.append(fx)
+                                            print('target effects = ' + str(target.effectsList))
+                        else:
+                            if self.damage > 0:
                                 realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
                                 gameMessage(target.displayName + self.lineText, constants.COLOR_TEXT_INFO)
                                 target.creature.takeDamage(realDamage)
-                else:
-                    x, y = listOfLineTiles[-1]
-                    target = mapCheckForCreature(x, y)
-                    # damage everything in radius
-                    if target:
+                            if len(self.effects) > 0:
+                                for fx in self.effects:
+                                    print('spells effect name = ' + fx.effectName)
+                                    target.effectsList.append(fx)
+                                    print('target effects = ' + str(target.effectsList))
+            else:
+                x, y = listOfLineTiles[-1]
+                target = mapCheckForCreature(x, y)
+                # damage everything in radius
+                if target:
+                    if self.damage > 0:
                         realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
                         if target != self.caster:
                             if self.directHitBonus:
@@ -1283,25 +1336,47 @@ class obj_Spell1:
                             else:
                                 gameMessage(target.displayName + self.hitText, constants.COLOR_TEXT_INFO)
                                 target.creature.takeDamage(realDamage)
-                        else:
-                            if self.casterImmune == False:
+                        if len(self.effects) > 0:
+                            for fx in self.effects:
+                                print('spells effect name = ' + fx.effectName)
+                                target.effectsList.append(fx)
+                                print('target effects = ' + str(target.effectsList))
+                    else:
+                        if self.casterImmune == False:
+                            if self.damage > 0:
                                 gameMessage(target.displayName + self.hitText, constants.COLOR_TEXT_INFO)
                                 target.creature.takeDamage(realDamage)
+                            if len(self.effects) > 0:
+                                for fx in self.effects:
+                                    print('spells effect name = ' + fx.effectName)
+                                    target.effectsList.append(fx)
+                                    print('target effects = ' + str(target.effectsList))
 
-                if self.radius > 0:
-                    for x, y in listOfRadiusTiles:
+            if self.radius > 0:
+                for x, y in listOfRadiusTiles:
 
-                        target = mapCheckForCreature(x, y)
-                        # damage everything in radius
-                        if target:
+                    target = mapCheckForCreature(x, y)
+                    # damage everything in radius
+                    if target:
+                        if self.damage > 0:
                             realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
                             if target != self.caster:
                                 gameMessage(target.displayName + self.radiusText, constants.COLOR_TEXT_INFO)
                                 target.creature.takeDamage(realDamage)
-                            else:
-                                if self.casterImmune == False:
-                                    gameMessage(target.displayName + self.radiusText, constants.COLOR_TEXT_INFO)
-                                    target.creature.takeDamage(realDamage)
+                        if len(self.effects) > 0:
+                            for fx in self.effects:
+                                print('spells effect name = ' + fx.effectName)
+                                target.effectsList.append(fx)
+                                print('target effects = ' + str(target.effectsList))
+                                print('')
+                        else:
+                            if self.casterImmune == False:
+                                gameMessage(target.displayName + self.radiusText, constants.COLOR_TEXT_INFO)
+                                target.creature.takeDamage(realDamage)
+
+            if len(self.effects) > 0:
+                for fx in self.effects:
+                    fx.init()
 
 
 
@@ -1412,10 +1487,11 @@ class com_Creature:
 
     def heal(self, value):
 
-        self.currentHP += value
-
-        if self.currentHP > self.maxHP:
+        if self.currentHP + value > self.maxHP:
             self.currentHP = self.maxHP
+        else:
+            self.currentHP += value
+
 
     def healMP(self, value):
 
@@ -3777,8 +3853,177 @@ def helperTextHeight(font):
     return fontRect.height
 
 
-#                                                                iiii
-#                                                               i::::i
+#
+#                        ffffffffffffffff    ffffffffffffffff                                               tttt
+#                       f::::::::::::::::f  f::::::::::::::::f                                           ttt:::t
+#                      f::::::::::::::::::ff::::::::::::::::::f                                          t:::::t
+#                      f::::::fffffff:::::ff::::::fffffff:::::f                                          t:::::t
+#     eeeeeeeeeeee     f:::::f       fffffff:::::f       ffffffeeeeeeeeeeee        ccccccccccccccccttttttt:::::ttttttt        ssssssssss
+#   ee::::::::::::ee   f:::::f             f:::::f           ee::::::::::::ee    cc:::::::::::::::ct:::::::::::::::::t      ss::::::::::s
+#  e::::::eeeee:::::eef:::::::ffffff      f:::::::ffffff    e::::::eeeee:::::ee c:::::::::::::::::ct:::::::::::::::::t    ss:::::::::::::s
+# e::::::e     e:::::ef::::::::::::f      f::::::::::::f   e::::::e     e:::::ec:::::::cccccc:::::ctttttt:::::::tttttt    s::::::ssss:::::s
+# e:::::::eeeee::::::ef::::::::::::f      f::::::::::::f   e:::::::eeeee::::::ec::::::c     ccccccc      t:::::t           s:::::s  ssssss
+# e:::::::::::::::::e f:::::::ffffff      f:::::::ffffff   e:::::::::::::::::e c:::::c                   t:::::t             s::::::s
+# e::::::eeeeeeeeeee   f:::::f             f:::::f         e::::::eeeeeeeeeee  c:::::c                   t:::::t                s::::::s
+# e:::::::e            f:::::f             f:::::f         e:::::::e           c::::::c     ccccccc      t:::::t    ttttttssssss   s:::::s
+# e::::::::e          f:::::::f           f:::::::f        e::::::::e          c:::::::cccccc:::::c      t::::::tttt:::::ts:::::ssss::::::s
+#  e::::::::eeeeeeee  f:::::::f           f:::::::f         e::::::::eeeeeeee   c:::::::::::::::::c      tt::::::::::::::ts::::::::::::::s
+#   ee:::::::::::::e  f:::::::f           f:::::::f          ee:::::::::::::e    cc:::::::::::::::c        tt:::::::::::tt s:::::::::::ss
+#     eeeeeeeeeeeeee  fffffffff           fffffffff            eeeeeeeeeeeeee      cccccccccccccccc          ttttttttttt    sssssssssss
+
+class fx_attribute():
+    def __init__(self,
+                 caster,
+                 cost,
+                 spellName,
+                 effectName,
+                 effectText,
+                 effectEndText,
+                 value,
+                 duration,
+                 attribute,
+                 improve = 0,
+                 cummulative = False,
+                 resetAfter = False,
+                 ):
+
+        # who is the caster
+        self.caster = caster
+        # what is the cost of the spell
+        self.cost = cost
+        # name of the spell that cast this effect
+        self.spellName = spellName
+        # set the owner as the caster
+        self.owner = caster
+        # string for the name of the effect
+        self.effectName = effectName
+        # string for the description of the effect
+        self.effectText = effectText
+        # string for when the spell is over
+        self.effectEndText = effectEndText
+        # whatever numeric value we need for the effect
+        self.value = value
+        # what duration
+        self.duration = duration
+        # what level the spell is
+        self.improve = improve
+        # itit the variable for how many turns left
+        self.turnsLeft = self.duration
+        # what turn did this effect take place
+        self.startTurn = self.owner.numTurns
+        # what attribute are we effecting
+        self.attribute = attribute
+        if self.attribute == 'attack':
+            self.baseAttribute = self.owner.creature.baseAtk
+        elif self.attribute == 'defense':
+            self.baseAttribute = self.owner.creature.baseDef
+        elif self.attribute == 'HP':
+            self.baseAttribute = self.owner.creature.currentHP
+        elif self.attribute == 'MP':
+            self.baseAttribute = self.owner.creature.currentMP
+        else:
+            self.baseAttribute = None
+            gameMessage("spell has no base attribute")
+
+
+        # does this effect stack each turn
+        self.cummulative = cummulative
+        # does the effected attribute reset to its original value at effects end
+        self.resetAfter = resetAfter
+
+    def init(self):
+        # apply our improvements
+        if len(self.owner.spellbook.spellbook) > 0:
+            for spell in self.owner.spellbook.spellbook:
+                if spell.spellName == self.spellName:
+                    self.improve = spell.improve
+
+        # initialize our turn counters
+        self.startTurn = self.owner.numTurns
+        if self.duration != 0:
+            self.turnsLeft = (self.duration + self.improve) - (self.owner.numTurns - self.startTurn)
+        else:
+            self.turnLeft = 0
+
+        # apply our bonus
+        if self.attribute == 'attack':
+            self.owner.creature.baseAtk = self.baseAttribute + self.value + (self.improve * 2)
+            gameMessage(self.effectText, constants.COLOR_TEXT_INFO)
+        elif self.attribute == 'defense':
+            self.owner.creature.baseDef = self.baseAttribute + self.value + (self.improve * 2)
+            gameMessage(self.effectText, constants.COLOR_TEXT_INFO)
+        elif self.attribute == 'HP':
+            self.owner.creature.currentHP = self.baseAttribute + self.value + (self.improve * 2)
+            gameMessage(self.effectText, constants.COLOR_TEXT_INFO)
+        elif self.attribute == 'MP':
+            self.owner.creature.currentMP = self.baseAttribute + self.value + (self.improve * 2)
+            gameMessage(self.effectText, constants.COLOR_TEXT_INFO)
+        elif self.attribute == 'heal':
+            result = cast_heal(self.owner, self.value, improve = self.improve)
+            if result == 'canceled':
+                self.owner.creature.currentMP += self.cost
+            else:
+                gameMessage(self.effectText, constants.COLOR_TEXT_INFO)
+
+        if self.duration == 0:
+            self.owner.effectsList.remove(self)
+
+
+    def takeTurn(self):
+        # if this effects stacks up every turn
+        if self.cummulative:
+            if self.attribute == 'attack':
+                self.owner.creature.baseAtk += self.value + (self.improve * 2)
+            elif self.attribute == 'defense':
+                self.owner.creature.baseDef += self.value + (self.improve * 2)
+            elif self.attribute == 'HP':
+                self.owner.creature.currentHP += self.value + (self.improve * 2)
+            elif self.attribute == 'MP':
+                self.owner.creature.currentMP += self.value + (self.improve * 2)
+
+        # if it is one buff/nerf for a set number of turns
+        else:
+            if self.attribute == 'attack':
+                self.owner.creature.baseAtk = self.baseAttribute + self.value + (self.improve * 2)
+            elif self.attribute == 'defense':
+                self.owner.creature.baseDef = self.baseAttribute + self.value + (self.improve * 2)
+            elif self.attribute == 'HP':
+                self.owner.creature.currentHP = self.baseAttribute + self.value + (self.improve * 2)
+            elif self.attribute == 'MP':
+                self.owner.creature.currentMP = self.baseAttribute + self.value + (self.improve * 2)
+
+            print('attack = ' + str(PLAYER.creature.baseAtk))
+
+        # decrement our turns
+        self.turnsLeft = (self.duration + self.improve) - (self.owner.numTurns - self.startTurn)
+        print('turnsLeft = ' + str(self.turnsLeft))
+
+        # if our turns are up
+        if self.turnsLeft <= 0:
+            if self.resetAfter:
+                if self.attribute == 'attack':
+                    self.owner.creature.baseAtk = self.baseAttribute
+                    gameMessage(self.effectEndText, constants.COLOR_TEXT_INFO)
+                elif self.attribute == 'defense':
+                    self.owner.creature.baseDef = self.baseAttribute
+                    gameMessage(self.effectEndText, constants.COLOR_TEXT_INFO)
+                elif self.attribute == 'HP':
+                    self.owner.creature.currentHP = self.baseAttribute
+                    gameMessage(self.effectEndText, constants.COLOR_TEXT_INFO)
+                elif self.attribute == 'MP':
+                    self.owner.creature.currentMP = self.baseAttribute
+                    gameMessage(self.effectEndText, constants.COLOR_TEXT_INFO)
+
+            # remove effect from effectsList
+            self.owner.effectsList.remove(self)
+
+        return 'effect turn'
+
+
+
+
+#                                                               iiii
+#                                                              i::::i
 #                                                                iiii
 #
 #    mmmmmmm    mmmmmmm     aaaaaaaaaaaaa     ggggggggg   gggggiiiiiii     cccccccccccccccc
@@ -5148,6 +5393,8 @@ def menu_tileSelectLine(coordsOrigin,
                     else:
                         return (mapCoordsX, mapCoordsY), None
 
+        if range == 0:
+            drawTileRect(coordsOrigin, rectAlpha=lineAlpha, rectColor=lineColor, mark='X')
         for x, y in rangeList:
             if (x, y) != (coordsOrigin):
                 if (x, y) == rangeList[-1]:
@@ -5353,41 +5600,10 @@ def gen_book(T_coords):
     x, y = T_coords
 
     # randomly choose our spell book
-    randNum = libtcod.random_get_int(0, 1, 7)
+    randNum = libtcod.random_get_int(0, 1, 8)
 
 
-    ##TEST
-    # if randNum < 10:
-    #
-    #     # test parameters
-    #     range = 3
-    #     damage = 2
-    #     radius = 1
-    #     cost = 1
 
-        # # test spell
-        # spell = obj_Spell1(caster = PLAYER,
-        #                    spellName = 'Test Spell',
-        #                    range = 3,
-        #                    damage = 2,
-        #                    radius = 1,
-        #                    cost = 1,
-        #                    lineInclusive = True,
-        #                    passCreatures = False,
-        #                    line = True,
-        #                    casterImmune = False,
-        #                    sprite = 'S_ICON_TEST',
-        #                    flavorText = 'test spell!')
-        #
-        # item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
-        # newBook = obj_Actor(x, y,
-        #                     'Spell Tome: TEST',
-        #                     depth = constants.DEPTH_ITEM,
-        #                     animationKey = 'S_BOOK_TEST',
-        #                     item = item_com,
-        #                     info = "Use to see how bad I screwed up this code! "
-        #                     )
-        # GAME.currentObj.append(newBook)
     # 1 = Fireball
     if randNum == 1:
 
@@ -5505,24 +5721,51 @@ def gen_book(T_coords):
         ValHigh = int(healVal * 1.2)
         ValLow = int(healVal * .8)
         cost = constants.COST_HEAL_WOUNDS
+        spellName = "Heal Wounds"
 
+
+        # heal spell
+        effect = fx_attribute(caster = PLAYER,
+                              cost = cost,
+                              spellName = spellName,
+                              effectName = 'Restore HP',
+                              effectText = 'Magical energies swirl around your body as your wounds shut and your body relaxes!',
+                              effectEndText = '',
+                              value = 6,
+                              duration = 0,
+                              attribute = 'heal',
+                              cummulative = False,
+                              resetAfter = False)
         # make a spell object to put in the player's spellbook
-        spell = obj_Spell('Heal Wounds',
-                          castFunc = cast_heal,
-                          value = healVal,
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = spellName,
                           cost = constants.COST_HEAL_WOUNDS,
                           sprite = 'S_ICON_HEAL_WOUNDS',
-                          info = '<cyan>Heal Wounds <stats>: | |' +
-                                 '<drkCyan>Cost: <stats>' + str(cost) + ' | |' +
-                                 '<drkCyan>Heal: <stats>' + str(int(healVal * .8)) + ' - <stats>' + str(int(healVal * 1.2)) + ' | |' +
-                                 'Use magical energies to resore your body and heal wounds! ' )
+                          flavorText = 'Use magical energies to restore your body',
+                          lineText = '',
+                          directHitBonus = False,
+                          directHitText = '',
+                          value = None,
+                          damage = 0,
+                          range = 0,
+                          radius = 0,
+                          casterImmune = False,
+                          line = False,
+                          lineInclusive = False,
+                          passCreatures = False,
+                          passWalls = False,
+                          effects = [effect],
+                          improve = 0,
+                          bookSprite = 'S_BOOK_HEAL_WOUNDS',
+                          primaryColor = constants.COLOR_HOLY_PRIMARY,
+                          secondaryColor = constants.COLOR_HOLY_SECONDARY)
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
-                            'Spell Tome: Heal Wounds',
+                            'Spell Tome: ' + spell.spellName,
                             depth = constants.DEPTH_ITEM,
-                            animationKey = 'S_BOOK_HEAL_WOUNDS',
+                            animationKey = spell.bookSprite,
                             item = item_com,
-                            info = "use to learn the <cyan>Heal Wounds <off>spell! Restore your HP!"
+                            info = spell.bookInfo
                             )
         GAME.currentObj.append(newBook)
 
@@ -5602,7 +5845,7 @@ def gen_book(T_coords):
         GAME.currentObj.append(newBook)
 
     # 7 = magic sling
-    else:
+    elif randNum == 7:
         # make a spell object to put in the player's spellbook
         spell = obj_Spell1(caster = PLAYER,
                           spellName = "Magic Sling",
@@ -5629,6 +5872,62 @@ def gen_book(T_coords):
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
 
         # generate a book item
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: ' + spell.spellName,
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = spell.bookSprite,
+                            item = item_com,
+                            info = spell.bookInfo
+                            )
+        GAME.currentObj.append(newBook)
+
+    # primal nature
+    else:
+
+        # test parameters
+        cost = 5
+        spellName = "Primal Nature"
+
+        # test spell
+        effect = fx_attribute(caster = PLAYER,
+                              cost = cost,
+                              spellName = spellName,
+                              effectName = 'Attack boost',
+                              effectText = 'You feel an animalistic surge of strength!',
+                              effectEndText = 'You no longer feel so savage...',
+                              value = 10,
+                              duration = 5,
+                              improve = 0,
+                              attribute = 'attack',
+                              cummulative = False,
+                              resetAfter = True)
+
+
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = spellName,
+                          cost = cost,
+                          sprite = 'S_ICON_PRIMAL_NATURE',
+                          flavorText = 'Natural magics amplify your latent primal instincts, boosting your attack!',
+                          directHitBonus = False,
+                          directHitText = '',
+                          lineText = '',
+                          radiusText = '',
+                          value = 10,
+                          damage = 0,
+                          range = 0,
+                          radius = 0,
+                          casterImmune = False,
+                          line = False,
+                          lineInclusive = False,
+                          passCreatures = True,
+                          passWalls = False,
+                          effects = [effect],
+                          improve = 0,
+                          bookSprite = 'S_BOOK_PRIMAL_NATURE',
+                          primaryColor = constants.COLOR_NATURE_PRIMARY,
+                          secondaryColor = constants.COLOR_NATURE_SECONDARY)
+
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
                             'Spell Tome: ' + spell.spellName,
                             depth = constants.DEPTH_ITEM,
@@ -6499,12 +6798,12 @@ def gen_snail(T_coords):
 
     maxHealth = libtcod.random_get_int(0 , 5, 8)
     baseAttack = libtcod.random_get_int(0 , 1, 1)
-    baseDefence = libtcod.random_get_int(0 , 2, 4)
+    basedefense = libtcod.random_get_int(0 , 2, 4)
     creatureName = libtcod.namegen_generate("Celtic female")
     creatureCom = com_Creature(creatureName,
                                 faction = 'snail',
                                 baseAtk=baseAttack,
-                                baseDef = baseDefence,
+                                baseDef = basedefense,
                                 maxHP = maxHealth,
                                 deathFunc=death_Mob)
     aiCom = ai_chase()
@@ -6898,6 +7197,10 @@ def gameLoop():
         # if we have taken our turn (NOT do nothing), everything else takes it's turn
         for obj in GAME.currentObj:
             if playerAction != 'no action':
+                if len(obj.effectsList) > 0:
+                    for fx in obj.effectsList:
+                        print('gameLoop is working')
+                        fx.takeTurn()
                 if obj.ai:
                     obj.ai.takeTurn()
                 if obj.creature:
@@ -6906,8 +7209,6 @@ def gameLoop():
                 if obj.scentStrength:
                     obj.decay()
                 obj.numTurns += 1
-                print('player turn number = ' + str(PLAYER.numTurns))
-                print(obj.nameObject + ' turn number = ' + str(obj.numTurns))
             if obj.exitPortal:
                 obj.exitPortal.update()
 
