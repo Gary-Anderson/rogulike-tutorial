@@ -710,6 +710,8 @@ class obj_Assets:
         self.S_SCROLL_MAGIC_SLING = self.scroll.getImage('a', 2, 16, 16, (32, 32))[0]
         # primal nature
         self.S_SCROLL_PRIMAL_NATURE = self.scroll.getImage('f', 2, 16, 16, (32, 32))[0]
+        # holy shield
+        self.S_SCROLL_HOLY_SHIELD = self.scroll.getImage('e', 3, 16, 16, (32, 32))[0]
         # default icon
         self.S_SCROLL_DEFAULT = self.scroll.getImage('c', 6, 16, 16, (32, 32))[0]
 
@@ -732,6 +734,7 @@ class obj_Assets:
         self.S_BOOK_FROST_SNAP = self.book.getImage('a', 3, 16, 16, (32, 32))[0]
         self.S_BOOK_MAGIC_SLING = self.book.getImage('a', 1, 16, 16, (32, 32))[0]
         self.S_BOOK_PRIMAL_NATURE = self.book.getImage('h', 2, 16, 16, (32, 32))[0]
+        self.S_BOOK_HOLY_SHIELD = self.book.getImage('b', 5, 16, 16, (32, 32))[0]
         self.S_BOOK_DEFAULT = self.book.getImage('a', 9, 16, 16, (32, 32))[0]
 
 
@@ -758,6 +761,7 @@ class obj_Assets:
         self.S_ICON_FROST_SNAP = self.effect.getImage('j', 22, 16, 16, (32, 32))[0]
         self.S_ICON_MAGIC_SLING = self.effect.getImage('f', 23, 16, 16, (32, 32))[0]
         self.S_ICON_PRIMAL_NATURE = self.effect.getImage('m', 25, 16, 16, (32, 32))[0]
+        self.S_ICON_HOLY_SHIELD = self.effect.getImage('h', 24, 16, 16, (32, 32))[0]
         self.S_ICON_DEFAULT = self.effect.getImage('a', 24, 16, 16, (32, 32))[0]
 
         self.animationDict = {
@@ -818,6 +822,8 @@ class obj_Assets:
             'S_SCROLL_MAGIC_SLING' : self.S_SCROLL_MAGIC_SLING,
             # primal nature
             'S_SCROLL_PRIMAL_NATURE' : self.S_SCROLL_PRIMAL_NATURE,
+            # holy shield
+            'S_SCROLL_HOLY_SHIELD' : self.S_SCROLL_HOLY_SHIELD,
             # default
             'S_SCROLL_DEFAULT' : self.S_SCROLL_DEFAULT,
             #wincon amulet
@@ -836,6 +842,7 @@ class obj_Assets:
             "S_BOOK_FROST_SNAP" : self.S_BOOK_FROST_SNAP,
             "S_BOOK_MAGIC_SLING" : self.S_BOOK_MAGIC_SLING,
             "S_BOOK_PRIMAL_NATURE" : self.S_BOOK_PRIMAL_NATURE,
+            "S_BOOK_HOLY_SHIELD" : self.S_BOOK_HOLY_SHIELD,
             "S_BOOK_DEFAULT" : self.S_BOOK_DEFAULT,
 
             # decor
@@ -863,6 +870,7 @@ class obj_Assets:
             "S_ICON_FROST_SNAP" : self.S_ICON_FROST_SNAP,
             "S_ICON_MAGIC_SLING" : self.S_ICON_MAGIC_SLING,
             "S_ICON_PRIMAL_NATURE" : self.S_ICON_PRIMAL_NATURE,
+            "S_ICON_HOLY_SHIELD" : self.S_ICON_HOLY_SHIELD,
             "S_ICON_DEFAULT" : self.S_ICON_DEFAULT,
 
 
@@ -5600,7 +5608,7 @@ def gen_book(T_coords):
     x, y = T_coords
 
     # randomly choose our spell book
-    randNum = libtcod.random_get_int(0, 1, 8)
+    randNum = libtcod.random_get_int(0, 1, 9)
 
 
 
@@ -5882,7 +5890,7 @@ def gen_book(T_coords):
         GAME.currentObj.append(newBook)
 
     # primal nature
-    else:
+    elif randNum == 8:
 
         # test parameters
         cost = 5
@@ -5892,7 +5900,7 @@ def gen_book(T_coords):
         effect = fx_attribute(caster = PLAYER,
                               cost = cost,
                               spellName = spellName,
-                              effectName = 'Attack boost',
+                              effectName = 'Attack Boost',
                               effectText = 'You feel an animalistic surge of strength!',
                               effectEndText = 'You no longer feel so savage...',
                               value = 10,
@@ -5926,6 +5934,62 @@ def gen_book(T_coords):
                           bookSprite = 'S_BOOK_PRIMAL_NATURE',
                           primaryColor = constants.COLOR_NATURE_PRIMARY,
                           secondaryColor = constants.COLOR_NATURE_SECONDARY)
+
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: ' + spell.spellName,
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = spell.bookSprite,
+                            item = item_com,
+                            info = spell.bookInfo
+                            )
+        GAME.currentObj.append(newBook)
+
+    # holy shield
+    else:
+
+        # test parameters
+        cost = 5
+        spellName = "Holy Shield"
+
+        # test spell
+        effect = fx_attribute(caster = PLAYER,
+                              cost = cost,
+                              spellName = spellName,
+                              effectName = 'Defense Boost',
+                              effectText = 'You feel a divine love!',
+                              effectEndText = 'You no longer feel favored by the gods...',
+                              value = 5,
+                              duration = 5,
+                              improve = 0,
+                              attribute = 'defense',
+                              cummulative = False,
+                              resetAfter = True)
+
+
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = spellName,
+                          cost = cost,
+                          sprite = 'S_ICON_HOLY_SHIELD',
+                          flavorText = 'A tribute of mana to the heavens boosts your defenses!',
+                          directHitBonus = False,
+                          directHitText = '',
+                          lineText = '',
+                          radiusText = '',
+                          value = 10,
+                          damage = 0,
+                          range = 0,
+                          radius = 0,
+                          casterImmune = False,
+                          line = False,
+                          lineInclusive = False,
+                          passCreatures = True,
+                          passWalls = False,
+                          effects = [effect],
+                          improve = 0,
+                          bookSprite = 'S_BOOK_HOLY_SHIELD',
+                          primaryColor = constants.COLOR_HOLY_PRIMARY,
+                          secondaryColor = constants.COLOR_HOLY_SECONDARY)
 
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
