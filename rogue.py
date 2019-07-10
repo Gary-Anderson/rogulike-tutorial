@@ -305,9 +305,9 @@ class obj_Actor:
 
     # when an effect object is added to our effects list, init it.
     def effectInit(self):
-        if self.effects:
-            for obj in self.effects:
-                self.obj.owner = self
+        if self.effectsList:
+            for obj in self.effectsList:
+                obj.owner = self
 
 
 class obj_Game:
@@ -709,9 +709,11 @@ class obj_Assets:
         # magic sling
         self.S_SCROLL_MAGIC_SLING = self.scroll.getImage('a', 2, 16, 16, (32, 32))[0]
         # primal nature
-        self.S_SCROLL_PRIMAL_NATURE = self.scroll.getImage('f', 2, 16, 16, (32, 32))[0]
+        self.S_SCROLL_PRIMAL_NATURE = self.scroll.getImage('g', 2, 16, 16, (32, 32))[0]
         # holy shield
         self.S_SCROLL_HOLY_SHIELD = self.scroll.getImage('e', 3, 16, 16, (32, 32))[0]
+        # regen
+        self.S_SCROLL_REGEN = self.scroll.getImage('f', 2, 16, 16, (32, 32))[0]
         # default icon
         self.S_SCROLL_DEFAULT = self.scroll.getImage('c', 6, 16, 16, (32, 32))[0]
 
@@ -735,6 +737,7 @@ class obj_Assets:
         self.S_BOOK_MAGIC_SLING = self.book.getImage('a', 1, 16, 16, (32, 32))[0]
         self.S_BOOK_PRIMAL_NATURE = self.book.getImage('h', 2, 16, 16, (32, 32))[0]
         self.S_BOOK_HOLY_SHIELD = self.book.getImage('b', 5, 16, 16, (32, 32))[0]
+        self.S_BOOK_REGEN = self.book.getImage('g', 2, 16, 16, (32, 32))[0]
         self.S_BOOK_DEFAULT = self.book.getImage('a', 9, 16, 16, (32, 32))[0]
 
 
@@ -762,6 +765,7 @@ class obj_Assets:
         self.S_ICON_MAGIC_SLING = self.effect.getImage('f', 23, 16, 16, (32, 32))[0]
         self.S_ICON_PRIMAL_NATURE = self.effect.getImage('m', 25, 16, 16, (32, 32))[0]
         self.S_ICON_HOLY_SHIELD = self.effect.getImage('h', 24, 16, 16, (32, 32))[0]
+        self.S_ICON_REGEN = self.effect.getImage('c', 23, 16, 16, (32, 32))[0]
         self.S_ICON_DEFAULT = self.effect.getImage('a', 24, 16, 16, (32, 32))[0]
 
         self.animationDict = {
@@ -824,6 +828,8 @@ class obj_Assets:
             'S_SCROLL_PRIMAL_NATURE' : self.S_SCROLL_PRIMAL_NATURE,
             # holy shield
             'S_SCROLL_HOLY_SHIELD' : self.S_SCROLL_HOLY_SHIELD,
+            # regen
+            'S_SCROLL_REGEN' : self.S_SCROLL_REGEN,
             # default
             'S_SCROLL_DEFAULT' : self.S_SCROLL_DEFAULT,
             #wincon amulet
@@ -843,6 +849,7 @@ class obj_Assets:
             "S_BOOK_MAGIC_SLING" : self.S_BOOK_MAGIC_SLING,
             "S_BOOK_PRIMAL_NATURE" : self.S_BOOK_PRIMAL_NATURE,
             "S_BOOK_HOLY_SHIELD" : self.S_BOOK_HOLY_SHIELD,
+            "S_BOOK_REGEN" : self.S_BOOK_REGEN,
             "S_BOOK_DEFAULT" : self.S_BOOK_DEFAULT,
 
             # decor
@@ -871,6 +878,7 @@ class obj_Assets:
             "S_ICON_MAGIC_SLING" : self.S_ICON_MAGIC_SLING,
             "S_ICON_PRIMAL_NATURE" : self.S_ICON_PRIMAL_NATURE,
             "S_ICON_HOLY_SHIELD" : self.S_ICON_HOLY_SHIELD,
+            "S_ICON_REGEN" : self.S_ICON_REGEN,
             "S_ICON_DEFAULT" : self.S_ICON_DEFAULT,
 
 
@@ -1252,7 +1260,7 @@ class obj_Spell1:
         ###############
 
         # get list of line tiles
-        listOfLineTiles = []
+        listOfTargets = []
 
         selectedTile, listOfLineTiles = menu_tileSelectLine(coordsOrigin,
                                                             self.range,
@@ -1305,9 +1313,13 @@ class obj_Spell1:
 
             if self.lineInclusive:
                 for x, y in listOfLineTiles:
-                    target = mapCheckForCreature(x, y)
+                    if self.casterImmune:
+                        target = mapCheckForCreature(x, y, self.caster)
+                    else:
+                        target = mapCheckForCreature(x, y)
                     # damage everything in line
                     if target:
+
                         if self.directHitBonus:
                             if (x, y) == listOfLineTiles[-1]:
                                     if self.damage > 0:
@@ -1318,7 +1330,8 @@ class obj_Spell1:
                                         for fx in self.effects:
                                             print('spells effect name = ' + fx.effectName)
                                             target.effectsList.append(fx)
-                                            print('target effects = ' + str(target.effectsList))
+                                            target.effectsList[-1].init()
+                                            print(target.displayName + ' has the fx obj (lin inclusive, direct hit)')
                         else:
                             if self.damage > 0:
                                 realDamage = libtcod.random_get_int(0, self.dmgLowVal, self.dmgHighVal)
@@ -1328,10 +1341,14 @@ class obj_Spell1:
                                 for fx in self.effects:
                                     print('spells effect name = ' + fx.effectName)
                                     target.effectsList.append(fx)
-                                    print('target effects = ' + str(target.effectsList))
+                                    target.effectsList[-1].init()
+                                    print(target.displayName + ' has the fx obj (line inclusive)')
             else:
                 x, y = listOfLineTiles[-1]
-                target = mapCheckForCreature(x, y)
+                if self.casterImmune:
+                    target = mapCheckForCreature(x, y, self.caster)
+                else:
+                    target = mapCheckForCreature(x, y)
                 # damage everything in radius
                 if target:
                     if self.damage > 0:
@@ -1348,7 +1365,8 @@ class obj_Spell1:
                             for fx in self.effects:
                                 print('spells effect name = ' + fx.effectName)
                                 target.effectsList.append(fx)
-                                print('target effects = ' + str(target.effectsList))
+                                target.effectsList[-1].init()
+                                print(target.displayName + ' has the fx obj (not lineInclu)')
                     else:
                         if self.casterImmune == False:
                             if self.damage > 0:
@@ -1358,7 +1376,8 @@ class obj_Spell1:
                                 for fx in self.effects:
                                     print('spells effect name = ' + fx.effectName)
                                     target.effectsList.append(fx)
-                                    print('target effects = ' + str(target.effectsList))
+                                    target.effectsList[-1].init()
+                                    print(target.displayName + ' has the fx obj (not lineInclu, casterImmune false)')
 
             if self.radius > 0:
                 for x, y in listOfRadiusTiles:
@@ -1375,16 +1394,22 @@ class obj_Spell1:
                             for fx in self.effects:
                                 print('spells effect name = ' + fx.effectName)
                                 target.effectsList.append(fx)
-                                print('target effects = ' + str(target.effectsList))
+                                target.effectsList[-1].init()
+                                print(target.displayName + ' has the fx obj (radius)')
                                 print('')
                         else:
                             if self.casterImmune == False:
-                                gameMessage(target.displayName + self.radiusText, constants.COLOR_TEXT_INFO)
-                                target.creature.takeDamage(realDamage)
+                                if self.damage > 0:
+                                    gameMessage(target.displayName + self.radiusText, constants.COLOR_TEXT_INFO)
+                                    target.creature.takeDamage(realDamage)
+                                if len(self.effects) > 0:
+                                    for fx in self.effects:
+                                        print('spells effect name = ' + fx.effectName)
+                                        target.effectsList.append(fx)
+                                        target.effectsList[-1].init()
+                                        print(target.displayName + ' has the fx obj (radius, casterImmune false)')
 
-            if len(self.effects) > 0:
-                for fx in self.effects:
-                    fx.init()
+
 
 
 
@@ -3976,9 +4001,11 @@ class fx_attribute():
         if self.duration == 0:
             self.owner.effectsList.remove(self)
 
+        print(self.owner.displayName + ' has been init')
+
 
     def takeTurn(self):
-        # if this effects stacks up every turn
+        # if this effect stacks up every turn
         if self.cummulative:
             if self.attribute == 'attack':
                 self.owner.creature.baseAtk += self.value + (self.improve * 2)
@@ -3988,6 +4015,8 @@ class fx_attribute():
                 self.owner.creature.currentHP += self.value + (self.improve * 2)
             elif self.attribute == 'MP':
                 self.owner.creature.currentMP += self.value + (self.improve * 2)
+            elif self.attribute == 'heal':
+                result = cast_heal(self.owner, self.value, improve = self.improve)
 
         # if it is one buff/nerf for a set number of turns
         else:
@@ -4004,7 +4033,7 @@ class fx_attribute():
 
         # decrement our turns
         self.turnsLeft = (self.duration + self.improve) - (self.owner.numTurns - self.startTurn)
-        print('turnsLeft = ' + str(self.turnsLeft))
+        print(self.owner.displayName +' has '  + str(self.turnsLeft) + ' turnsLeft')
 
         # if our turns are up
         if self.turnsLeft <= 0:
@@ -4025,7 +4054,7 @@ class fx_attribute():
             # remove effect from effectsList
             self.owner.effectsList.remove(self)
 
-        return 'effect turn'
+        # return 'effect turn'
 
 
 
@@ -5608,7 +5637,7 @@ def gen_book(T_coords):
     x, y = T_coords
 
     # randomly choose our spell book
-    randNum = libtcod.random_get_int(0, 1, 9)
+    randNum = libtcod.random_get_int(0, 1, 10)
 
 
 
@@ -5946,7 +5975,7 @@ def gen_book(T_coords):
         GAME.currentObj.append(newBook)
 
     # holy shield
-    else:
+    elif randNum == 9:
 
         # test parameters
         cost = 5
@@ -5990,6 +6019,62 @@ def gen_book(T_coords):
                           bookSprite = 'S_BOOK_HOLY_SHIELD',
                           primaryColor = constants.COLOR_HOLY_PRIMARY,
                           secondaryColor = constants.COLOR_HOLY_SECONDARY)
+
+        item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
+        newBook = obj_Actor(x, y,
+                            'Spell Tome: ' + spell.spellName,
+                            depth = constants.DEPTH_ITEM,
+                            animationKey = spell.bookSprite,
+                            item = item_com,
+                            info = spell.bookInfo
+                            )
+        GAME.currentObj.append(newBook)
+
+    # regen
+    else:
+
+        # test parameters
+        cost = 4
+        spellName = "Regen"
+
+        # test spell
+        effect = fx_attribute(caster = PLAYER,
+                              cost = cost,
+                              spellName = spellName,
+                              effectName = 'Restore HP',
+                              effectText = 'Your body feel strong and young!',
+                              effectEndText = 'All your old aches and pains are back...',
+                              value = 1,
+                              duration = 7,
+                              improve = 0,
+                              attribute = 'heal',
+                              cummulative = True,
+                              resetAfter = False)
+
+
+        spell = obj_Spell1(caster = PLAYER,
+                          spellName = spellName,
+                          cost = cost,
+                          sprite = 'S_ICON_REGEN',
+                          flavorText = 'Enhance your body\'s recuperating power through natural magics!',
+                          directHitBonus = False,
+                          directHitText = '',
+                          lineText = '',
+                          radiusText = '',
+                          value = 10,
+                          damage = 0,
+                          range = 0,
+                          radius = 0,
+                          casterImmune = False,
+                          line = False,
+                          lineInclusive = False,
+                          passCreatures = True,
+                          passWalls = False,
+                          effects = [effect],
+                          improve = 0,
+                          bookSprite = 'S_BOOK_REGEN',
+                          primaryColor = constants.COLOR_NATURE_PRIMARY,
+                          secondaryColor = constants.COLOR_NATURE_SECONDARY)
 
         item_com = com_Item(useFunc = PLAYER.spellbook.learnSpell, value=(spell))
         newBook = obj_Actor(x, y,
@@ -7261,10 +7346,15 @@ def gameLoop():
         # if we have taken our turn (NOT do nothing), everything else takes it's turn
         for obj in GAME.currentObj:
             if playerAction != 'no action':
+                print(obj.nameObject + '==========================')
+                obj.effectInit()
                 if len(obj.effectsList) > 0:
+                    print(obj.nameObject + " has " + str(len(obj.effectsList)) + " effect(s):")
                     for fx in obj.effectsList:
-                        print('gameLoop is working')
+                        print(fx.effectName)
                         fx.takeTurn()
+                else:
+                    print('<><><><><NO EFFECTS!><><><><><>')
                 if obj.ai:
                     obj.ai.takeTurn()
                 if obj.creature:
@@ -7275,6 +7365,7 @@ def gameLoop():
                 obj.numTurns += 1
             if obj.exitPortal:
                 obj.exitPortal.update()
+
 
 
         if PLAYER.state == 'STATUS_DEAD' or PLAYER.state == 'STATUS_VICTORY':
